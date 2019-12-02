@@ -1,9 +1,6 @@
 # from rest_framework.views import APIView
 import datetime
-
 from .serializer import ImageUploadSerializer
-from rest_framework.generics import GenericAPIView
-from django.http import HttpResponse
 # from rest_framework import permissions, status, authentication
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
@@ -14,16 +11,25 @@ from django.http import HttpResponse
 #     AWS_UPLOAD_SECRET_KEY
 # )
 # from .models import FileItem
-from .lib.S3file import ImageUpload
-# import base64
-# import hashlib
-# import hmac
-# import time
-import json
-import os
 from dotenv import load_dotenv
 from pathlib import Path
-from .models import ImageTable
+from .models import ImageTable,Notes
+from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
+from .serializer import NoteSerializer, CreateNoteSerializer, UpdateNoteSerializer, SearchNoteSerializer
+from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.http import Http404, HttpResponse
+from django.utils.decorators import method_decorator
+from .decorators import user_login_required
+# from .documents import NoteDocument
+from rest_framework_jwt.settings import api_settings
+from django.contrib.auth.models import User
+# import json
+from .lib.S3file import ImageUpload
+import json
+import os
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -70,3 +76,95 @@ class UploadFile(GenericAPIView):
             smdresponse = self.responsesmd(False, "Data Upload Unsuccessfull", "")
             # smdresponse = "Failed Uploading"
             return HttpResponse(json.dumps(smdresponse))
+
+
+def get_user(token):
+    jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
+    newToken = str(token).split("Bearer ")[1]
+    print("Token Created is: ", newToken)
+    encodedToken = jwt_decode_handler(newToken)
+    print(encodedToken)
+    username = encodedToken['username']
+    print(username)
+    user = User.objects.get(username=username)
+    return user.id
+
+
+@method_decorator(user_login_required, name='dispatch')
+class NoteList(APIView):
+    serializer_class = NoteSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+
+    def get(self, request):
+        notes = Notes.objects.all()
+        serializer = NoteSerializer(notes, many=True)
+        return Response(serializer.data, status=200)
+
+    def post(self, request):
+        # token = request.META['HTTP_AUTHORIZATION']
+        # print(token)
+        token="qqq"
+        user = get_user(token)
+        request.data._mutable = True
+        request.data['user'] = user
+        data = request.data
+
+        serializer = CreateNoteSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            responsesmd = {'status': True, 'message': 'Hurray Note Successfully Created'}
+            return Response(responsesmd, status=201)
+        return Response(serializer.errors, status=400)
+
+
+@method_decorator(user_login_required, name='dispatch')
+class NoteDetails(GenericAPIView):
+    serializer_class = UpdateNoteSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+
+    def get_object(self, pk):
+        try:
+            return Notes.objects.get(pk=pk)
+        except Notes.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        note = self.get_object(pk)
+        serializer = NoteSerializer(note)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        note = self.get_object(pk)
+        serializer = UpdateNoteSerializer(note, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            note = Notes.objects.get(pk=pk)
+            print('note is ', note)
+            if note.is_archived:
+                note.pinned = False
+                note.save()
+            responsesmd = {'success': True, 'message': 'Note Updated successfully.'}
+            return Response(responsesmd, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        note = self.get_object(pk)
+        note.delete()
+        notes = Notes.objects.all()
+        serializer = NoteSerializer(notes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+# class SearchNote(APIView):
+#
+#     def get(self, request):
+#         search_data = request.GET.get('search_data')
+#         if search_data:
+#             notes = NoteDocument.search().query("multi_match",query = search_data ,fields=["title", "description"])
+#
+#         if  notes.count() == 0:
+#             responsesmd = {'success': False, 'message': "No Search results found ..!!"}
+#             return HttpResponse(json.dumps(responsesmd))
+#
+#         print("Total Search Results", notes.count())
+#         serializer = SearchNoteSerializer(notes, many=True)
+#         return Response(serializer.data, status=200)

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import datetime
 import os
 
 from dotenv import load_dotenv
@@ -36,17 +36,22 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django_short_url',
+    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_short_url',
     'django.contrib.sites',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
     'django_extensions',
     'rest_framework_swagger',
+    'rest_framework.authtoken',
     'rest_framework',
+    'rest_auth',
     'login',
     'note',
     'notes',
@@ -59,88 +64,9 @@ INSTALLED_APPS = [
 
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.agave',
-    # 'allauth.socialaccount.providers.amazon',
-    # 'allauth.socialaccount.providers.angellist',
-    # 'allauth.socialaccount.providers.asana',
-    # 'allauth.socialaccount.providers.auth0',
-    # 'allauth.socialaccount.providers.authentiq',
-    # 'allauth.socialaccount.providers.baidu',
-    # 'allauth.socialaccount.providers.basecamp',
-    # 'allauth.socialaccount.providers.bitbucket',
-    # 'allauth.socialaccount.providers.bitbucket_oauth2',
-    # 'allauth.socialaccount.providers.bitly',
-    # 'allauth.socialaccount.providers.cern',
-    # 'allauth.socialaccount.providers.coinbase',
-    # 'allauth.socialaccount.providers.dataporten',
-    # 'allauth.socialaccount.providers.daum',
-    # 'allauth.socialaccount.providers.digitalocean',
-    # 'allauth.socialaccount.providers.discord',
-    # 'allauth.socialaccount.providers.disqus',
-    # 'allauth.socialaccount.providers.douban',
-    # 'allauth.socialaccount.providers.draugiem',
-    # 'allauth.socialaccount.providers.dropbox',
-    # 'allauth.socialaccount.providers.dwolla',
-    # 'allauth.socialaccount.providers.edmodo',
-    # 'allauth.socialaccount.providers.eveonline',
-    # 'allauth.socialaccount.providers.evernote',
-    # 'allauth.socialaccount.providers.exist',
-    # 'allauth.socialaccount.providers.facebook',
-    # 'allauth.socialaccount.providers.feedly',
-    # 'allauth.socialaccount.providers.fivehundredpx',
-    # 'allauth.socialaccount.providers.flickr',
-    # 'allauth.socialaccount.providers.foursquare',
-    # 'allauth.socialaccount.providers.fxa',
     'allauth.socialaccount.providers.github',
-    # 'allauth.socialaccount.providers.gitlab',
-    # 'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.hubic',
-    # 'allauth.socialaccount.providers.instagram',
-    # 'allauth.socialaccount.providers.jupyterhub',
-    # 'allauth.socialaccount.providers.kakao',
-    # 'allauth.socialaccount.providers.line',
-    # 'allauth.socialaccount.providers.linkedin',
-    # 'allauth.socialaccount.providers.linkedin_oauth2',
-    # 'allauth.socialaccount.providers.mailru',
-    # 'allauth.socialaccount.providers.mailchimp',
-    # 'allauth.socialaccount.providers.meetup',
-    # 'allauth.socialaccount.providers.microsoft',
-    # 'allauth.socialaccount.providers.naver',
-    # 'allauth.socialaccount.providers.nextcloud',
-    # 'allauth.socialaccount.providers.odnoklassniki',
-    # 'allauth.socialaccount.providers.openid',
-    # 'allauth.socialaccount.providers.openstreetmap',
-    # 'allauth.socialaccount.providers.orcid',
-    # 'allauth.socialaccount.providers.paypal',
-    # 'allauth.socialaccount.providers.patreon',
-    # 'allauth.socialaccount.providers.persona',
-    # 'allauth.socialaccount.providers.pinterest',
-    # 'allauth.socialaccount.providers.reddit',
-    # 'allauth.socialaccount.providers.robinhood',
-    # 'allauth.socialaccount.providers.sharefile',
-    # 'allauth.socialaccount.providers.shopify',
-    # 'allauth.socialaccount.providers.slack',
-    # 'allauth.socialaccount.providers.soundcloud',
-    # 'allauth.socialaccount.providers.spotify',
-    # 'allauth.socialaccount.providers.stackexchange',
-    # 'allauth.socialaccount.providers.steam',
-    # 'allauth.socialaccount.providers.strava',
-    # 'allauth.socialaccount.providers.stripe',
-    # 'allauth.socialaccount.providers.trello',
-    # 'allauth.socialaccount.providers.tumblr',
-    # 'allauth.socialaccount.providers.twentythreeandme',
-    # 'allauth.socialaccount.providers.twitch',
     'allauth.socialaccount.providers.twitter',
-    # 'allauth.socialaccount.providers.untappd',
-    # 'allauth.socialaccount.providers.vimeo',
-    # 'allauth.socialaccount.providers.vimeo_oauth2',
-    # 'allauth.socialaccount.providers.vk',
-    # 'allauth.socialaccount.providers.weibo',
-    # 'allauth.socialaccount.providers.weixin',
-    # 'allauth.socialaccount.providers.windowslive',
-    # 'allauth.socialaccount.providers.xing',
-    # 'allauth.socialaccount.providers.ynab',
-    #
+
     # 'oauth2_provider',
     # 'authlib.little_auth',
     # 'social_django',
@@ -156,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'note.middleware.login_required_middleware.LoginRequired',
 ]
 
 ROOT_URLCONF = 'fundoo.urls'
@@ -172,8 +99,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # 'base.context_processors.add_variables_to_context',
-                # 'social_django.context_processors.backends',
-                # 'social_django.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -262,6 +189,11 @@ SWAGGER_SETTINGS = {
 #     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 # }
 
+
+# REST_FRAMEWORK = {
+# 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+# }
+
 REST_FRAMEWORK = {
     # Parser classes priority-wise for Swagger
     'DEFAULT_PARSER_CLASSES': [
@@ -269,7 +201,10 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser',
         'rest_framework.parsers.JSONParser',
     ],
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
 }
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
@@ -292,7 +227,7 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 
-# LOGIN_REDIRECTURL_URL = 'rest_framework:login'
+# LOGIN_REDIRECT_URL = 'rest_framework:login'
 # LOGOUT_URL = 'rest_framework:logout'
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
@@ -304,4 +239,70 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 LOGIN_REDIRECT_URL = 'post'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_URL = 'templates/interface.html'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+CACHE_TTL = 60 * 15
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+)
+JWT_AUTH = {
+    'JWT_ENCODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_encode_handler',
+
+    'JWT_DECODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_decode_handler',
+
+    'JWT_PAYLOAD_HANDLER':
+        'rest_framework_jwt.utils.jwt_payload_handler',
+
+    'JWT_PAYLOAD_GET_USER_ID_HANDLER':
+        'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+        'rest_framework_jwt.utils.jwt_response_payload_handler',
+
+    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_GET_USER_SECRET_KEY': None,
+    'JWT_PUBLIC_KEY': None,
+    'JWT_PRIVATE_KEY': None,
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_VERIFY': True,
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_LEEWAY': 0,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_AUDIENCE': None,
+    'JWT_ISSUER': None,
+
+    'JWT_ALLOW_REFRESH': False,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_AUTH_COOKIE': None,
+}
+CELERY_BROKER_URL = 'amqp://guest@localhost//'
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
+AWS_DEFAULT_ACL = None

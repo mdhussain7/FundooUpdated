@@ -1,9 +1,10 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import CreateNotesSerializer
-from .models import CreateNotes
+from .models import CreateNotes, LoggedInUser
 from django.http import HttpResponse
 
 
@@ -27,17 +28,21 @@ class ViewData(GenericAPIView):
 
     def post(self, request):
         try:
-            # print("Inside Post")
-            # title = CreateNotes.title
-            # print("Title")
-            # content = CreateNotes.content
-            # print("After Content")
-            # file = CreateNotes.filename
-            # print("File")
-            # dataPost = CreateNotes(title=title, content=content, filename=file)
-            # print(dataPost)
-            # dataPost.save()
-            return HttpResponse(render(request,'social.html'))
+            print("Into the Post")
+            users = User.objects.select_related('logged_in_user')
+            print("After Users",users)
+            username = request.user
+            print(username)
+            for user in users:
+                user.status = 'Online' if hasattr(user, 'logged_in_user') else 'off-line'
+            loggedusers = LoggedInUser.objects.all()  # new
+            return HttpResponse(render(request, 'social.html',
+                                       {'online user': loggedusers,
+                                        'users': users,
+                                        'username': username
+                                        }
+                                       ))
+            # return HttpResponse(render(request,'social.html'))
         except Exception as e:
             print("Exception", e)
             return HttpResponse(render(request,'/'))

@@ -1,14 +1,15 @@
 from django.urls import path
-    # ,include
-# from django.conf.urls import url
 from . import views
-# from django.views.generic.base import TemplateView
-# from .views import FilePolicyAPI,FileUploadCompleteHandler
+from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf import settings
+from django.conf.urls.static import static
 
-
-urlpatterns=[
-        path('upload',views.UploadFile.as_view(), name='upload'),
-        # url(r'^upload/$', TemplateView.as_view(template_name='upload.html'), name='upload-home'),
-        # url(r'^api/files/complete/$', FileUploadCompleteHandler.as_view(), name='upload-complete'),
-        # url(r'^api/files/policy/$', FilePolicyAPI.as_view(), name='upload-policy'),
- ]
+urlpatterns = [
+    path('image-upload',views.UploadFile.as_view(), name='upload'),
+    path('note/', views.NoteList.as_view(),name = "note"),
+    path('note/<int:pk>/', views.NoteDetails.as_view(),name = "details"),
+    # path('-search-note/', views.SearchNote.as_view(),name = "search_note"),
+]
+urlpatterns = format_suffix_patterns(urlpatterns)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT,)

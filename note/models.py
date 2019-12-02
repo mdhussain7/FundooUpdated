@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -7,8 +8,35 @@ class File(models.Model):
     file = models.URLField(max_length=250)
 
 
+# create Image model
 class ImageTable(models.Model):
     path = models.CharField(max_length=200)
     date = models.CharField(max_length=200)
     filename = models.CharField(max_length=30)
     directory = models.CharField(max_length=10)
+
+
+class Label(models.Model):
+    label = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lable', default='admin')
+
+
+# create Note model
+class Notes(models.Model):
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    created_time = models.DateTimeField(auto_now_add=True, null=True)
+    remainder = models.DateTimeField(default=None, null=True, blank=True)
+    is_archived = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
+    color = models.CharField(default=None, max_length=50, blank=True, null=True)
+    image = models.ImageField(default=None, null=True)
+    trash = models.BooleanField(default=False)
+    pinned = models.BooleanField(default=False)
+
+    collaborate = models.ManyToManyField(User, null=True, blank=True, related_name='collaborated_user')
+    label = models.ManyToManyField(Label, null=True, blank=True, related_name='collaborated_user')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner', null=True, blank=True)
+
+    def __str__(self):
+        return self.title

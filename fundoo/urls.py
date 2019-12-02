@@ -4,16 +4,18 @@ from django.urls import path, include
 from django.conf.urls import url
 from rest_framework_swagger.views import get_swagger_view
 from .swagger_schema import SwaggerSchemaView
+# from .routers import router
 
 schema_view = get_swagger_view(title='Fundoo Application')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('api/', include(router.urls)),
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('rest_framework.urls')),
     path('', schema_view),
     path('', include('login.urls')),
-    path('image-upload/', include('note.urls')),
+    path('note/', include('note.urls')),
     path('social-login/', include('sociallogin.urls')),
     url('', include('notes.urls')),
     url('contacts-list', include('fun.urls')),
