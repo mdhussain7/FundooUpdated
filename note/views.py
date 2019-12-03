@@ -145,9 +145,9 @@ class NoteDetails(GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             note = Notes.objects.get(pk=pk)
-            print('note is ', note)
+            print('Note is ', note)
             if note.is_archived:
-                note.pinned = False
+                note.is_pinned = False
                 note.save()
             responsesmd = {'success': True, 'message': 'Note Updated successfully.'}
             return Response(responsesmd, status=status.HTTP_200_OK)

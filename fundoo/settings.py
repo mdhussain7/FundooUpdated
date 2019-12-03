@@ -70,7 +70,7 @@ INSTALLED_APPS = [
     # 'oauth2_provider',
     # 'authlib.little_auth',
     # 'social_django',
-    # 'storages',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -243,7 +243,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 LOGIN_REDIRECT_URL = 'post'
-LOGOUT_URL = 'templates/interface.html'
+LOGOUT_URL = '/'
 
 CACHES = {
     'default': {
