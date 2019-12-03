@@ -1,5 +1,8 @@
 # from rest_framework.views import APIView
 import datetime
+
+from rest_framework.permissions import IsAuthenticated
+
 from .serializer import ImageUploadSerializer
 # from rest_framework import permissions, status, authentication
 # from rest_framework.response import Response
@@ -13,9 +16,9 @@ from .serializer import ImageUploadSerializer
 # from .models import FileItem
 from dotenv import load_dotenv
 from pathlib import Path
-from .models import ImageTable,Notes
+from .models import ImageTable, Notes
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
-from .serializer import NoteSerializer, CreateNoteSerializer, UpdateNoteSerializer, SearchNoteSerializer
+from .serializer import CreateNoteSerializer, UpdateNoteSerializer # SearchNoteSerializer,NoteSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -92,18 +95,21 @@ def get_user(token):
 
 @method_decorator(user_login_required, name='dispatch')
 class NoteList(APIView):
-    serializer_class = NoteSerializer
+    serializer_class = CreateNoteSerializer
     parser_classes = FormParser, JSONParser, MultiPartParser
+    # permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         notes = Notes.objects.all()
-        serializer = NoteSerializer(notes, many=True)
+        serializer = CreateNoteSerializer(notes, many=True)
         return Response(serializer.data, status=200)
 
     def post(self, request):
-        # token = request.META['HTTP_AUTHORIZATION']
-        # print(token)
-        token="qqq"
+        print(request.META)
+        token = request.META['HTTP_AUTHORIZATION']
+        print(token)
+        # print(request.META)
+        # token="qqq"
         user = get_user(token)
         request.data._mutable = True
         request.data['user'] = user
@@ -130,7 +136,7 @@ class NoteDetails(GenericAPIView):
 
     def get(self, request, pk):
         note = self.get_object(pk)
-        serializer = NoteSerializer(note)
+        serializer = CreateNoteSerializer(note)
         return Response(serializer.data, status.HTTP_200_OK)
 
     def put(self, request, pk):
@@ -151,7 +157,7 @@ class NoteDetails(GenericAPIView):
         note = self.get_object(pk)
         note.delete()
         notes = Notes.objects.all()
-        serializer = NoteSerializer(notes, many=True)
+        serializer = CreateNoteSerializer(notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 # class SearchNote(APIView):

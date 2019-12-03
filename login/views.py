@@ -33,7 +33,7 @@ class Login(GenericAPIView):
             except ValueError as ve:
                 print(ve)
             if user is not None:
-                auth.login(request, user)
+                # auth.login(request, user)
                 jwt_token = {"token": jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')}
                 token = jwt_token['token']
                 responsesmd = {'status': True, 'message': " Sign In Successfully ", 'data': [token], }

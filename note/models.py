@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-
 class File(models.Model):
     file = models.URLField(max_length=250)
 
@@ -16,9 +15,12 @@ class ImageTable(models.Model):
     directory = models.CharField(max_length=10)
 
 
+# create Label model
 class Label(models.Model):
-    label = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lable', default='admin')
+    # label = models.CharField("Lable",max_length=100)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lable', default='admin')
+    label = models.CharField("Label", max_length=254)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='label_user')
 
 
 # create Note model
@@ -26,17 +28,18 @@ class Notes(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     created_time = models.DateTimeField(auto_now_add=True, null=True)
-    remainder = models.DateTimeField(default=None, null=True, blank=True)
+    reminder = models.DateTimeField(default=None, null=True, blank=True)
     is_archived = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     color = models.CharField(default=None, max_length=50, blank=True, null=True)
-    image = models.ImageField(default=None, null=True)
-    trash = models.BooleanField(default=False)
-    pinned = models.BooleanField(default=False)
+    # image = models.ImageField(default=None, null=True)
+    is_trash = models.BooleanField(default=False)
+    is_pinned = models.BooleanField(default=False)
 
     collaborate = models.ManyToManyField(User, null=True, blank=True, related_name='collaborated_user')
-    label = models.ManyToManyField(Label, null=True, blank=True, related_name='collaborated_user')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner', null=True, blank=True)
+    label = models.ManyToManyField(Label, blank=True, related_name='lable')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
 
     def __str__(self):
         return self.title
+

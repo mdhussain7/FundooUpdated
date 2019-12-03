@@ -10,6 +10,7 @@ def user_login_required(view_func):
     def wrapper(request, *args,**kwargs):
         try:
             token = request.META['HTTP_AUTHORIZATION']
+            # token = "@@@"
             jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
             new_token = str(token).split("Bearer ")[1]
             print("New Token Generated", new_token)

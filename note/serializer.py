@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import File, ImageTable
-from .models import Notes
+from .models import Notes, Label
 
 
 class ImageUploadSerializer(serializers.ModelSerializer):
@@ -16,18 +16,25 @@ class ImageTableSerializer(serializers.ModelSerializer):
 
 
 # Serializers define the API representation.
-class NoteSerializer(serializers.ModelSerializer):
-    class Meta:
+# class NoteSerializer(serializers.ModelSerializer):
+#     class Meta:
+#
+#         model = Notes
+#         fields = ['id', 'title', 'description', 'is_archived', 'is_pinned', 'image', 'color', 'is_trash', 'collaborate',
+#                   'remainder', 'created_time', 'user']
 
-        model = Notes
-        fields = ['id', 'title', 'description', 'is_archived', 'pinned', 'image', 'color', 'trash', 'collaborate',
-                  'remainder', 'created_time', 'user']
+class LabelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Label
+        fields = ['label']
 
 
 class CreateNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
-        fields = ['title', 'description', 'is_archived', 'is_pinned', 'image', 'color', 'is_trash',
+        # fields = ['title', 'description', 'is_archived', 'is_pinned', 'image', 'color', 'is_trash',
+        #           'reminder', 'user']
+        fields = ['title', 'description', 'is_archived', 'is_pinned','color', 'is_trash',
                   'reminder', 'user']
 
 
@@ -37,7 +44,7 @@ class UpdateNoteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class SearchNoteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Notes
-        fields = ['title', 'description']
+# class SearchNoteSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Notes
+#         fields = ['title', 'description']

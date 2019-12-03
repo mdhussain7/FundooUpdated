@@ -120,7 +120,7 @@ PASSWORD = os.getenv('DB_PASS')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # 'mysql.connector.django',#'django.db.backends.mysql',
-        'NAME': 'fundoo',
+        'NAME': 'fundoonotes',
         'USER': USER,
         'PASSWORD': PASSWORD,
         'HOST': 'localhost',
@@ -202,8 +202,12 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated', ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
 }
 
