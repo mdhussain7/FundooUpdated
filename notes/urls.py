@@ -1,7 +1,7 @@
-# from django.conf.urls import url
-# from .views import save_Contacts, get_Contacts
-#
-# urlpatterns = [
-#     url('add-contacts', save_Contacts, name='save_contacts'),
-#     url('read-contacts', get_Contacts, name='get_contacts'),
-# ]
+from django.conf.urls import url
+from .views import save_Detail, get_Detail
+
+urlpatterns = [
+    url('add-details', save_Detail, name='save_details'),
+    url('read-details', get_Detail, name='get_details'),
+]

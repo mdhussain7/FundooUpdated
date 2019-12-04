@@ -11,7 +11,7 @@ from . import views
 
 urlpatterns = [
     # path('user/',views.SocialUser.as_view(),name='user'),
-    path('view-data',views.ViewData.as_view(),name='post'),
+    path('view-data/',views.ViewData.as_view(),name='post'),
     # url('social-share',)
     # url(
     #     r"^login/$",

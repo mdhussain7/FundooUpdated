@@ -23,7 +23,7 @@ urlpatterns = [
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     # url('', include('notes.urls')),
-    # url('contacts-list', include('fun.urls')),
+    # url('contacts-list/', include('fun.urls')),
     url(r'^swagger-schema/', SwaggerSchemaView.as_view()),
     # url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 

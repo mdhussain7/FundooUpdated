@@ -18,14 +18,14 @@ from dotenv import load_dotenv
 from pathlib import Path
 from .models import ImageTable, Notes
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
-from .serializer import CreateNoteSerializer, UpdateNoteSerializer # SearchNoteSerializer,NoteSerializer
+from .serializer import CreateNoteSerializer, UpdateNoteSerializer  # SearchNoteSerializer,NoteSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from django.http import Http404, HttpResponse
 from django.utils.decorators import method_decorator
-from .decorators import user_login_required
+# from .decorators import user_login_required
 # from .documents import NoteDocument
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
@@ -33,9 +33,13 @@ from django.contrib.auth.models import User
 from .lib.S3file import ImageUpload
 import json
 import os
+from .lib.redis import RedisOperation
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
+
+Ro = RedisOperation()
+redis = Ro.server
 
 
 class UploadFile(GenericAPIView):
@@ -93,40 +97,70 @@ def get_user(token):
     return user.id
 
 
-@method_decorator(user_login_required, name='dispatch')
-class NoteList(APIView):
+# @method_decorator(user_login_required, name='dispatch')
+# class NoteList(APIView):
+#     serializer_class = CreateNoteSerializer
+#     parser_classes = FormParser, JSONParser, MultiPartParser
+#
+#     # permission_classes = (IsAuthenticated,)
+#
+#     def get(self, request):
+#         notes = Notes.objects.all()
+#         serializer = CreateNoteSerializer(notes, many=True)
+#         return Response(serializer.data, status=200)
+#
+#     def post(self, request, format=None):
+#         serializer = CreateNoteSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+    # def post(self, request):
+    #     # print(request.META)
+    #     # token = request.META['HTTP_AUTHORIZATION']
+    #     # print(token)
+    #     # # print(request.META)
+    #     # # token="qqq"
+    #     # user = get_user(token)
+    #     # request.data._mutable = True
+    #     # request.data['user'] = user
+    #     data = request.data
+    #
+    #     serializer = CreateNoteSerializer(data=data)
+    #     print(serializer.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         responsesmd = {'status': True, 'message': 'Hurray Note Successfully Created'}
+    #         return Response(responsesmd, status=201)
+    #     return Response(serializer.errors, status=400)
+
+
+class NoteList(generics.GenericAPIView):
     serializer_class = CreateNoteSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated, ]
 
-    def get(self, request):
-        notes = Notes.objects.all()
-        serializer = CreateNoteSerializer(notes, many=True)
-        return Response(serializer.data, status=200)
+    def get(self, request, format=None):
+        contact = Notes.objects.all()
+        serializer = CreateNoteSerializer(contact, many=True)
+        return Response(serializer.data)
 
-    def post(self, request):
-        print(request.META)
-        token = request.META['HTTP_AUTHORIZATION']
-        print(token)
-        # print(request.META)
-        # token="qqq"
-        user = get_user(token)
-        request.data._mutable = True
-        request.data['user'] = user
-        data = request.data
-
-        serializer = CreateNoteSerializer(data=data)
+    def post(self, request, format=None):
+        serializer = CreateNoteSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            responsesmd = {'status': True, 'message': 'Hurray Note Successfully Created'}
-            return Response(responsesmd, status=201)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@method_decorator(user_login_required, name='dispatch')
+
+
+# @method_decorator(user_login_required, name='dispatch')
 class NoteDetails(GenericAPIView):
     serializer_class = UpdateNoteSerializer
     parser_classes = FormParser, JSONParser, MultiPartParser
+    data = Notes.objects.all()
+    print("Database ", "Data ", "", data)
 
     def get_object(self, pk):
         try:
@@ -142,6 +176,7 @@ class NoteDetails(GenericAPIView):
     def put(self, request, pk):
         note = self.get_object(pk)
         serializer = UpdateNoteSerializer(note, data=request.data)
+        # note_id = Notes.objects.create(id=user.id)
         if serializer.is_valid():
             serializer.save()
             note = Notes.objects.get(pk=pk)

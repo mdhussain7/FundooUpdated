@@ -1,0 +1,6 @@
+projectKey=fundoo
+serverUrl=http://localhost:9000
+serverVersion=6.7.1.35068
+dashboardUrl=http://localhost:9000/dashboard/index/fundoo
+ceTaskId=AW7Pjof_TQPGGS8a02Qq
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AW7Pjof_TQPGGS8a02Qq

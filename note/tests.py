@@ -17,7 +17,7 @@ class NoteTests(APITestCase):
         Ensure we can create a new note object.
         """
         url = reverse('note')
-        data = {'title': 'new_notes','description':'here is new note created'}
+        data = {'title': 'notes','description':'Created a New Note'}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Notes.objects.count(), 5)
@@ -40,7 +40,7 @@ class NoteTests(APITestCase):
         """
         Ensure we can update existing object.
         """
-        data = {'title': 'fundoo', 'description': 'gthgiufuh'}
+        data = {'title': 'FunDoo', 'description': 'new Note'}
         response = self.client.put( reverse('details', kwargs={'pk': self.note1.pk}), data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
