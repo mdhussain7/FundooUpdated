@@ -18,13 +18,14 @@ from dotenv import load_dotenv
 from pathlib import Path
 from .models import ImageTable, Notes
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
-from .serializer import CreateNoteSerializer, UpdateNoteSerializer  # SearchNoteSerializer,NoteSerializer
+from .serializer import CreateNoteSerializer, UpdateNoteSerializer, ArchieveNoteSerializer, TrashNoteSerializer, \
+    PinnedNoteSerializer # , SearchNoteSerializer  # NoteSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status, generics
-from django.http import Http404, HttpResponse
-from django.utils.decorators import method_decorator
+from django.http import Http404, HttpResponse, request
+# from django.utils.decorators import method_decorator
 # from .decorators import user_login_required
 # from .documents import NoteDocument
 from rest_framework_jwt.settings import api_settings
@@ -116,24 +117,24 @@ def get_user(token):
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #
-    # def post(self, request):
-    #     # print(request.META)
-    #     # token = request.META['HTTP_AUTHORIZATION']
-    #     # print(token)
-    #     # # print(request.META)
-    #     # # token="qqq"
-    #     # user = get_user(token)
-    #     # request.data._mutable = True
-    #     # request.data['user'] = user
-    #     data = request.data
-    #
-    #     serializer = CreateNoteSerializer(data=data)
-    #     print(serializer.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         responsesmd = {'status': True, 'message': 'Hurray Note Successfully Created'}
-    #         return Response(responsesmd, status=201)
-    #     return Response(serializer.errors, status=400)
+# def post(self, request):
+#     # print(request.META)
+#     # token = request.META['HTTP_AUTHORIZATION']
+#     # print(token)
+#     # # print(request.META)
+#     # # token="qqq"
+#     # user = get_user(token)
+#     # request.data._mutable = True
+#     # request.data['user'] = user
+#     data = request.data
+#
+#     serializer = CreateNoteSerializer(data=data)
+#     print(serializer.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         responsesmd = {'status': True, 'message': 'Hurray Note Successfully Created'}
+#         return Response(responsesmd, status=201)
+#     return Response(serializer.errors, status=400)
 
 
 class NoteList(generics.GenericAPIView):
@@ -153,9 +154,93 @@ class NoteList(generics.GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 # @method_decorator(user_login_required, name='dispatch')
+class ArchieveNote(GenericAPIView):
+    serializer_class = ArchieveNoteSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+    data = Notes.objects.all()
+    print("Database ", "Data ", "", data)
+
+    def get(self, request):
+        serializer = ArchieveNoteSerializer(self.data, many=True)
+        print(serializer.data)
+        if serializer.data[2]:
+            return Response(serializer.data, status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TrashNote(GenericAPIView):
+    serializer_class = TrashNoteSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+    data = Notes.objects.all()
+    print("Database ", data)
+    # user = request.user
+
+    # def get(self, request):
+        # trash = Notes.objects.filter(used_id=user, trash=is_trash)
+        # print(serializer.data)
+        # if trash:
+        #     return Response(trash, status.HTTP_200_OK)
+        # else:
+        #     return Response(trash.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PinnedNote(GenericAPIView):
+    serializer_class = PinnedNoteSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+    data = Notes.objects.all()
+    print("Database ", "Data ", "", data)
+
+    def get(self, request):
+        serializer = PinnedNoteSerializer(self.data, many=True)
+        print(serializer.data)
+        print()
+        print()
+        # pin = []
+        for ispinned in serializer.data:
+            key = ispinned
+            # print(dir(dict()))
+            k = dict(key)
+            key = k.items()
+            # key = str(list(key)).strip("OrderedDict()")
+            # print(type(key))
+            print(key)
+            if key is 'is_pinned':
+                print(key)
+                # for value in key:
+                #     val = value
+                #     if val is not True:
+                #         print(val)
+                #         for v in val:
+                #             va = v
+                #             if va is not True:
+                #                 print(va)
+        # for i in serializer.data:
+        # print(pin.append(i))
+        # print()
+        # print(i)
+        # print()
+        # print()
+        # print(pin)
+        # for j in i:
+        #     print(j[0])
+        # if j:
+        #     print(j)
+        # if i['is_pinned']==j['True']:
+        #     print(i,j)
+        # print()
+        # print()
+        # print(serializer.data[1])
+        # print(dir(serializer.data))
+        # print(serializer.data.__contains__)
+        # if serializer.data.__getattribute__ == 'is_pinned':
+        #     print("Somethuing")
+        if serializer.data:
+            return Response(serializer.data, status.HTTP_200_OK)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+
 class NoteDetails(GenericAPIView):
     serializer_class = UpdateNoteSerializer
     parser_classes = FormParser, JSONParser, MultiPartParser
@@ -195,14 +280,15 @@ class NoteDetails(GenericAPIView):
         serializer = CreateNoteSerializer(notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 # class SearchNote(APIView):
 #
 #     def get(self, request):
 #         search_data = request.GET.get('search_data')
 #         if search_data:
-#             notes = NoteDocument.search().query("multi_match",query = search_data ,fields=["title", "description"])
+#             notes = NoteDocument.search().query("multi_match", query=search_data, fields=["title", "description"])
 #
-#         if  notes.count() == 0:
+#         if notes.count() == 0:
 #             responsesmd = {'success': False, 'message': "No Search results found ..!!"}
 #             return HttpResponse(json.dumps(responsesmd))
 #

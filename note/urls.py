@@ -8,7 +8,10 @@ urlpatterns = [
     path('image-upload',views.UploadFile.as_view(), name='upload'),
     path('note/', views.NoteList.as_view(),name = "note"),
     path('note/<int:pk>/', views.NoteDetails.as_view(),name = "details"),
-    # path('-search-note/', views.SearchNote.as_view(),name = "search_note"),
+    path('note/pinned/',views.PinnedNote.as_view(), name = "pinned"),
+    path('note/trash/',views.TrashNote.as_view(), name = 'trash'),
+    path('note/archieve/', views.ArchieveNote.as_view(), name = 'archieve'),
+    # path('search-note/', views.SearchNote.as_view(),name = "search_note"),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
 if settings.DEBUG:

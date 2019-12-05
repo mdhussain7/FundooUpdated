@@ -34,7 +34,7 @@ class CreateNoteSerializer(serializers.ModelSerializer):
         model = Notes
         # fields = ['title', 'description', 'is_archived', 'is_pinned', 'image', 'color', 'is_trash',
         #           'reminder', 'user']
-        fields = ['title', 'description', 'is_archived', 'is_pinned','color', 'is_trash',
+        fields = ['title', 'description', 'is_archived', 'is_pinned', 'color', 'is_trash',
                   'reminder', 'user']
 
 
@@ -44,7 +44,25 @@ class UpdateNoteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# class SearchNoteSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Notes
-#         fields = ['title', 'description']
+class ArchieveNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notes
+        fields = 'is_archived'
+
+
+class TrashNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notes
+        fields = 'is_trash'
+
+
+class PinnedNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notes
+        fields = ['title', 'description','is_pinned']
+
+
+class SearchNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notes
+        fields = ['title', 'description']

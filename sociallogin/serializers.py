@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import CreateNotes
+from .models import CreateSocial
 
 
-class CreateNotesSerializer(serializers.ModelSerializer):
+class CreateSocialSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CreateNotes
+        model = CreateSocial
         fields = ['title', 'content', 'filename']
         # url = serializers.get_url_kwargs('url')

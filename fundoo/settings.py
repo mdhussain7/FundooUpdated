@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import datetime
-import os
+import logging
 
+import os
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -63,9 +64,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.twitter',
+    # 'allauth.socialaccount.providers.twitter',
 
     # 'oauth2_provider',
     # 'authlib.little_auth',
@@ -164,10 +165,10 @@ USE_TZ = True
 
 STATIC_ROOT = "fundoo/static"
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')
-                    ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'api_key': {
@@ -177,6 +178,20 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+
+# SWAGGER_SETTINGS = {
+#     # 'api_path': 'http://fundoonotes:8000/',
+#     'SECURITY_DEFINITIONS': {
+#         'api_key': {
+#             'type': 'apiKey',
+#             'in': 'header',
+#             'name': ' Authorization'
+#         },
+#         'basic': {
+#             'type': 'basic'
+#         },
+#
+#     }}
 
 # SWAGGER_SETTINGS = {
 #     'USE_SESSION_AUTH': True,
@@ -217,10 +232,13 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'mysite/static'),
-# ]
+# ]`
 # STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
+formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d  :%(threadName)s :%('
+                              'process)d :%(message)s')
+file_handler = logging.FileHandler(filename='/home/admin1/fundoo.log')
+file_handler.setFormatter(formatter)
 
 BASE_URL = os.getenv('BASE_URL')
 EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
@@ -235,7 +253,7 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 # LOGOUT_URL = 'rest_framework:logout'
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
-    'social_core.backends.twitter.TwitterOAuth',
+    # 'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -256,7 +274,7 @@ CACHES = {
     }
 }
 
-#
+
 # CACHES = {
 #     'default': {
 #         'BACKEND': 'django_redis.cache.RedisCache',
@@ -266,12 +284,14 @@ CACHES = {
 #         }
 #     }
 # }
+
 CACHE_TTL = 60 * 15
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ALLOW_METHODS = (
     'GET',
     'POST',
@@ -280,6 +300,7 @@ CORS_ALLOW_METHODS = (
     'DELETE',
     'OPTIONS',
 )
+
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
         'rest_framework_jwt.utils.jwt_encode_handler',
@@ -314,6 +335,7 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'JWT_AUTH_COOKIE': None,
 }
+
 CELERY_BROKER_URL = 'amqp://guest@localhost//'
 
 ELASTICSEARCH_DSL = {
@@ -321,4 +343,7 @@ ELASTICSEARCH_DSL = {
         'hosts': 'localhost:9200'
     },
 }
+
 AWS_DEFAULT_ACL = None
+
+SOCIAL_AUTH__EMAIL_REQUIRED = True
