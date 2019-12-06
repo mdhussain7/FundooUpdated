@@ -11,9 +11,9 @@ class LoginRequired(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        print(" Came Inside Middle-Ware")
+        # print(" Came Inside Middle-Ware")
         url = request.path
-        print("Url is: ",url.split("/")[1])
+        # print("Url is: ",url.split("/")[1])
         current_url = url.split("/")[1]
         print(current_url)
         # pdb.set_trace()

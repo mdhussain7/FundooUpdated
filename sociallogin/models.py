@@ -18,11 +18,11 @@ class LoggedInUser(models.Model):
 
 
 class SocialLogin(models.Model):
-    unique_id = models.CharField("Unique Id", max_length=500)
+    unique_id = models.CharField("Use Id", max_length=500)
     provider = models.CharField("Service Provider", max_length=500)
     username = models.CharField("Username", max_length=500)
-    full_name = models.CharField("Full name ", max_length=500)
-    EXTRA_PARAMS = models.TextField("Extra Params", max_length=1000)
+    full_name = models.CharField("Completename ", max_length=500)
+    EXTRA_PARAMS = models.TextField("Text Field", max_length=1000)
 
     def __str__(self):
         return self.provider + " " + self.username
@@ -30,7 +30,7 @@ class SocialLogin(models.Model):
     def __eq__(self, other):
         if isinstance(other, SocialLogin):
             return self.username == other.username
-        return "Cannot do Equalizer"
+        return "Cannot Equali"
 
     def __repr__(self):
         return "SocialLogin({!r},{!r},{!r})".format(self.provider, self.username, self.unique_id)

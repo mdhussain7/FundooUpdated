@@ -11,6 +11,7 @@ urlpatterns = [
     path('note/pinned/',views.PinnedNote.as_view(), name = "pinned"),
     path('note/trash/',views.TrashNote.as_view(), name = 'trash'),
     path('note/archieve/', views.ArchieveNote.as_view(), name = 'archieve'),
+    path('note/reminder', views.NoteReminders.as_view(), name = 'reminder'),
     # path('search-note/', views.SearchNote.as_view(),name = "search_note"),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

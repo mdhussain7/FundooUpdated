@@ -241,8 +241,10 @@ file_handler = logging.FileHandler(filename='/home/admin1/fundoo.log')
 file_handler.setFormatter(formatter)
 
 BASE_URL = os.getenv('BASE_URL')
-EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+# EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
+EMAIL_USE_TLS = True
+# export EMAIL_USE_TLS = True
+
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')

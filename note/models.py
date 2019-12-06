@@ -17,8 +17,6 @@ class ImageTable(models.Model):
 
 # create Label model
 class Label(models.Model):
-    # label = models.CharField("Lable",max_length=100)
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lable', default='admin')
     label = models.CharField("Label", max_length=254)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='label_user')
 

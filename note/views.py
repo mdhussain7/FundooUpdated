@@ -1,8 +1,6 @@
 # from rest_framework.views import APIView
 import datetime
-
 from rest_framework.permissions import IsAuthenticated
-
 from .serializer import ImageUploadSerializer
 # from rest_framework import permissions, status, authentication
 # from rest_framework.response import Response
@@ -19,8 +17,8 @@ from pathlib import Path
 from .models import ImageTable, Notes
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from .serializer import CreateNoteSerializer, UpdateNoteSerializer, ArchieveNoteSerializer, TrashNoteSerializer, \
-    PinnedNoteSerializer # , SearchNoteSerializer  # NoteSerializer
-from rest_framework.views import APIView
+    PinnedNoteSerializer  # , SearchNoteSerializer  # NoteSerializer
+# from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status, generics
@@ -30,17 +28,17 @@ from django.http import Http404, HttpResponse, request
 # from .documents import NoteDocument
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
-# import json
 from .lib.S3file import ImageUpload
 import json
 import os
 from .lib.redis import RedisOperation
+import logging
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 Ro = RedisOperation()
-redis = Ro.server
+red = Ro.red
 
 
 class UploadFile(GenericAPIView):
@@ -59,9 +57,6 @@ class UploadFile(GenericAPIView):
             print(file, 'file')
             up = ImageUpload()
             smdresponse = up.upload(file)
-            print("SMD Call")
-            print(smdresponse)
-            print(file)
             upl = "upload"
             AWS_UPLOAD_BUCKET = os.getenv('AWS_UPLOAD_BUCKET')
             AWS_UPLOAD_REGION = os.getenv('AWS_UPLOAD_REGION')
@@ -71,18 +66,12 @@ class UploadFile(GenericAPIView):
                 location=upl,
                 file=file
             )
-            print(url)
             Time = datetime.datetime.now()
-            print(Time)
             image = ImageTable(path=url, date=Time, filename=file, directory=upl)
-            print(image)
             image.save()
-            # smdresponse = self.smd_response(True, 'Data Inserted Successfully into the Database', '')
             return HttpResponse(json.dumps(smdresponse))
         except Exception as e:
-            print("Exception", e)
             smdresponse = self.responsesmd(False, "Data Upload Unsuccessfull", "")
-            # smdresponse = "Failed Uploading"
             return HttpResponse(json.dumps(smdresponse))
 
 
@@ -98,45 +87,6 @@ def get_user(token):
     return user.id
 
 
-# @method_decorator(user_login_required, name='dispatch')
-# class NoteList(APIView):
-#     serializer_class = CreateNoteSerializer
-#     parser_classes = FormParser, JSONParser, MultiPartParser
-#
-#     # permission_classes = (IsAuthenticated,)
-#
-#     def get(self, request):
-#         notes = Notes.objects.all()
-#         serializer = CreateNoteSerializer(notes, many=True)
-#         return Response(serializer.data, status=200)
-#
-#     def post(self, request, format=None):
-#         serializer = CreateNoteSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-# def post(self, request):
-#     # print(request.META)
-#     # token = request.META['HTTP_AUTHORIZATION']
-#     # print(token)
-#     # # print(request.META)
-#     # # token="qqq"
-#     # user = get_user(token)
-#     # request.data._mutable = True
-#     # request.data['user'] = user
-#     data = request.data
-#
-#     serializer = CreateNoteSerializer(data=data)
-#     print(serializer.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         responsesmd = {'status': True, 'message': 'Hurray Note Successfully Created'}
-#         return Response(responsesmd, status=201)
-#     return Response(serializer.errors, status=400)
-
-
 class NoteList(generics.GenericAPIView):
     serializer_class = CreateNoteSerializer
     permission_classes = [IsAuthenticated, ]
@@ -147,105 +97,123 @@ class NoteList(generics.GenericAPIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = CreateNoteSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # serializer = CreateNoteSerializer(data=request.data)
+        data = request.data
+        print(data, "request data")
+        user = request.user
+        response = {"success": False, "message": "Invalid Response", "data": []}
+        title = request.data["title"]
+        if Notes.objects.filter(user_id=user.id, title=title).exists():
+            logging.info('Note already exists for')
+            response['message'] = "Note already exists"
+            return Response(response, status=400)
+        else:
+            label_created = Notes.objects.create(user_id=user.id, title=title)
+            red.hmset(str(user.id) + "Note", {label_created.id: title})
+            logging.info("Note is created for %s", user)
+            response = {"success": True, "message": "Note is Created", "data": title}
+            return HttpResponse(json.dumps(response), status=201)
+
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# @method_decorator(user_login_required, name='dispatch')
 class ArchieveNote(GenericAPIView):
-    serializer_class = ArchieveNoteSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    data = Notes.objects.all()
-    print("Database ", "Data ", "", data)
+    def get(self, request):
+        try:
+            response = {"status": False, "message": "Error Occured while Getting the Archieved Data", "data": []}
+            user = request.user
+            redis_data = red.hvals(str(user.id) + "is_archived")
+            print(redis_data, 'adsfadsgfadfgdfgdfagfghafgafgadfaga')
+            if len(redis_data) == 0:
+                response = {"status": True, "message": "Your archived notes will appear here", "data": []}
+                data = Notes.objects.filter(user_id=user.id, is_archived=True)
+                print(data.values())
+                if len(data) == 0:
+                    return HttpResponse(json.dumps(response), status=200)
+                else:
+                    return HttpResponse(data.values(), status=200)
+            return HttpResponse(redis_data, status=200)
+        except Exception as e:
+            return HttpResponse(json.dumps(response), status=404)
+
+
+class NoteReminders(GenericAPIView):
 
     def get(self, request):
-        serializer = ArchieveNoteSerializer(self.data, many=True)
-        print(serializer.data)
-        if serializer.data[2]:
-            return Response(serializer.data, status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        try:
+            reminder_data = Notes.objects.filter(user_id=user.id)
+            reminder_list = reminder_data.values_list('reminder', flat=True)
+            remind = []
+            state = []
+            timeinfo = []
+            for i in range(len(reminder_list.values())):
+                if reminder_list.values()[i]['reminder'] is None:
+                    continue
+                elif timeinfo.now() > reminder_list.values()[i]['reminder']:
+                    remind.append(reminder_list.values()[i])
+                else:
+                    state.append(reminder_list.values()[i])
+
+            reminder = {
+                'remind': remind,
+                'state': state
+            }
+            print(" Reminders data is loaded for %s", user)
+            return HttpResponse(reminder.values(), status=200)
+        except TypeError as e:
+            print("Error: %s for %s while fetching reminder page", str(e), user)
+            responessmd = {"success": False, "message": "Reminser Not Set", 'data': []}
+            return HttpResponse(json.dumps(responessmd), status=200)
+        except Exception as e:
+            print("Error: %s for %s while fetching reminder page", str(e), user)
+            responessmd = {"success": False, "message": "no reminder set", 'data': []}
+            return HttpResponse(json.dumps(responessmd), status=404)
 
 
 class TrashNote(GenericAPIView):
-    serializer_class = TrashNoteSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    data = Notes.objects.all()
-    print("Database ", data)
-    # user = request.user
-
-    # def get(self, request):
-        # trash = Notes.objects.filter(used_id=user, trash=is_trash)
-        # print(serializer.data)
-        # if trash:
-        #     return Response(trash, status.HTTP_200_OK)
-        # else:
-        #     return Response(trash.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request):
+        response = {"status": False, "message": "Error Occured while Getting the Trash Data ", "data": []}
+        user = request.user
+        try:
+            redis_data = red.hvals(str(user.id) + "is_trash")
+            if len(redis_data) == 0:
+                user = request.user
+                data = Notes.objects.filter(user_id=user.id, is_trash=True)
+                if len(data) == 0:
+                    response = {"status": True, "message": "Trash is Empty !! "}
+                    return HttpResponse(json.dumps(response), status=200)
+                return HttpResponse(data.values())
+            return HttpResponse(redis_data)
+        except Exception as e:
+            return HttpResponse(json.dumps(response), status=404)
 
 
 class PinnedNote(GenericAPIView):
-    serializer_class = PinnedNoteSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    data = Notes.objects.all()
-    print("Database ", "Data ", "", data)
-
     def get(self, request):
-        serializer = PinnedNoteSerializer(self.data, many=True)
-        print(serializer.data)
-        print()
-        print()
-        # pin = []
-        for ispinned in serializer.data:
-            key = ispinned
-            # print(dir(dict()))
-            k = dict(key)
-            key = k.items()
-            # key = str(list(key)).strip("OrderedDict()")
-            # print(type(key))
-            print(key)
-            if key is 'is_pinned':
-                print(key)
-                # for value in key:
-                #     val = value
-                #     if val is not True:
-                #         print(val)
-                #         for v in val:
-                #             va = v
-                #             if va is not True:
-                #                 print(va)
-        # for i in serializer.data:
-        # print(pin.append(i))
-        # print()
-        # print(i)
-        # print()
-        # print()
-        # print(pin)
-        # for j in i:
-        #     print(j[0])
-        # if j:
-        #     print(j)
-        # if i['is_pinned']==j['True']:
-        #     print(i,j)
-        # print()
-        # print()
-        # print(serializer.data[1])
-        # print(dir(serializer.data))
-        # print(serializer.data.__contains__)
-        # if serializer.data.__getattribute__ == 'is_pinned':
-        #     print("Somethuing")
-        if serializer.data:
-            return Response(serializer.data, status.HTTP_200_OK)
-        return Response(serializer.data, status.HTTP_200_OK)
+        response = {"status": False, "message": "Error Occured while Getting the Pinned Data ", "data": []}
+        user = request.user
+        try:
+            redis_data = red.hvals(str(user.id) + "is_pinned")
+            if len(redis_data) == 0:
+                user = request.user
+                data = Notes.objects.filter(user_id=user.id, is_pinned=True)
+                if len(data) == 0:
+                    response = {"status": True, "message": " No data is Pinned !! "}
+                    return HttpResponse(json.dumps(response), status=200)
+                return HttpResponse(data.values())
+            return HttpResponse(redis_data)
+        except Exception as e:
+            return HttpResponse(json.dumps(response), status=404)
 
 
 class NoteDetails(GenericAPIView):
     serializer_class = UpdateNoteSerializer
     parser_classes = FormParser, JSONParser, MultiPartParser
     data = Notes.objects.all()
-    print("Database ", "Data ", "", data)
 
     def get_object(self, pk):
         try:
@@ -279,7 +247,6 @@ class NoteDetails(GenericAPIView):
         notes = Notes.objects.all()
         serializer = CreateNoteSerializer(notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 # class SearchNote(APIView):
 #
