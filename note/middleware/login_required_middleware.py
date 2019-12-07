@@ -18,7 +18,7 @@ class LoginRequired(object):
         print(current_url)
         # pdb.set_trace()
         if current_url == "note_api":
-            print("This requires JWT authentication")
+            # print("This requires JWT authentication")
             try:
                 token = request.META['HTTP_AUTHORIZATION']
                 jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
@@ -48,5 +48,6 @@ class LoginRequired(object):
                     responsesmd = {'status': False, 'message': 'Users credential not provided..!!'}
                     return HttpResponse(json.dumps(responsesmd), status=status.HTTP_400_BAD_REQUEST)
         else:
-            print("Doesn't Require JWT Authentication")
+            # print("Doesn't Require JWT Authentication")
+            print()
         return self.get_response(request)

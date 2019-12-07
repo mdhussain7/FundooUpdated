@@ -1,0 +1,92 @@
+gvhgbjubhj
+ Archieve data is loaded 
+ Getting Inside the Reminder Data 
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 13, 'title': 'asdfasdhnjgfkyuktyu', 'description': 'rtsjutymkanjdxghAYWrzfnm;oip9087654321', 'created_time': datetime.datetime(2019, 12, 4, 11, 22, 7, 558920, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 22, 2, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 13, 'title': 'asdfasdhnjgfkyuktyu', 'description': 'rtsjutymkanjdxghAYWrzfnm;oip9087654321', 'created_time': datetime.datetime(2019, 12, 4, 11, 22, 7, 558920, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 22, 2, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 21, 'title': 'titkle', 'description': 'asdfdsf', 'created_time': datetime.datetime(2019, 12, 7, 5, 20, 38, 64853, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 7, 6, 30, tzinfo=<UTC>), 'is_archived': True, 'is_deleted': False, 'color': 'qeeq', 'is_trash': True, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Reminders data is loaded for Hussain
+gvhgbjubhj
+ Archieve data is loaded 
+Note is created for Hussain
+gvhgbjubhj
+Note already exists for
+Note already exists for
+ Getting Inside the Reminder Data 
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 13, 'title': 'asdfasdhnjgfkyuktyu', 'description': 'rtsjutymkanjdxghAYWrzfnm;oip9087654321', 'created_time': datetime.datetime(2019, 12, 4, 11, 22, 7, 558920, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 22, 2, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 13, 'title': 'asdfasdhnjgfkyuktyu', 'description': 'rtsjutymkanjdxghAYWrzfnm;oip9087654321', 'created_time': datetime.datetime(2019, 12, 4, 11, 22, 7, 558920, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 22, 2, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 21, 'title': 'titkle', 'description': 'asdfdsf', 'created_time': datetime.datetime(2019, 12, 7, 5, 20, 38, 64853, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 7, 6, 30, tzinfo=<UTC>), 'is_archived': True, 'is_deleted': False, 'color': 'qeeq', 'is_trash': True, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Getting Reminder Data None
+ Reminders data is loaded for Hussain
+ Getting Inside the Reminder Data 
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 13, 'title': 'asdfasdhnjgfkyuktyu', 'description': 'rtsjutymkanjdxghAYWrzfnm;oip9087654321', 'created_time': datetime.datetime(2019, 12, 4, 11, 22, 7, 558920, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 22, 2, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}]
+ Getting Reminder Timezone [{'id': 8, 'title': 'hello', 'description': 'adefadfdfadfs', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 33, 939039, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 19, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'blue', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 9, 'title': 'myupdated', 'description': 'updated', 'created_time': datetime.datetime(2019, 12, 4, 11, 20, 56, 275270, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 20, 48, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 10, 'title': 'me', 'description': 'me', 'created_time': datetime.datetime(2019, 12, 4, 11, 21, 11, 674285, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 21, 4, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': 'eawe', 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 13, 'title': 'asdfasdhnjgfkyuktyu', 'description': 'rtsjutymkanjdxghAYWrzfnm;oip9087654321', 'created_time': datetime.datetime(2019, 12, 4, 11, 22, 7, 558920, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 4, 11, 22, 2, tzinfo=<UTC>), 'is_archived': False, 'is_deleted': False, 'color': None, 'is_trash': False, 'is_pinned': False, 'user_id': 1}, {'id': 21, 'title': 'titkle', 'description': 'asdfdsf', 'created_time': datetime.datetime(2019, 12, 7, 5, 20, 38, 64853, tzinfo=<UTC>), 'reminder': datetime.datetime(2019, 12, 7, 6, 30, tzinfo=<UTC>), 'is_archived': True, 'is_deleted': False, 'color': 'qeeq', 'is_trash': True, 'is_pinned': False, 'user_id': 1}]
+ Reminders data is loaded for Hussain
+ Archieve data is loaded 
+ Archieve data is loaded <QuerySet [<Notes: hello>, <Notes: hussain>, <Notes: hussain>, <Notes: Hussain>, <Notes: titkle>]>
+ Archieve data is loaded <QuerySet [<Notes: hello>, <Notes: hussain>, <Notes: hussain>, <Notes: Hussain>, <Notes: titkle>]>
+ Archieve data is loaded 2019-12-07 13:53:04.648162+00:00

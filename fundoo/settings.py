@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     'django_elasticsearch_dsl',
     'django_elasticsearch_dsl_drf',
     'django_extensions',
+    # 'oauth2_provider',
+    # 'social_django',
+    # 'rest_framework_social_oauth2',
     'rest_framework_swagger',
     'rest_framework.authtoken',
     'rest_framework',
@@ -235,10 +238,10 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # ]`
 # STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d  :%(threadName)s :%('
-                              'process)d :%(message)s')
-file_handler = logging.FileHandler(filename='/home/admin1/fundoo.log')
-file_handler.setFormatter(formatter)
+# formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d  :%(threadName)s :%('
+#                               'process)d :%(message)s')
+# file_handler = logging.FileHandler(filename='/home/admin1/fundoo.log')
+# file_handler.setFormatter(formatter)
 
 BASE_URL = os.getenv('BASE_URL')
 # EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
@@ -349,3 +352,11 @@ ELASTICSEARCH_DSL = {
 AWS_DEFAULT_ACL = None
 
 SOCIAL_AUTH__EMAIL_REQUIRED = True
+
+logger = logging.getLogger(__name__)
+fh = logging.FileHandler('fundoo.log')
+# formatter= logging.Formatter('[%(asctime)s] - %(name)s - %(levelname)- %(message)s - p%(process)s {%(pathname)s:%(lineno)d} % ','%m-%d %H:%M:%S')
+# fh.setFormatter(log_format)
+# formatt = logging.Formatter('[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s','%m-%d %H:%M:%S')
+log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+logging.basicConfig(format=log_format)
