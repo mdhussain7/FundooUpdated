@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import File, ImageTable
 from .models import Notes, Label
+from django.contrib.auth.models import User
 
 
 class ImageUploadSerializer(serializers.ModelSerializer):
@@ -15,18 +16,26 @@ class ImageTableSerializer(serializers.ModelSerializer):
         fields = ['path', 'date', 'filename', 'directory']
 
 
-# Serializers define the API representation.
-# class NoteSerializer(serializers.ModelSerializer):
-#     class Meta:
-#
-#         model = Notes
-#         fields = ['id', 'title', 'description', 'is_archived', 'is_pinned', 'image', 'color', 'is_trash', 'collaborate',
-#                   'remainder', 'created_time', 'user']
-
 class LabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Label
         fields = ['label']
+
+
+class CollaboratorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email']
+
+
+# Serializers define the API representation.
+class NotesSerializer(serializers.ModelSerializer):
+    label = LabelSerializer(many=True, read_only=True)
+    collaborators = CollaboratorsSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Notes
+        fields = ['title', 'note', 'label', 'url', 'is_archive', 'collaborators', 'image', 'reminder', 'color']
 
 
 class CreateNoteSerializer(serializers.ModelSerializer):
@@ -59,7 +68,13 @@ class TrashNoteSerializer(serializers.ModelSerializer):
 class PinnedNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
-        fields = ['title', 'description','is_pinned']
+        fields = ['title', 'description', 'is_pinned']
+
+
+class ShareSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notes
+        fields = ['title', 'label']
 
 
 class SearchNoteSerializer(serializers.ModelSerializer):

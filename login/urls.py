@@ -10,5 +10,6 @@ urlpatterns =[
                 path("interface", views.interface, name='page'),
                 path("logout/", views.Logout.as_view(), name='logout'),
                 path('sendmail/', views.Sendmail.as_view(), name='resetmail'),
-                path('reset-password/<username>/', views.ResetPassword.as_view(), name='resetmail')
+                path('reset-password/<username>/', views.ResetPassword.as_view(), name='resetmail'),
+                path('sendMail/', views.ResetPasswor.as_view(),name='send-mail'),
 ]

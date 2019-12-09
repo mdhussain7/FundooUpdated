@@ -7,3 +7,9 @@ class CreateSocialSerializer(serializers.ModelSerializer):
         model = CreateSocial
         fields = ['title', 'content', 'filename']
         # url = serializers.get_url_kwargs('url')
+
+
+class ShareSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CreateSocial
+        fields = ['title', 'filename']

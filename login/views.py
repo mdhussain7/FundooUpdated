@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django_short_url.models import ShortURL
 from django_short_url.views import get_surl
 from rest_framework.generics import GenericAPIView
-from .serializer import LoginSerializer, ResetSerializer, RegisterSerializer, ForgotSerializer,LogoutSerailizer
+from .serializer import LoginSerializer, ResetSerializer, RegisterSerializer, ForgotSerializer, LogoutSerailizer
 import json
 import jwt
 
@@ -105,36 +105,27 @@ class Sendmail(GenericAPIView):
     serializer_class = ForgotSerializer
 
     def post(self, request):
-        emailid = request.data["email"]
-        print(emailid)
-        responsesmd = {'status': False,
-                       'message': " Enter a Valid Email ",
-                       'data': []}
+        email = request.data["email"]
+        responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
         try:
-            user = User.objects.get(email=emailid)
+            user = User.objects.get(email=email)
             if user is not None:
-                payload = {'username': user.username,
-                           'email': user.email}
+                payload = {'username': user.username, 'email': user.email}
                 key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
-                print(key)
-                url = str(key)
-                surl = get_surl(url)
-                short = surl.split("/")
-                mail_subject = " Reset Your Password By Clicking the Link given Below "
+                keyUrl = str(key)
+                shortedKey = get_surl(keyUrl)
+                splittedData = shortedKey.split('/')
+                mail_subject = ' Reset Your Password By Clicking the Link given Below '
                 mail_message = render_to_string('verify.html',
-                                                {'user': user.username,
-                                                 'domain': get_current_site(request).domain,
-                                                 'token': short[2]})
-                send_mail(mail_subject, mail_message, 'mdhussainsabhussain@gmail.com', ['srmsa786@gmail.com'])
-                responsesmd = {'status': True,
-                               'message': " Link has been sent to You. Please Check Your Mail ",
+                                                {'user': user.username, 'domain': get_current_site(request).domain,
+                                                 'token': splittedData[2]})
+                send_mail(mail_subject, mail_message, 'mdhussainsabhussain@gmail.com', [email])
+                responsesmd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
                                'data': [key]}
-
                 return HttpResponse(json.dumps(responsesmd), status=201)
         except Exception as e:
-            print(e)
-            responsesmd["status"] = False
-            responsesmd['message'] = " Invalid Mail "
+            responsesmd['status'] = False
+            responsesmd['message'] = ' Invalid Mail '
             return HttpResponse(json.dumps(responsesmd), status=400)
 
 
@@ -142,8 +133,8 @@ class Logout(GenericAPIView):
     serializer_class = LogoutSerailizer
 
     def get(self, request):
+        responsesmd = {"status": False, "message": "Invalid User", "data": []}
         try:
-            responsesmd = {"status": False, "message": "Invalid User", "data": []}
             user = request.user
             responsesmd = {"status": True, "message": "Sign out", "data": [user]}
             return HttpResponse(json.dumps(responsesmd), status=200)
@@ -165,6 +156,38 @@ class ResetPassword(GenericAPIView):
                 messages.info(request, " Reset Password Successfully ")
                 return redirect("login")
         return render(request, 'resetpassword.html')
+
+
+class ResetPasswor(GenericAPIView):
+    serializer_class = ResetSerializer
+
+    def post(self, request, user_reset):
+        # pdb.set_trace()
+        password = request.data['password']
+        responsesmd = {'status': False, 'message': 'Password Reset Not Done', 'data': [], }
+        # password validation is done in this form
+        if user_reset is None:
+            responsesmd['message'] = 'Not a Vaild User'
+            return HttpResponse(json.dumps(responsesmd), status=404)
+
+        elif password == "":
+            responsesmd['message'] = 'One of the Fields are Empty'
+            return HttpResponse(json.dumps(responsesmd), status=400)
+
+        elif len(password) <= 4:
+            responsesmd['message'] = 'Password Should be 4 or  More than 4 Character'
+            return HttpResponse(json.dumps(responsesmd), status=400)
+        else:
+            try:
+                user = User.objects.get(username=user_reset)
+                user.set_password(password)
+                # here we will save the user password in the database
+                user.save()
+                responsesmd = {'status': True, 'message': 'Password Reset Done', 'data': [], }
+                return HttpResponse(json.dumps(responsesmd), status=201)
+            except User.DoesNotExist:
+                responsesmd['message'] = 'Not a Vaild User '
+                return HttpResponse(json.dumps(responsesmd), status=400)
 
 
 def activate(request, token):

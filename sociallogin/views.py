@@ -2,9 +2,12 @@
 # from django.shortcuts import render
 # from rest_framework import status
 # from rest_framework.generics import GenericAPIView
+import json
+
+from django.db import IntegrityError
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import CreateSocialSerializer
+from .serializers import CreateSocialSerializer, ShareSerializer
 from .models import CreateSocial, LoggedInUser
 # from django.http import HttpResponse
 # import pdb
@@ -31,15 +34,17 @@ AUTH_GITHUB_TOKEN_URL = os.getenv('AUTH_GITHUB_TOKEN_URL')
 BASE_URL = os.getenv('BASE_URL')
 AUTH_GITHUB_USER_EMAIL_URL = os.getenv('AUTH_GITHUB_USER_EMAIL_URL')
 AUTH_GITHUB_USER_URL = os.getenv('AUTH_GITHUB_USER_URL')
-
+SOCIAL_FACEBOOK_TOKEN_URL = os.getenv('SOCIAL_FACEBOOK_TOKEN_URL')
 # file_handler = os.getenv('file_handler')
 # logging = os.getenv('logging')
 
 from .redis import RedisOperation
 from .token import token_validation
 from .models import SocialLogin
+
 Ro = RedisOperation()
 red = Ro.red
+
 
 # logger = logging.getLogger(__name__)
 # logger.setLevel(logging.DEBUG)
@@ -95,31 +100,31 @@ class Github(GenericAPIView):
 
     def get(self, request):
         # pdb.set_trace()
-        resp = {'success': False, 'message': "something went wronUn expected Error Occured", 'data': []}
+        resp = {'success': False, 'message': "Something Went Wrong and an Un-expected Error Occured", 'data': []}
         try:
             auth_url = AUTH_GITHUB_URL
             scope = 'user:email'
             client = OAuth2Session(SOCIAL_AUTH_GITHUB_KEY, SOCIAL_AUTH_GITHUB_SECRET, scope=scope)
             url, state = client.create_authorization_url(auth_url)
-            print("Redirected user to github Login page", )
+            print("Redirected user to Github Login page", )
             return redirect(url)
         except Exception as e:
             # logger.error("got %s error while redirecting the user to github login page ", str(e))
             return HttpResponse(resp, status=404)
 
 
-class Oauth(GenericAPIView):
+class GitHubAuthenticator(GenericAPIView):
 
     def get(self, request):
 
-        resp = {'success': False, 'message': "something went wrong", 'data': []}
+        smdresp = {'success': False, 'message': "Something Went Wrong", 'data': []}
         try:
             # pdb.set_trace()
-            token_url = AUTH_GITHUB_TOKEN_URL  # github token url.
+            urlToken = AUTH_GITHUB_TOKEN_URL  # github token url.
             scope = 'user:email'
             client = OAuth2Session(SOCIAL_AUTH_GITHUB_KEY, SOCIAL_AUTH_GITHUB_SECRET, scope=scope)
 
-            token = client.fetch_token(token_url, client_id=SOCIAL_AUTH_GITHUB_KEY,
+            token = client.fetch_token(urlToken, client_id=SOCIAL_AUTH_GITHUB_KEY,
                                        client_secret=SOCIAL_AUTH_GITHUB_SECRET
                                        , authorization_response=BASE_URL + request.get_full_path())
             client = OAuth2Session(SOCIAL_AUTH_GITHUB_KEY, SOCIAL_AUTH_GITHUB_SECRET, token=token, scope=scope)
@@ -166,4 +171,26 @@ class Oauth(GenericAPIView):
             return redirect("/notes/")
         except Exception as e:
             print("Exception Occured ", e)
-            return HttpResponse(resp, status=404)
+            return HttpResponse(smdresp, status=404)
+
+
+class NoteShare(GenericAPIView):
+    serializer_class = ShareSerializer
+
+    def post(self, request):
+        responsesmd = {'success': False, 'message': 'Invalid Note ', 'data': []}
+        try:
+            title = request.data['title']
+            note = request.data['filename']
+            user = request.user
+
+            if note == "":
+                return HttpResponse(json.dumps(responsesmd))
+            else:
+                user = User.objects.get(pk=user.id)
+                note_create = CreateSocial(user_id=user.id, note=note, title=title)
+
+                note_create.save()
+                return redirect(AUTH_GITHUB_TOKEN_URL + str(title) + "\n" + str(note))
+        except (IntegrityError, Exception):
+            return HttpResponse(json.dumps(responsesmd, indent=2), status=400)

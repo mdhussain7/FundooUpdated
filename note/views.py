@@ -2,9 +2,10 @@
 import datetime
 import pdb
 
+from django.db import IntegrityError
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
-from .serializer import ImageUploadSerializer
+from .serializer import ImageUploadSerializer, LabelSerializer
 # from rest_framework import permissions, status, authentication
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
@@ -17,10 +18,12 @@ from .serializer import ImageUploadSerializer
 # from .models import FileItem
 from dotenv import load_dotenv
 from pathlib import Path
-from .models import ImageTable, Notes
+from .models import ImageTable, Notes, Label
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
-from .serializer import CreateNoteSerializer, UpdateNoteSerializer, ArchieveNoteSerializer, TrashNoteSerializer, \
-    PinnedNoteSerializer  # , SearchNoteSerializer  # NoteSerializer
+from .serializer import CreateNoteSerializer, UpdateNoteSerializer, ShareSerializer, \
+    NotesSerializer  # , ArchieveNoteSerializer,
+# TrashNoteSerializer, \
+# PinnedNoteSerializer  # , SearchNoteSerializer  # NoteSerializer
 # from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -30,21 +33,25 @@ from django.http import Http404, HttpResponse, request
 # from .decorators import user_login_required
 # from .documents import NoteDocument
 from rest_framework_jwt.settings import api_settings
-from django.contrib.auth.models import User
 from .lib.S3file import ImageUpload
 import json
 import os
 from .lib.redis import RedisOperation
 import logging
-
+# from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 # pdb.set_trace()
 from fundoo.settings import fh
-
+from django.shortcuts import redirect, render
 # print(fh)
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 env_path = Path('.') / '.env'
 
 load_dotenv(dotenv_path=env_path)
-
+AUTH_GITHUB_TOKEN_URL = os.getenv('AUTH_GITHUB_TOKEN_URL')
+SOCIAL_FACEBOOK_TOKEN_URL = os.getenv('SOCIAL_FACEBOOK_TOKEN_URL')
 Ro = RedisOperation()
 redis = Ro.server
 # logger = logging.getLogger(__name__) fh = logging.FileHandler('fundoo.log') formatter= logging.Formatter('[%(
@@ -63,8 +70,10 @@ class UploadFile(GenericAPIView):
         return response
 
     def post(self, request):
+        user = request.user
         try:
-            logger.info(" Want to Upload an image \n Please Select any ...")
+
+            logger.info(" Uploading file to AWS")
             file = request.FILES.get('upload')
             print(file, 'file')
             up = ImageUpload()
@@ -83,18 +92,105 @@ class UploadFile(GenericAPIView):
             image.save()
             return HttpResponse(json.dumps(smdresponse))
         except Exception as e:
+            logger.info(" Data Upload Un-successfull for the user %s ", user)
             smdresponse = self.responsesmd(False, "Data Upload Unsuccessfull", "")
             return HttpResponse(json.dumps(smdresponse))
+
+
+class LabelsCreate(GenericAPIView):
+    serializer_class = LabelSerializer
+
+    def get(self, request):
+
+        response = {"success": False, "message": "Error Occured While Getting the Labels", "data": []}
+        try:
+            # pdb.set_trace()
+            user = request.user
+            redis_data = redis.hvals(str(user.id) + "label")
+            if len(redis_data) == 0:
+                labels = Label.objects.filter(user_id=user.id)
+                label_name = [i.label for i in labels]
+                logger.info("labels where fetched from database for user :%s", request.user)
+                return Response(label_name, status=200)
+            logger.info("labels where fetched from redis for user :%s", request.user)
+            return Response(redis_data, status=200)
+        except Exception:
+            logger.error("labels where not fetched for user :%s", request.user)
+            return Response(response, status=400)
+
+    def post(self, request):
+        # pdb.set_trace()
+        user = request.user
+        response = {"success": False, "message": "Error Occured at the Beginningg", "data": []}
+        try:
+            label = request.data["label"]
+            if label == "":
+                logger.info("Label Name was not given for %s", user)
+                response['message'] = "Enter Label Name"
+                return Response(response, status=400)
+            if Label.objects.filter(user_id=user.id, label=label).exists():
+                logger.info("Label Name already exists for %s", user)
+                response['message'] = "Label Name already exists"
+                return Response(response, status=400)
+            else:
+                newLabel = Label.objects.create(user_id=user.id, label=label)
+                redis.hmset(str(user.id) + "label", {newLabel.id: label})
+                logger.info("label is created for %s", user)
+                response = {"success": True, "message": "Label is Created Successfully", "data": label}
+                return HttpResponse(json.dumps(response), status=201)
+        except Exception as e:
+            logger.error("%s while creating label for %s", str(e), user)
+            return Response(response, status=404)
+
+
+class LabelsUpdate(GenericAPIView):
+    serializer_class = LabelSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+    data = Label.objects.all()
+
+    def get_object(self, pk):
+        try:
+            return Label.objects.get(pk=pk)
+        except Label.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        label = self.get_object(pk)
+        serializer = LabelSerializer(label)
+        user = request.user
+        logger.info('Getting the Label for the id %s in user %s', label, user)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        label = self.get_object(pk)
+        serializer = LabelSerializer(label, data=request.data)
+        user = request.user
+        # label_id = Label.objects.create(id=user.id)
+
+        if serializer.is_valid():
+            serializer.save()
+            label = Label.objects.get(pk=pk)
+            logger.info('Label is ', label)
+            responsesmd = {'success': True, 'message': 'Label Updated successfully.'}
+            logger.info('Label Updated for the id %s in user %s', label, user)
+            return Response(responsesmd, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        user = request.user
+        label = self.get_object(pk)
+        label.delete()
+        label = Label.objects.all()
+        serializer = LabelSerializer(label, many=True)
+        logger.info('Label Deleted for the id %s in user %s', label, user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 def get_user(token):
     jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
     newToken = str(token).split("Bearer ")[1]
-    # print("Token Created is: ", newToken)
     encodedToken = jwt_decode_handler(newToken)
-    # print(encodedToken)
     username = encodedToken['username']
-    # print(username)
     user = User.objects.get(username=username)
     return user.id
 
@@ -103,11 +199,29 @@ class NoteList(generics.GenericAPIView):
     serializer_class = CreateNoteSerializer
     permission_classes = [IsAuthenticated, ]
 
+    # user_list = User.objects.all()
+    # paginator = Paginator(user_list, 10)
+    # print(paginator.count, paginator.num_pages, paginator.page_range, paginator.page(1), users.has_next())
+
     def get(self, request, format=None):
-        contact = Notes.objects.all()
-        logger.info("Getting the Note Data on %s ", timezone.now() )
-        serializer = CreateNoteSerializer(contact, many=True)
-        return Response(serializer.data)
+        data = Notes.objects.all()
+        logger.info("Getting the Note Data on %s ", timezone.now())
+        serializer = CreateNoteSerializer(data, many=True)
+        page = request.GET.get('page')
+        paginator = Paginator(data, 1)
+        user = request.user
+        try:
+            notes = paginator.page(page)
+        except PageNotAnInteger:
+            logger.warning("Got %s Error for Getting Note for User %s", str(PageNotAnInteger), user.username)
+            notes = paginator.page(1)
+        except EmptyPage:
+            logger.warning("Got %s Error for Getting Note for User %s", EmptyPage, user)
+            notes = paginator.page(paginator.num_pages)
+        logger.info("All the Notes are Rendered to HTML Page for User %s", user)
+        return HttpResponse(serializer.data, render(request, 'pagination.html', {'notes': notes}, status=200))
+        # render(request, 'mysite/signup.html', {'form': form})
+        # return Response(serializer.data)
 
     def post(self, request, format=None):
 
@@ -126,7 +240,7 @@ class NoteList(generics.GenericAPIView):
 
             list_result = [i for i in result]
             redis.hmset(str(user.id) + "Note", {noteCreated.id: list_result})
-
+            logger.warn("-------Note Creating -------")
             logger.info("Note is created for %s Time is %s", user, tz)
             response = {"status": True, "message": "Note is Created", "data": title}
             return HttpResponse(json.dumps(response), status=201)
@@ -143,16 +257,17 @@ class ArchieveNote(GenericAPIView):
             if len(redis_data) == 0:
                 response = {"status": True, "message": "Your archived notes will appear here", "data": []}
                 data = Notes.objects.filter(user_id=user.id, is_archived=True)
-                tz  = timezone.now()
+                tz = timezone.now()
                 if len(data) == 0:
-                    logger.info(" Getting Inside the Archived Data %s", tz)
+                    logger.info(" Getting Inside the Archived Data ")
                     return HttpResponse(json.dumps(response), status=200)
                 else:
-                    logger.info(" Archieve data is loaded %s", tz)
+                    logger.info(" Archieve data is loaded ")
                     return HttpResponse(data.values(), status=200)
             logger.info(" Redis-Archieve data is loaded on  %s", tz)
             return HttpResponse(redis_data, status=200)
         except Exception as e:
+            logger.exception("Exception Occured Archieve at %s ", e)
             return HttpResponse(json.dumps(response), status=404)
 
 
@@ -173,23 +288,20 @@ class NoteReminders(GenericAPIView):
                     continue
                 elif timezone.now() > reminder_list.values()[i]['reminder']:
                     remind.append(reminder_list.values()[i])
-                    logger.info(" Getting Reminder Timezone %s", timezone.now() )
+                    logger.info(" Getting Reminder Timezone %s", timezone.now())
                 else:
                     state.append(reminder_list.values()[i])
                     logger.info(" Getting Reminder State  %s", state)
 
-            reminder = {
-                'remind': remind,
-                'state': state
-            }
-            logger.info(" Reminders data is loaded for %s on %s ", user , timezone.now() )
+            reminder = {'remind': remind,'state': state}
+            logger.info(" Reminders data is loaded for %s on %s ", user, timezone.now())
             return HttpResponse(reminder.values(), status=200)
         except TypeError as e:
-            logger.info("Error: %s for %s while fetching Reminder", str(e), user)
+            logger.error("Error: %s for %s while fetching Reminder", str(e), user)
             responessmd = {"status": False, "message": "Reminder Not Set", 'data': []}
             return HttpResponse(json.dumps(responessmd), status=200)
         except Exception as e:
-            logger.info("Error: %s for %s while fetching Reminder", str(e), user)
+            logger.error("Error: %s for %s while fetching Reminder", str(e), user)
             responessmd = {"status": False, "message": "Reminder Not Set", 'data': []}
             return HttpResponse(json.dumps(responessmd), status=404)
 
@@ -267,6 +379,28 @@ class NoteDetails(GenericAPIView):
         notes = Notes.objects.all()
         serializer = CreateNoteSerializer(notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class NoteShare(GenericAPIView):
+    serializer_class = ShareSerializer
+
+    def post(self, request):
+        responsesmd = {'status': False, 'message': 'Invalid Note ', 'data': []}
+        try:
+            title = request.data['title']
+            label = request.data['filename']
+            user = request.user
+
+            if label == "":
+                return HttpResponse(json.dumps(responsesmd))
+            else:
+                user = User.objects.get(pk=user.id)
+                note_create = Notes(user_id=user.id, note=label, title=title)
+
+                note_create.save()
+                return redirect(SOCIAL_FACEBOOK_TOKEN_URL + str(title) + "\n" + str(label))
+        except (IntegrityError, Exception):
+            return HttpResponse(json.dumps(responsesmd, indent=2), status=400)
 
 # class SearchNote(APIView):
 #

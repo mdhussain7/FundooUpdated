@@ -1,6 +1,6 @@
 {% autoescape off %}
 Hi {{ user }}
 please click the link to resetpassword
-http://{{ domain }}{%  url "verify" token=token %}
+{{ domain }}{%  url 'verify' token=token %}
 {% endautoescape %}
 

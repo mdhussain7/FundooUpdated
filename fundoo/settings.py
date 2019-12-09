@@ -354,9 +354,13 @@ AWS_DEFAULT_ACL = None
 SOCIAL_AUTH__EMAIL_REQUIRED = True
 
 logger = logging.getLogger(__name__)
-fh = logging.FileHandler('fundoo.log')
+# fh = logging.FileHandler('fundoo.log')
 # formatter= logging.Formatter('[%(asctime)s] - %(name)s - %(levelname)- %(message)s - p%(process)s {%(pathname)s:%(lineno)d} % ','%m-%d %H:%M:%S')
 # fh.setFormatter(log_format)
 # formatt = logging.Formatter('[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s','%m-%d %H:%M:%S')
-log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-logging.basicConfig(format=log_format)
+formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d :%(threadName)s :%('
+'process)d :%(message)s')
+fh= logging.FileHandler('fundoo.log')
+fh.setFormatter(formatter)
+# log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+# logging.basicConfig(format=log_format)
