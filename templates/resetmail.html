@@ -7,27 +7,29 @@
 <body>
 <form class="reset" action="" method="post">
     {% csrf_token %}
-     <div>
-    <label>Enter registered email id</label><br><br>
-    <label>Email_id:</label><input type="email" name="email" placeholder="registered Email id">
-    <br><br>
-    <input type="submit">
+    <div>
+        <label>Enter registered email id</label><br><br>
+        <label>Email_id:</label><input type="email" name="email" placeholder="registered Email id">
+        <br><br>
+        <input type="submit">
      </div>
 </form>
 <style>
-    .reset {
-  position: relative;
-  margin-top: 300px;
-  background: skyblue;
-  max-width: 450px;
-  margin: 210px auto 50px;
-  padding:20px;
-  text-align: center;
-}
-.alert{
-  padding:5px;
-  text-align: center;
-}
+    .reset
+    {
+      position: relative;
+      margin-top: 300px;
+      background: skyblue;
+      max-width: 450px;
+      margin: 210px auto 50px;
+      padding:20px;
+      text-align: center;
+    }
+    .alert
+    {
+      padding:5px;
+      text-align: center;
+    }
 </style>
 <div class="alert">
     {% for message in messages %}

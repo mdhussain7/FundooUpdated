@@ -44,11 +44,12 @@ from .models import SocialLogin
 
 Ro = RedisOperation()
 red = Ro.red
+import logging
+from fundoo.settings import fh
 
-
-# logger = logging.getLogger(__name__)
-# logger.setLevel(logging.DEBUG)
-# logger.addHandler(file_handler)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(fh)
 
 
 # Create your views here.
@@ -65,35 +66,41 @@ class ViewData(GenericAPIView):
         return
 
     def get(self, request):
-        notes = CreateSocial.objects.all()
+        notes = SocialLogin.objects.all()
         serializer = CreateSocialSerializer(notes, many=True)
         return Response(serializer.data, status=200)
 
     def post(self, request):
+        import pdb
+        pdb.set_trace()
+        responsesmd = {'success': False, 'message': 'Invalid Note ', 'data': []}
         try:
-            # print("Into the Social Post")
-            # users = User.objects.select_related('logged_in_user')
-            # print("After Users :",users)
-            # username = request.user
-            # print(username)
-            # for user in users:
-            #     user.status = 'Online' if hasattr(user, 'logged_in_user') else 'off-line'
-            # loggedusers = LoggedInUser.objects.all()  # new
-            # return HttpResponse(render(request, 'social.html',
-            #                            {'online user': loggedusers,
-            #                             'users': users,
-            #                             'username': username
-            #                             }
-            #                            ))
-            # serializer = CreateSocialSerializer(data=request.data)
-            # if serializer.is_valid():
-            #     serializer.save()
-            #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-            # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            return HttpResponse(render(request, 'social.html'))
-        except Exception as e:
-            print("Exception", e)
-            return HttpResponse(render(request, '/'))
+            unique_id = request.data['unique_id']
+            provider = request.data['provider']
+            username = request.data['username']
+            full_name = request.data['full_name']
+            EXTRA_PARAMS = request.data['EXTRA_PARAMS']
+
+            user = request.user
+
+            if username == "":
+                return HttpResponse(json.dumps(responsesmd))
+            else:
+                user = User.objects.get(pk=user.id)
+                note_create = CreateSocial(user_id=user.id, provider=provider, username=username,
+                                           full_name=full_name, EXTRA_PARAMS=EXTRA_PARAMS, )
+
+                note_create.save()
+                # return Response(request, render(request,
+                #                                 AUTH_GITHUB_TOKEN_URL + str(provider) + "\n" + str(username) + str(
+                #                                     full_name) + "\n" + str(
+                #                                     EXTRA_PARAMS), ))
+                return redirect(
+                    AUTH_GITHUB_TOKEN_URL + str(provider) + "\n" + str(username) + str(full_name) + "\n" + str(
+                        EXTRA_PARAMS), 'social.html')
+        except (IntegrityError, Exception):
+            return HttpResponse(json.dumps(responsesmd, indent=2), status=400)
+            # return HttpResponse(render(request, 'social.html'))
 
 
 class Github(GenericAPIView):
@@ -109,7 +116,7 @@ class Github(GenericAPIView):
             print("Redirected user to Github Login page", )
             return redirect(url)
         except Exception as e:
-            # logger.error("got %s error while redirecting the user to github login page ", str(e))
+            logger.error("Got %s Error while redirecting the user to github login page ", str(e))
             return HttpResponse(resp, status=404)
 
 
@@ -117,7 +124,7 @@ class GitHubAuthenticator(GenericAPIView):
 
     def get(self, request):
 
-        smdresp = {'success': False, 'message': "Something Went Wrong", 'data': []}
+        smdresp = {'status': False, 'message': "Error Occured at the beginning", 'data': []}
         try:
             # pdb.set_trace()
             urlToken = AUTH_GITHUB_TOKEN_URL  # github token url.
@@ -159,7 +166,7 @@ class GitHubAuthenticator(GenericAPIView):
                     user.save()
                     token = token_validation(username, response.json()["id"])
                     red.set(user.username, token)
-                    print("%s logged in as well as user got registered but username already exist so his id is as his "
+                    print("%s Logged in as well as user got registered but username already exist so his id is as his "
                           "username ", user.username)
                 else:
                     user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name,
@@ -178,7 +185,7 @@ class NoteShare(GenericAPIView):
     serializer_class = ShareSerializer
 
     def post(self, request):
-        responsesmd = {'success': False, 'message': 'Invalid Note ', 'data': []}
+        responsesmd = {'status': False, 'message': 'Invalid Note ', 'data': []}
         try:
             title = request.data['title']
             note = request.data['filename']

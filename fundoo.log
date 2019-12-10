@@ -40,3 +40,312 @@ INFO :2019-12-09 19:16:20,084 :/home/admin1/Documents/FunDoo/fundoo/note/views.p
 INFO :2019-12-09 19:16:20,118 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :291 :140374729471744 :Thread-2 :24044 : Getting Reminder Timezone 2019-12-09 13:46:20.118015+00:00
 INFO :2019-12-09 19:16:20,210 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :291 :140374729471744 :Thread-2 :24044 : Getting Reminder Timezone 2019-12-09 13:46:20.210184+00:00
 INFO :2019-12-09 19:16:20,474 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :300 :140374729471744 :Thread-2 :24044 : Reminders data is loaded for Hussain on 2019-12-09 13:46:20.474262+00:00 
+INFO :2019-12-10 10:43:03,445 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140442645665536 :Thread-6 :12511 :Getting the Note Data on 2019-12-10 05:13:03.445859+00:00 
+WARNING :2019-12-10 10:43:03,453 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140442645665536 :Thread-6 :12511 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 10:43:03,460 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140442645665536 :Thread-6 :12511 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:43:13,283 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140442645665536 :Thread-6 :12511 :Getting the Note Data on 2019-12-10 05:13:13.283407+00:00 
+WARNING :2019-12-10 10:43:13,284 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140442645665536 :Thread-6 :12511 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 10:43:13,288 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140442645665536 :Thread-6 :12511 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:48:08,683 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:18:08.683061+00:00 
+WARNING :2019-12-10 10:48:08,693 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140051177903872 :Thread-2 :18489 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 10:48:08,695 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:48:17,731 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:18:17.731697+00:00 
+WARNING :2019-12-10 10:48:17,732 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140051177903872 :Thread-2 :18489 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 10:48:17,737 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:48:27,659 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:18:27.659037+00:00 
+WARNING :2019-12-10 10:48:27,660 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140051177903872 :Thread-2 :18489 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 10:48:27,673 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:22,113 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:22.113692+00:00 
+INFO :2019-12-10 10:50:22,118 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:25,067 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:25.067692+00:00 
+INFO :2019-12-10 10:50:25,072 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:27,654 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:27.654054+00:00 
+INFO :2019-12-10 10:50:27,663 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:29,364 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:29.364320+00:00 
+INFO :2019-12-10 10:50:29,366 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:31,162 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:31.162841+00:00 
+INFO :2019-12-10 10:50:31,164 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:34,332 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:34.332107+00:00 
+INFO :2019-12-10 10:50:34,335 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:36,731 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:36.731799+00:00 
+INFO :2019-12-10 10:50:36,738 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:39,662 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:39.662798+00:00 
+INFO :2019-12-10 10:50:39,669 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:41,147 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:41.147455+00:00 
+INFO :2019-12-10 10:50:41,151 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:43,077 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:43.077103+00:00 
+INFO :2019-12-10 10:50:43,079 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:45,090 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:45.090402+00:00 
+INFO :2019-12-10 10:50:45,092 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:46,295 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:46.295390+00:00 
+INFO :2019-12-10 10:50:46,304 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:47,682 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:47.682644+00:00 
+INFO :2019-12-10 10:50:47,685 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:48,997 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:48.997236+00:00 
+INFO :2019-12-10 10:50:48,999 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:50,306 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:50.305997+00:00 
+INFO :2019-12-10 10:50:50,309 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:51,313 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:51.313955+00:00 
+INFO :2019-12-10 10:50:51,318 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:52,361 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:52.361729+00:00 
+INFO :2019-12-10 10:50:52,369 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:53,438 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:53.438337+00:00 
+INFO :2019-12-10 10:50:53,454 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:54,488 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:54.488442+00:00 
+INFO :2019-12-10 10:50:54,497 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:55,750 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:55.750852+00:00 
+INFO :2019-12-10 10:50:55,779 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:56,811 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:56.811667+00:00 
+INFO :2019-12-10 10:50:56,821 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:57,998 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:57.998761+00:00 
+INFO :2019-12-10 10:50:58,009 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:58,888 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:58.888117+00:00 
+INFO :2019-12-10 10:50:58,892 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:50:59,912 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:20:59.912299+00:00 
+INFO :2019-12-10 10:50:59,916 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:51:01,535 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:21:01.535381+00:00 
+INFO :2019-12-10 10:51:01,540 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:51:02,566 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:21:02.566685+00:00 
+INFO :2019-12-10 10:51:02,572 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 10:51:03,665 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-2 :18489 :Getting the Note Data on 2019-12-10 05:21:03.665774+00:00 
+INFO :2019-12-10 10:51:03,675 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-2 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:02:33,690 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-4 :18489 :Getting the Note Data on 2019-12-10 05:32:33.690781+00:00 
+INFO :2019-12-10 11:02:33,694 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-4 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:05:46,818 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-5 :18489 :Getting the Note Data on 2019-12-10 05:35:46.818448+00:00 
+INFO :2019-12-10 11:05:46,828 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-5 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:07:43,966 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:37:43.966550+00:00 
+INFO :2019-12-10 11:07:43,968 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:07:51,653 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:37:51.653004+00:00 
+INFO :2019-12-10 11:07:51,657 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:07:54,659 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:37:54.659426+00:00 
+INFO :2019-12-10 11:07:54,667 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:07:57,470 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:37:57.470587+00:00 
+INFO :2019-12-10 11:07:57,477 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:07:59,293 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:37:59.293050+00:00 
+INFO :2019-12-10 11:07:59,295 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:00,845 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:00.845005+00:00 
+INFO :2019-12-10 11:08:00,857 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:02,583 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:02.583335+00:00 
+INFO :2019-12-10 11:08:02,590 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:03,586 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:03.586820+00:00 
+INFO :2019-12-10 11:08:03,600 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:05,631 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:05.631025+00:00 
+INFO :2019-12-10 11:08:05,638 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:07,627 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:07.627611+00:00 
+INFO :2019-12-10 11:08:07,634 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:09,647 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:09.647356+00:00 
+INFO :2019-12-10 11:08:09,649 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:11,899 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:11.899523+00:00 
+INFO :2019-12-10 11:08:11,904 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:14,343 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:14.342988+00:00 
+INFO :2019-12-10 11:08:14,394 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:16,266 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:16.266174+00:00 
+INFO :2019-12-10 11:08:16,274 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:17,885 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:17.885357+00:00 
+INFO :2019-12-10 11:08:17,890 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:19,558 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:19.558068+00:00 
+INFO :2019-12-10 11:08:19,580 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:20,979 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:20.979571+00:00 
+INFO :2019-12-10 11:08:20,992 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:23,346 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:23.346653+00:00 
+INFO :2019-12-10 11:08:23,366 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:23,926 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:23.926902+00:00 
+INFO :2019-12-10 11:08:23,940 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:26,173 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:26.173417+00:00 
+INFO :2019-12-10 11:08:26,186 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:28,551 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:28.551343+00:00 
+INFO :2019-12-10 11:08:28,554 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:30,783 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:30.783883+00:00 
+INFO :2019-12-10 11:08:30,787 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:33,191 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:33.191065+00:00 
+INFO :2019-12-10 11:08:33,198 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:35,392 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:35.392482+00:00 
+INFO :2019-12-10 11:08:35,396 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:08:37,301 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:38:37.301419+00:00 
+INFO :2019-12-10 11:08:37,303 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:09:31,809 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:39:31.809619+00:00 
+INFO :2019-12-10 11:09:31,811 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:10:17,605 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:40:17.605159+00:00 
+INFO :2019-12-10 11:10:17,606 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:10:23,020 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:40:23.020486+00:00 
+INFO :2019-12-10 11:10:23,027 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:10:24,903 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:40:24.903259+00:00 
+INFO :2019-12-10 11:10:24,916 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:10:27,181 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:40:27.175144+00:00 
+INFO :2019-12-10 11:10:27,184 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:11:22,518 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:41:22.518389+00:00 
+INFO :2019-12-10 11:11:22,529 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:12:39,131 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:42:39.131036+00:00 
+INFO :2019-12-10 11:12:39,132 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:13:40,993 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:43:40.993369+00:00 
+INFO :2019-12-10 11:13:40,995 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:14:33,382 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-6 :18489 :Getting the Note Data on 2019-12-10 05:44:33.382103+00:00 
+INFO :2019-12-10 11:14:33,388 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-6 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:21:10,567 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-9 :18489 :Getting the Note Data on 2019-12-10 05:51:10.567120+00:00 
+INFO :2019-12-10 11:21:10,576 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-9 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:21:51,178 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-9 :18489 :Getting the Note Data on 2019-12-10 05:51:51.177999+00:00 
+INFO :2019-12-10 11:21:51,181 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-9 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:25:31,143 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:55:31.143268+00:00 
+INFO :2019-12-10 11:25:31,146 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:26:24,731 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:56:24.731635+00:00 
+INFO :2019-12-10 11:26:24,735 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:26:55,010 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:56:55.010410+00:00 
+INFO :2019-12-10 11:26:55,022 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:27:25,134 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:57:25.134618+00:00 
+INFO :2019-12-10 11:27:25,137 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:27:42,140 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:57:42.140675+00:00 
+INFO :2019-12-10 11:27:42,148 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:27:55,492 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:57:55.491994+00:00 
+INFO :2019-12-10 11:27:55,499 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:28:05,708 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:58:05.708013+00:00 
+INFO :2019-12-10 11:28:05,714 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:28:20,253 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:58:20.253728+00:00 
+INFO :2019-12-10 11:28:20,283 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:29:10,261 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:59:10.261734+00:00 
+INFO :2019-12-10 11:29:10,263 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:29:15,900 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 05:59:15.900145+00:00 
+INFO :2019-12-10 11:29:15,907 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:30:06,373 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 06:00:06.373552+00:00 
+INFO :2019-12-10 11:30:06,376 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:30:09,445 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-10 :18489 :Getting the Note Data on 2019-12-10 06:00:09.445424+00:00 
+INFO :2019-12-10 11:30:09,450 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-10 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:32:31,978 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-11 :18489 :Getting the Note Data on 2019-12-10 06:02:31.978885+00:00 
+INFO :2019-12-10 11:32:31,987 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-11 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:33:07,810 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-11 :18489 :Getting the Note Data on 2019-12-10 06:03:07.810212+00:00 
+INFO :2019-12-10 11:33:07,814 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-11 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:36:50,239 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:06:50.239288+00:00 
+INFO :2019-12-10 11:36:50,245 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:37:10,395 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:07:10.395871+00:00 
+INFO :2019-12-10 11:37:10,398 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:37:12,343 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:07:12.343222+00:00 
+INFO :2019-12-10 11:37:12,350 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:37:37,237 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:07:37.237259+00:00 
+INFO :2019-12-10 11:37:37,239 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:38:24,254 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:08:24.254212+00:00 
+INFO :2019-12-10 11:38:24,262 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:38:54,535 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:08:54.535552+00:00 
+INFO :2019-12-10 11:38:54,540 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:38:56,623 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:08:56.623253+00:00 
+INFO :2019-12-10 11:38:56,628 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:40:05,062 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:10:05.062470+00:00 
+INFO :2019-12-10 11:40:05,064 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:41:08,912 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:11:08.912158+00:00 
+INFO :2019-12-10 11:41:08,920 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:41:11,497 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:11:11.497276+00:00 
+INFO :2019-12-10 11:41:11,504 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:41:13,660 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:11:13.660131+00:00 
+INFO :2019-12-10 11:41:13,663 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:42:36,974 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:12:36.974153+00:00 
+INFO :2019-12-10 11:42:36,981 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:42:47,228 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:12:47.228198+00:00 
+INFO :2019-12-10 11:42:47,233 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:42:51,016 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:12:51.016780+00:00 
+INFO :2019-12-10 11:42:51,031 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:02,034 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:02.034506+00:00 
+INFO :2019-12-10 11:43:02,040 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:04,489 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:04.489906+00:00 
+INFO :2019-12-10 11:43:04,492 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:06,019 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:06.019507+00:00 
+INFO :2019-12-10 11:43:06,021 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:07,371 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:07.371394+00:00 
+INFO :2019-12-10 11:43:07,373 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:08,632 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:08.632443+00:00 
+INFO :2019-12-10 11:43:08,639 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:09,847 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:09.847101+00:00 
+INFO :2019-12-10 11:43:09,850 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:11,136 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:11.136622+00:00 
+INFO :2019-12-10 11:43:11,154 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:12,477 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:12.477511+00:00 
+INFO :2019-12-10 11:43:12,495 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:13,915 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:13.915257+00:00 
+INFO :2019-12-10 11:43:13,925 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:15,697 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:15.697861+00:00 
+INFO :2019-12-10 11:43:15,704 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:17,050 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:17.050626+00:00 
+INFO :2019-12-10 11:43:17,054 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:39,279 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:39.279286+00:00 
+INFO :2019-12-10 11:43:39,283 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:41,767 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:41.767603+00:00 
+INFO :2019-12-10 11:43:41,779 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:45,182 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:45.182330+00:00 
+INFO :2019-12-10 11:43:45,188 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:46,590 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:46.590906+00:00 
+INFO :2019-12-10 11:43:46,600 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:48,225 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:48.225150+00:00 
+INFO :2019-12-10 11:43:48,235 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:49,902 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:49.902909+00:00 
+INFO :2019-12-10 11:43:49,910 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:51,300 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:51.300641+00:00 
+INFO :2019-12-10 11:43:51,311 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:52,510 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:52.510861+00:00 
+INFO :2019-12-10 11:43:52,524 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:53,862 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:53.862839+00:00 
+INFO :2019-12-10 11:43:53,868 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:55,647 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:55.647467+00:00 
+INFO :2019-12-10 11:43:55,652 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:56,930 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:56.930165+00:00 
+INFO :2019-12-10 11:43:56,934 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:43:59,284 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:13:59.284275+00:00 
+INFO :2019-12-10 11:43:59,289 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:00,482 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:00.482327+00:00 
+INFO :2019-12-10 11:44:00,485 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:02,004 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:02.004730+00:00 
+INFO :2019-12-10 11:44:02,010 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:03,507 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:03.507930+00:00 
+INFO :2019-12-10 11:44:03,516 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:04,832 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:04.832463+00:00 
+INFO :2019-12-10 11:44:04,834 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:07,354 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:07.354559+00:00 
+INFO :2019-12-10 11:44:07,363 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:08,872 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:08.872258+00:00 
+INFO :2019-12-10 11:44:08,883 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:10,139 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:10.139713+00:00 
+INFO :2019-12-10 11:44:10,141 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:11,517 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:11.517736+00:00 
+INFO :2019-12-10 11:44:11,528 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:44:12,706 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:14:12.706500+00:00 
+INFO :2019-12-10 11:44:12,713 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:45:54,304 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:15:54.304734+00:00 
+INFO :2019-12-10 11:45:54,308 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:45:57,358 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:15:57.358356+00:00 
+INFO :2019-12-10 11:45:57,361 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:45:58,104 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:15:58.104206+00:00 
+INFO :2019-12-10 11:45:58,105 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:45:58,740 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:15:58.740877+00:00 
+INFO :2019-12-10 11:45:58,743 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:45:59,568 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:15:59.568408+00:00 
+WARNING :2019-12-10 11:45:59,569 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140051177903872 :Thread-13 :18489 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 11:45:59,570 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:46:01,386 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:16:01.386788+00:00 
+INFO :2019-12-10 11:46:01,393 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:46:03,923 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:16:03.923583+00:00 
+INFO :2019-12-10 11:46:03,929 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:46:06,045 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:16:06.045339+00:00 
+WARNING :2019-12-10 11:46:06,046 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140051177903872 :Thread-13 :18489 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 11:46:06,059 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:46:07,803 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:16:07.803226+00:00 
+INFO :2019-12-10 11:46:07,817 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:46:10,523 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:16:10.522989+00:00 
+INFO :2019-12-10 11:46:10,529 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:46:12,560 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:16:12.560579+00:00 
+INFO :2019-12-10 11:46:12,571 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:46:15,242 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:16:15.242486+00:00 
+INFO :2019-12-10 11:46:15,245 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 11:46:17,019 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140051177903872 :Thread-13 :18489 :Getting the Note Data on 2019-12-10 06:16:17.019646+00:00 
+INFO :2019-12-10 11:46:17,030 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140051177903872 :Thread-13 :18489 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 12:07:45,721 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :115 :140432835475200 :Thread-2 :31378 :labels where fetched from redis for user :Hussain
+INFO :2019-12-10 12:07:57,958 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140432835475200 :Thread-2 :31378 :Getting the Note Data on 2019-12-10 06:37:57.958920+00:00 
+WARNING :2019-12-10 12:07:57,960 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140432835475200 :Thread-2 :31378 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 12:07:57,961 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140432835475200 :Thread-2 :31378 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 12:08:29,802 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :265 :140432835475200 :Thread-2 :31378 : Archieve data is loaded 
+INFO :2019-12-10 12:08:51,746 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140432835475200 :Thread-2 :31378 :Getting the Note Data on 2019-12-10 06:38:51.746229+00:00 
+INFO :2019-12-10 12:08:51,748 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140432835475200 :Thread-2 :31378 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 12:09:34,184 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140432835475200 :Thread-2 :31378 :Getting the Note Data on 2019-12-10 06:39:34.184400+00:00 
+INFO :2019-12-10 12:09:34,186 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140432835475200 :Thread-2 :31378 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 12:50:29,552 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140529675597568 :Thread-2 :7409 :Getting the Note Data on 2019-12-10 07:20:29.552296+00:00 
+INFO :2019-12-10 12:50:29,559 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140529675597568 :Thread-2 :7409 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 12:52:04,768 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140626613982976 :Thread-2 :9431 :Getting the Note Data on 2019-12-10 07:22:04.768333+00:00 
+INFO :2019-12-10 12:52:04,779 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140626613982976 :Thread-2 :9431 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-10 17:30:35,140 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :208 :140515425122048 :Thread-2 :21635 :Getting the Note Data on 2019-12-10 12:00:35.140601+00:00 
+WARNING :2019-12-10 17:30:35,147 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :216 :140515425122048 :Thread-2 :21635 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-10 17:30:35,163 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :221 :140515425122048 :Thread-2 :21635 :All the Notes are Rendered to HTML Page for User Hussain

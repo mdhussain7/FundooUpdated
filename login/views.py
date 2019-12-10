@@ -1,17 +1,34 @@
 from django.contrib import messages
+from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User, auth
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage, send_mail
+from django.core.validators import EmailValidator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
 from django_short_url.models import ShortURL
 from django_short_url.views import get_surl
 from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
+
 from .serializer import LoginSerializer, ResetSerializer, RegisterSerializer, ForgotSerializer, LogoutSerailizer
 import json
 import jwt
+from rest_framework import status
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.core.exceptions import ValidationError
+
+from .tokens import account_activation_token
+import logging
+from fundoo.settings import fh
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(fh)
 
 
 def index(request):
@@ -69,7 +86,7 @@ class Register(GenericAPIView):
             mail_message = render_to_string('activate.html',
                                             {'user': user.username, 'domain': get_current_site(request).domain,
                                              'token': short[2], })
-            recipient_email = ['mdhussainsabhussain@gmail.com']
+            recipient_email = [email]
             email = EmailMessage(mail_subject, mail_message, to=[recipient_email])
             email.send()
             responsesmd = {'status': True, 'message': " Check your Email for Account Activation ", 'data': [key]}
@@ -106,6 +123,8 @@ class Sendmail(GenericAPIView):
 
     def post(self, request):
         email = request.data["email"]
+        # import pdb
+        # pdb.set_trace()
         responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
         try:
             user = User.objects.get(email=email)
@@ -158,38 +177,6 @@ class ResetPassword(GenericAPIView):
         return render(request, 'resetpassword.html')
 
 
-class ResetPasswor(GenericAPIView):
-    serializer_class = ResetSerializer
-
-    def post(self, request, user_reset):
-        # pdb.set_trace()
-        password = request.data['password']
-        responsesmd = {'status': False, 'message': 'Password Reset Not Done', 'data': [], }
-        # password validation is done in this form
-        if user_reset is None:
-            responsesmd['message'] = 'Not a Vaild User'
-            return HttpResponse(json.dumps(responsesmd), status=404)
-
-        elif password == "":
-            responsesmd['message'] = 'One of the Fields are Empty'
-            return HttpResponse(json.dumps(responsesmd), status=400)
-
-        elif len(password) <= 4:
-            responsesmd['message'] = 'Password Should be 4 or  More than 4 Character'
-            return HttpResponse(json.dumps(responsesmd), status=400)
-        else:
-            try:
-                user = User.objects.get(username=user_reset)
-                user.set_password(password)
-                # here we will save the user password in the database
-                user.save()
-                responsesmd = {'status': True, 'message': 'Password Reset Done', 'data': [], }
-                return HttpResponse(json.dumps(responsesmd), status=201)
-            except User.DoesNotExist:
-                responsesmd['message'] = 'Not a Vaild User '
-                return HttpResponse(json.dumps(responsesmd), status=400)
-
-
 def activate(request, token):
     try:
         tokenobj = ShortURL.objects.get(surl=token)
@@ -239,5 +226,60 @@ def verify(request, token):
         return redirect('resetmail')
 
 
-def interface(request):
-    return render(request, 'interface.html')
+# def interface(request):
+#     return render(request, 'interface.html')
+
+
+def reset_link(request):
+    if request.method == 'POST':
+        to_email = request.POST['email']
+        current_site = get_current_site(request)
+
+        mail_subject = 'Reset your password.'
+        jwt_token = jwt.encode({'Email': to_email}, 'private_key', algorithm='HS256').decode("utf-8")
+        email = EmailMessage(
+            mail_subject,
+            'http://' + str(current_site.domain) + '/resetpassword/' + jwt_token + '/',
+            to=[to_email]
+        )
+        email.send()
+        return render(request, 'checkmail.html')
+    else:
+        form = PasswordResetForm()
+    return render(request, "resetpassword.html",
+                  {"form": form})
+
+
+def reset_password(request, token):
+    decoded_token = jwt.decode(token, 'private_key', algorithms='HS256')
+    try:
+        user = User.objects.get(email=list(decoded_token.values())[0])
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None:
+        context = {'userReset': user.username}
+        print(context)
+        return redirect('/resetpassword/' + str(user))
+    else:
+        return render(request, template_name='index.html')
+
+
+def new_password(request, userReset):
+    if request.method == 'POST':
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        if password1 != password2 or password2 == "" or password1 == "":
+            messages.info(request, "password does not match ")
+            return render(request, 'confirmpassword.html')
+        else:
+            try:
+                user = User.objects.get(username=userReset)
+            except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+                user = None
+            if user is not None:
+                user.set_password(password1)
+                user.save()
+                messages.info(request, "password reset done")
+                return render(request, 'resetdone.html')
+    else:
+        return render(request, 'confirmpassword.html')

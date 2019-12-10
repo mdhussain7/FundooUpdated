@@ -19,7 +19,6 @@ urlpatterns = [
     path('', include('login.urls')),
     path('note/', include('note.urls')),
     path('social-login/', include('sociallogin.urls')),
-    # path('api/'include('rest_framework'))
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     # url('', include('notes.urls')),

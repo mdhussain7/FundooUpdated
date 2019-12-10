@@ -1,53 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
 <!DOCTYPE html>
     <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!--            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+<!--            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
+<!--            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
             <title> Pagination </title>
         </head>
-        <body>
+        <body font-size="18px">
             <div class="container" style="margin-top:30px ">
                 <div class="row" align="center">
                     <div class="col-8 offset-2">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th> Id </th>
-                                    <th> Title </th>
-                                    <th> Note </th>
-                                    <th> Url </th>
+                                    <th> USER </th>
+                                    <th> NOTE ID </th>
+                                    <th> NOTE TITLE </th>
+                                    <th> DESCRIPTION </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for note in notes %}
                                     <tr>
+                                        <td> {{ note.user }} </td>
                                         <td> {{ note.id }} </td>
                                         <td> {{ note.title }} </td>
-                                        <td> {{ note.note }} </td>
-                                        <td> {{ note.url }} </td>
+                                        <td> {{ note.description }} </td>
+
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                         {% if notes.has_other_pages %}
                             {% if notes.has_previous %}
-                                <a type="button" class="btn btn-outline-info mb-4" href="?page=1"> First </a>
+                                <a type="button" class="btn btn-outline-info mb-4" href="?page=1"> Beginning </a>
                                 <a type="button" class="btn btn-outline-info mb-4" href="?page={{ notes.previous_page_number }}"> Previous </a>
                             {% endif %}
-                            {% for num in notes.paginator.page_range %}
-                                {% if notes.number == num %}
-                                    <a type="button" class="btn btn-info mb-4" href="?page={{ num }}"> {{ num }} </a>
-                                {% elif num > notes.number|add:'-3' and num < notes.number|add:'3' %}
-                                    <a type="button" class="btn btn-outline-info mb-4" href="?page={{ num }}"> {{ num }} </a>
+                            {% for digit in notes.paginator.page_range %}
+                                {% if notes.number == digit %}
+                                    <a type="button" class="btn btn-info mb-4" href="?page={{ num }}"> {{ digit }} </a>
+                                {% elif digit > notes.number|add:'-1' and digit < notes.number|add:'1' %}
+                                    <a type="button" class="btn btn-outline-info mb-4" href="?page={{ num }}"> {{ digit }} </a>
                                 {% endif %}
                             {% endfor %}
                             {% if notes.has_next %}
-                                <a type="button" class="btn btn-outline-info mb-4" href="?page={{ notes.next_page_number }}"> Next </a>
-                                <a type="button" class="btn btn-outline-info mb-4" href="?page={{ notes.paginator.num_pages }}"> Last </a>
+                                <a type="button" class="btn btn-outline-info mb-4" href="?page={{ notes.next_page_number }}"> Forward </a>
+                                <a type="button" class="btn btn-outline-info mb-4" href="?page={{ notes.paginator.num_pages }}"> End </a>
                             {% endif %}
                         {% endif %}
                     </div>
@@ -55,3 +58,4 @@
             </div>
         </body>
     </html>
+{% endblock %}

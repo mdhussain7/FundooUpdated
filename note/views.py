@@ -219,7 +219,7 @@ class NoteList(generics.GenericAPIView):
             logger.warning("Got %s Error for Getting Note for User %s", EmptyPage, user)
             notes = paginator.page(paginator.num_pages)
         logger.info("All the Notes are Rendered to HTML Page for User %s", user)
-        return HttpResponse(serializer.data, render(request, 'pagination.html', {'notes': notes}, status=200))
+        return render(request, 'pagination.html', {'notes': notes}, status=200)
         # render(request, 'mysite/signup.html', {'form': form})
         # return Response(serializer.data)
 
