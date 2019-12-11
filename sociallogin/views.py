@@ -20,32 +20,14 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from authlib.integrations.requests_client import OAuth2Session
 from rest_framework.generics import GenericAPIView
-import os
-from dotenv import load_dotenv
-from pathlib import Path
 
-env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
-
-SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')
-SOCIAL_AUTH_GITHUB_SECRET = os.getenv('SOCIAL_AUTH_GITHUB_SECRET')
-AUTH_GITHUB_URL = os.getenv('AUTH_GITHUB_URL')
-AUTH_GITHUB_TOKEN_URL = os.getenv('AUTH_GITHUB_TOKEN_URL')
-BASE_URL = os.getenv('BASE_URL')
-AUTH_GITHUB_USER_EMAIL_URL = os.getenv('AUTH_GITHUB_USER_EMAIL_URL')
-AUTH_GITHUB_USER_URL = os.getenv('AUTH_GITHUB_USER_URL')
-SOCIAL_FACEBOOK_TOKEN_URL = os.getenv('SOCIAL_FACEBOOK_TOKEN_URL')
-# file_handler = os.getenv('file_handler')
-# logging = os.getenv('logging')
 
 from .redis import RedisOperation
 from .token import token_validation
 from .models import SocialLogin
-
-Ro = RedisOperation()
-red = Ro.red
 import logging
-from fundoo.settings import fh
+from fundoo.settings import fh,SOCIAL_AUTH_GITHUB_KEY,SOCIAL_AUTH_GITHUB_SECRET,AUTH_GITHUB_URL,AUTH_GITHUB_TOKEN_URL, \
+    BASE_URL,AUTH_GITHUB_USER_EMAIL_URL,AUTH_GITHUB_USER_URL, SOCIAL_FACEBOOK_TOKEN_URL
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -71,8 +53,8 @@ class ViewData(GenericAPIView):
         return Response(serializer.data, status=200)
 
     def post(self, request):
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         responsesmd = {'success': False, 'message': 'Invalid Note ', 'data': []}
         try:
             unique_id = request.data['unique_id']

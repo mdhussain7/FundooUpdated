@@ -54,7 +54,7 @@ class ModelsTest(TestCase):
 
 
 class SocialTest(TestCase):
-    fixtures = ['fundoonotes']
+    fixtures = ['fundoo']
 
     def test_social_getall1(self):
         url = BASE_URL + reverse('github')

@@ -76,20 +76,20 @@ class Register(GenericAPIView):
         try:
             user = User.objects.create_user(username=username, password=password, email=email, is_active=False)
             payload = {'username': user.username, 'email': user.email}
-            key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
-            print(key)
+            token = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
+            print(token)
             # currentsite = get_current_site(request)
-            url = str(key)
+            url = str(token)
             surl = get_surl(url)
-            short = surl.split("/")
+            urlsplit = surl.split("/")
             mail_subject = ' Activation Link '
             mail_message = render_to_string('activate.html',
                                             {'user': user.username, 'domain': get_current_site(request).domain,
-                                             'token': short[2], })
+                                             'token': urlsplit[2], })
             recipient_email = [email]
             email = EmailMessage(mail_subject, mail_message, to=[recipient_email])
             email.send()
-            responsesmd = {'status': True, 'message': " Check your Email for Account Activation ", 'data': [key]}
+            responsesmd = {'status': True, 'message': " Check your Email for Account Activation ", 'data': [token]}
             return HttpResponse(json.dumps(responsesmd), status=201)
         except Exception:
             responsesmd["message"] = " Username is Already Exist "

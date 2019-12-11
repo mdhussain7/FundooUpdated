@@ -44,7 +44,7 @@
                             {% for digit in notes.paginator.page_range %}
                                 {% if notes.number == digit %}
                                     <a type="button" class="btn btn-info mb-4" href="?page={{ num }}"> {{ digit }} </a>
-                                {% elif digit > notes.number|add:'-1' and digit < notes.number|add:'1' %}
+                                {% elif digit > notes.number|add:'-3' and digit < notes.number|add:'3' %}
                                     <a type="button" class="btn btn-outline-info mb-4" href="?page={{ num }}"> {{ digit }} </a>
                                 {% endif %}
                             {% endfor %}

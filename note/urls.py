@@ -6,17 +6,22 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('image-upload/', views.UploadFile.as_view(), name='upload'),
-    path('note/', views.NoteList.as_view(), name='note'),
+    path('label-create/', views.PostLabel.as_view(), name='label-create'),
+    path('label-get/', views.LabelsCreate.as_view(), name='label-get'),
+    path('label-delete/<int:pk>/', views.LabelsDelete.as_view(), name='label=delete'),
+    path('label-update/<int:pk>/', views.LabelsUpdate.as_view(), name='label-update'),
+    path('note-get/', views.NoteList.as_view(), name='note'),
+    path('note-update/<int:pk>/', views.NoteUpdate.as_view(), name='label-update'),
+    path('note-delete/<int:pk>/', views.NoteDelete.as_view(), name='label-update'),
+    path('note-create/',views.NoteCreate.as_view(), name='note-create'),
     path('note/<int:pk>/', views.NoteDetails.as_view(), name='details'),
-    path('note/pinned/', views.PinnedNote.as_view(), name='pinned'),
-    path('note/trash/', views.TrashNote.as_view(), name='trash'),
-    path('note/archieve/', views.ArchieveNote.as_view(), name='archieve'),
-    path('note/reminder/', views.NoteReminders.as_view(), name='reminder'),
+    path('pinned-notes/', views.PinnedNote.as_view(), name='pinned'),
+    path('trashed-notes/', views.TrashNote.as_view(), name='trash'),
+    path('archieved-notes/', views.ArchieveNote.as_view(), name='archieve'),
+    path('reminder-notes/', views.NoteReminders.as_view(), name='reminder'),
     path("github-note-share/", views.NoteShare.as_view(), name='note-share'),
-    path('label-create/', views.LabelsCreate.as_view(), name='label-create'),
-    path('label-update/<int:pk>', views.LabelsUpdate.as_view(), name='label-update'),
     # path('search-note/', views.SearchNote.as_view(),name = "search_note"),
 ]
-urlpatterns = format_suffix_patterns(urlpatterns)
+# urlpatterns = format_suffix_patterns(urlpatterns)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, )

@@ -6,3 +6,8 @@ omit =
     /usr/*
     # omit this single file
     utils/tirefire.py
+    login/__init__.py
+    sociallogin/__init__.py
+    fundoo/__init__.py
+    note/__init__.py
+

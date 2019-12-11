@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import datetime
 import logging
-
 import os
 from dotenv import load_dotenv
 from pathlib import Path
@@ -27,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sze853$xnpyjr@2(z#t6bl+ub0d%ftlp*0v9b^ib&3t3lcsw9='
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,35 +48,23 @@ INSTALLED_APPS = [
     'django_elasticsearch_dsl',
     'django_elasticsearch_dsl_drf',
     'django_extensions',
-    # 'oauth2_provider',
-    # 'social_django',
-    # 'rest_framework_social_oauth2',
     'rest_framework_swagger',
     'rest_framework.authtoken',
     'rest_framework',
     'rest_auth',
     'login',
     'note',
-    'notes',
-    'fun',
     'sociallogin',
-
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
     'allauth.socialaccount.providers.facebook',
-    # 'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
-    # 'allauth.socialaccount.providers.twitter',
-
-    # 'oauth2_provider',
-    # 'authlib.little_auth',
-    # 'social_django',
     'storages',
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',    # This must be first on the list
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,6 +74,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'note.middleware.login_required_middleware.LoginRequired',
+    'django.middleware.cache.FetchFromCacheMiddleware',  # This must be last
 ]
 
 ROOT_URLCONF = 'fundoo.urls'
@@ -102,7 +90,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'base.context_processors.add_variables_to_context',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
@@ -118,17 +105,18 @@ WSGI_APPLICATION = 'fundoo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
 USER = os.getenv('DB_USER')
 PASSWORD = os.getenv('DB_PASS')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # 'mysql.connector.django',#'django.db.backends.mysql',
-        'NAME': 'fundoonotes',
+        'ENGINE': os.getenv('DB_ENGINE'),  # 'mysql.connector.django',#'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME'),
         'USER': USER,
         'PASSWORD': PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'autocommit': True,
             'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
@@ -170,7 +158,6 @@ STATIC_ROOT = "fundoo/static"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
@@ -182,19 +169,6 @@ SWAGGER_SETTINGS = {
     },
 }
 
-# SWAGGER_SETTINGS = {
-#     # 'api_path': 'http://fundoonotes:8000/',
-#     'SECURITY_DEFINITIONS': {
-#         'api_key': {
-#             'type': 'apiKey',
-#             'in': 'header',
-#             'name': ' Authorization'
-#         },
-#         'basic': {
-#             'type': 'basic'
-#         },
-#
-#     }}
 
 # SWAGGER_SETTINGS = {
 #     'USE_SESSION_AUTH': True,
@@ -203,14 +177,7 @@ SWAGGER_SETTINGS = {
 #     'VALIDATOR_URL': None,
 # }
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
-# }
 
-
-# REST_FRAMEWORK = {
-# 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
-# }
 
 REST_FRAMEWORK = {
     # Parser classes priority-wise for Swagger
@@ -230,23 +197,11 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# DEFAULT_FILE_STORAGE = os.getenv('DEFAULT_FILE_STORAGE')
-
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'mysite/static'),
-# ]`
-# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d  :%(threadName)s :%('
-#                               'process)d :%(message)s')
-# file_handler = logging.FileHandler(filename='/home/admin1/fundoo.log')
-# file_handler.setFormatter(formatter)
 
 BASE_URL = os.getenv('BASE_URL')
 # EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 EMAIL_USE_TLS = True
-# export EMAIL_USE_TLS = True
+
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
@@ -353,14 +308,20 @@ AWS_DEFAULT_ACL = None
 
 SOCIAL_AUTH__EMAIL_REQUIRED = True
 
+AUTH_GITHUB_TOKEN_URL = os.getenv('AUTH_GITHUB_TOKEN_URL')
+SOCIAL_FACEBOOK_TOKEN_URL = os.getenv('SOCIAL_FACEBOOK_TOKEN_URL')
+AWS_UPLOAD_BUCKET = os.getenv('AWS_UPLOAD_BUCKET')
+AWS_UPLOAD_REGION = os.getenv('AWS_UPLOAD_REGION')
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('SOCIAL_AUTH_GITHUB_SECRET')
+AUTH_GITHUB_URL = os.getenv('AUTH_GITHUB_URL')
+AUTH_GITHUB_USER_EMAIL_URL = os.getenv('AUTH_GITHUB_USER_EMAIL_URL')
+AUTH_GITHUB_USER_URL = os.getenv('AUTH_GITHUB_USER_URL')
+SESSION_ENGINE = os.getenv('SESSION_ENGINE')
+
 logger = logging.getLogger(__name__)
-# fh = logging.FileHandler('fundoo.log')
-# formatter= logging.Formatter('[%(asctime)s] - %(name)s - %(levelname)- %(message)s - p%(process)s {%(pathname)s:%(lineno)d} % ','%m-%d %H:%M:%S')
-# fh.setFormatter(log_format)
-# formatt = logging.Formatter('[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s','%m-%d %H:%M:%S')
 formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d :%(threadName)s :%('
 'process)d :%(message)s')
 fh= logging.FileHandler('fundoo.log')
 fh.setFormatter(formatter)
-# log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-# logging.basicConfig(format=log_format)
+
