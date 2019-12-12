@@ -36,7 +36,7 @@ from rest_framework_jwt.settings import api_settings
 from .lib.S3file import ImageUpload
 import json
 import os
-from .lib.redis import Cache
+from .lib.redisSevice import Cache
 import logging
 # from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -45,9 +45,10 @@ from fundoo.settings import fh, AUTH_GITHUB_TOKEN_URL, SOCIAL_FACEBOOK_TOKEN_URL
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-# Ro = RedisOperation()
+from .lib.redisSevice import Cache
 redis = Cache()
+redis.__connect__()
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(fh)
@@ -340,7 +341,7 @@ class TrashNote(GenericAPIView):
     def get(self, request):
         """
                 - Getting the Trashed notes from the notes that have been created.
-            """
+        """
 
         response = {"status": False, "message": "Error Occured while Getting the Trash Data ", "data": []}
         user = request.user
@@ -363,7 +364,7 @@ class PinnedNote(GenericAPIView):
     def get(self, request):
         """
                 - Getting the Pinned notes from the notes that have been created.
-            """
+        """
 
         response = {"status": False, "message": "Error Occured while Getting the Pinned Data ", "data": []}
         user = request.user
@@ -420,7 +421,6 @@ class NoteUpdate(GenericAPIView):
 
         note = self.get_object(pk)
         serializer = UpdateNoteSerializer(note, data=request.data)
-        # note_id = Notes.objects.create(id=user.id)
         if serializer.is_valid():
             serializer.save()
             note = Notes.objects.get(pk=pk)

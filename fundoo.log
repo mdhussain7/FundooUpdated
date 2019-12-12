@@ -591,3 +591,13 @@ INFO :2019-12-11 14:55:29,617 :/home/admin1/Documents/FunDoo/fundoo/note/views.p
 INFO :2019-12-11 19:14:01,463 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :140 :140086062610176 :Thread-2 :15085 :label is created for Hussain
 INFO :2019-12-11 19:14:47,508 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :109 :140086062610176 :Thread-2 :15085 :labels where fetched from redis for user :Hussain
 INFO :2019-12-11 19:16:38,783 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :142 :139872803280640 :Thread-2 :25161 :label is created for Hussain
+INFO :2019-12-12 10:33:04,777 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :313 :140480763696896 :Thread-2 :1800 : Getting Inside the Reminder Data 
+INFO :2019-12-12 10:33:04,807 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :320 :140480763696896 :Thread-2 :1800 : Getting Reminder Timezone 2019-12-12 05:03:04.807029+00:00
+INFO :2019-12-12 10:33:04,836 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :320 :140480763696896 :Thread-2 :1800 : Getting Reminder Timezone 2019-12-12 05:03:04.836751+00:00
+INFO :2019-12-12 10:33:04,858 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :320 :140480763696896 :Thread-2 :1800 : Getting Reminder Timezone 2019-12-12 05:03:04.858438+00:00
+INFO :2019-12-12 10:33:04,915 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :320 :140480763696896 :Thread-2 :1800 : Getting Reminder Timezone 2019-12-12 05:03:04.915272+00:00
+INFO :2019-12-12 10:33:05,022 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :326 :140480763696896 :Thread-2 :1800 : Reminders data is loaded for Hussain on 2019-12-12 05:03:05.022742+00:00 
+INFO :2019-12-12 10:37:15,958 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :290 :140480763696896 :Thread-2 :1800 : Archieve data is loaded 
+INFO :2019-12-12 11:37:05,107 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :99 :140376232945408 :Thread-8 :28852 :Redirected user to Github Login page for the user Hussain 
+INFO :2019-12-12 11:38:34,264 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :140118556575488 :Thread-2 :1011 :Redirected Hussain to Github 
+INFO :2019-12-12 11:52:23,304 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :139997529233152 :Thread-15 :2513 :Redirected AnonymousUser to Github 

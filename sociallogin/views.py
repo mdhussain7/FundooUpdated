@@ -20,15 +20,14 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from authlib.integrations.requests_client import OAuth2Session
 from rest_framework.generics import GenericAPIView
-
-
-from .redis import RedisOperation
 from .token import token_validation
 from .models import SocialLogin
 import logging
 from fundoo.settings import fh,SOCIAL_AUTH_GITHUB_KEY,SOCIAL_AUTH_GITHUB_SECRET,AUTH_GITHUB_URL,AUTH_GITHUB_TOKEN_URL, \
     BASE_URL,AUTH_GITHUB_USER_EMAIL_URL,AUTH_GITHUB_USER_URL, SOCIAL_FACEBOOK_TOKEN_URL
-
+from note.lib.redisSevice import Cache
+red = Cache()
+red.__connect__()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(fh)
@@ -47,55 +46,56 @@ class ViewData(GenericAPIView):
     def get_queryset(self):
         return
 
-    def get(self, request):
-        notes = SocialLogin.objects.all()
-        serializer = CreateSocialSerializer(notes, many=True)
-        return Response(serializer.data, status=200)
+    # def get(self, request):
+    #     notes = SocialLogin.objects.all()
+    #     serializer = CreateSocialSerializer(notes, many=True)
+    #     return Response(serializer.data, status=200)
 
     def post(self, request):
-        # import pdb
-        # pdb.set_trace()
-        responsesmd = {'success': False, 'message': 'Invalid Note ', 'data': []}
-        try:
-            unique_id = request.data['unique_id']
-            provider = request.data['provider']
-            username = request.data['username']
-            full_name = request.data['full_name']
-            EXTRA_PARAMS = request.data['EXTRA_PARAMS']
-
-            user = request.user
-
-            if username == "":
-                return HttpResponse(json.dumps(responsesmd))
-            else:
-                user = User.objects.get(pk=user.id)
-                note_create = CreateSocial(user_id=user.id, provider=provider, username=username,
-                                           full_name=full_name, EXTRA_PARAMS=EXTRA_PARAMS, )
-
-                note_create.save()
-                # return Response(request, render(request,
-                #                                 AUTH_GITHUB_TOKEN_URL + str(provider) + "\n" + str(username) + str(
-                #                                     full_name) + "\n" + str(
-                #                                     EXTRA_PARAMS), ))
-                return redirect(
-                    AUTH_GITHUB_TOKEN_URL + str(provider) + "\n" + str(username) + str(full_name) + "\n" + str(
-                        EXTRA_PARAMS), 'social.html')
-        except (IntegrityError, Exception):
-            return HttpResponse(json.dumps(responsesmd, indent=2), status=400)
-            # return HttpResponse(render(request, 'social.html'))
+        # # import pdb
+        # # pdb.set_trace()
+        # responsesmd = {'success': False, 'message': 'Invalid Note ', 'data': []}
+        # try:
+        #     unique_id = request.data['unique_id']
+        #     provider = request.data['provider']
+        #     username = request.data['username']
+        #     full_name = request.data['full_name']
+        #     EXTRA_PARAMS = request.data['EXTRA_PARAMS']
+        #
+        #     user = request.user
+        #
+        #     if username == "":
+        #         return HttpResponse(json.dumps(responsesmd))
+        #     else:
+        #         user = User.objects.get(pk=user.id)
+        #         note_create = CreateSocial(user_id=user.id, provider=provider, username=username,
+        #                                    full_name=full_name, EXTRA_PARAMS=EXTRA_PARAMS, )
+        #
+        #         note_create.save()
+        #         # return Response(request, render(request,
+        #         #                                 AUTH_GITHUB_TOKEN_URL + str(provider) + "\n" + str(username) + str(
+        #         #                                     full_name) + "\n" + str(
+        #         #                                     EXTRA_PARAMS), ))
+        #         return redirect(
+        #             AUTH_GITHUB_TOKEN_URL + str(provider) + "\n" + str(username) + str(full_name) + "\n" + str(
+        #                 EXTRA_PARAMS), 'index.html')
+        # except (IntegrityError, Exception):
+        #     return HttpResponse(json.dumps(responsesmd, indent=2), status=400)
+        return HttpResponse(render(request, 'index.html'))
 
 
 class Github(GenericAPIView):
 
     def get(self, request):
         # pdb.set_trace()
+        user = request.user
         resp = {'success': False, 'message': "Something Went Wrong and an Un-expected Error Occured", 'data': []}
         try:
             auth_url = AUTH_GITHUB_URL
             scope = 'user:email'
             client = OAuth2Session(SOCIAL_AUTH_GITHUB_KEY, SOCIAL_AUTH_GITHUB_SECRET, scope=scope)
             url, state = client.create_authorization_url(auth_url)
-            print("Redirected user to Github Login page", )
+            logger.info("Redirected %s to Github ", user)
             return redirect(url)
         except Exception as e:
             logger.error("Got %s Error while redirecting the user to github login page ", str(e))
@@ -170,16 +170,15 @@ class NoteShare(GenericAPIView):
         responsesmd = {'status': False, 'message': 'Invalid Note ', 'data': []}
         try:
             title = request.data['title']
-            note = request.data['filename']
+            content = request.data['content']
             user = request.user
 
-            if note == "":
+            if content == "":
                 return HttpResponse(json.dumps(responsesmd))
             else:
                 user = User.objects.get(pk=user.id)
-                note_create = CreateSocial(user_id=user.id, note=note, title=title)
-
+                note_create = CreateSocial(user_id=user.id, title=title, content=content)
                 note_create.save()
-                return redirect(AUTH_GITHUB_TOKEN_URL + str(title) + "\n" + str(note))
+                return redirect(AUTH_GITHUB_TOKEN_URL + str(title) + "\n" + str(content))
         except (IntegrityError, Exception):
             return HttpResponse(json.dumps(responsesmd, indent=2), status=400)

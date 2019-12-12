@@ -3,7 +3,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User, auth
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import EmailMessage, send_mail
+from django.core.mail import EmailMessage, send_mail, BadHeaderError
 from django.core.validators import EmailValidator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -127,6 +127,7 @@ class Sendmail(GenericAPIView):
         # pdb.set_trace()
         responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
         try:
+
             user = User.objects.get(email=email)
             if user is not None:
                 payload = {'username': user.username, 'email': user.email}
@@ -165,16 +166,20 @@ class ResetPassword(GenericAPIView):
     serializer_class = ResetSerializer
 
     def post(self, request, username):
+        import pdb
+        pdb.set_trace()
+        print(request.method)
         if request.method == 'POST':
             password = request.data['password']
             print(username)
+
             if User.objects.filter(username=username).exists():
                 user = User.objects.get(username=username)
                 user.set_password(password)
                 user.save()
                 messages.info(request, " Reset Password Successfully ")
                 return redirect("login")
-        return render(request, 'resetpassword.html')
+        return render(request, 'login')
 
 
 def activate(request, token):
@@ -209,15 +214,15 @@ def verify(request, token):
         username = user_details['username']
         try:
             user = User.objects.get(username=username)
-        except ObjectDoesNotExist as odne:
-            print(odne)
+        except ObjectDoesNotExist as errorkanole:
+            print(errorkanole)
         if user is not None:
             # currentsite = get_current_site(request)
             # string = str(currentsite) + '/resetpassword/' + username + '/'
-            username1 = {'userReset': user.username}
-            print(username1)
+            userName = {'userReset': user.username}
+            print(userName)
             messages.info(request, "reset")
-            return redirect('/reset_password/' + str(username) + '/')
+            return redirect('/api/reset-password/' + str(userName) + '/')
         else:
             messages.info(" Invalid User ")
             return redirect('register')
@@ -264,22 +269,99 @@ def reset_password(request, token):
         return render(request, template_name='index.html')
 
 
-def new_password(request, userReset):
-    if request.method == 'POST':
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        if password1 != password2 or password2 == "" or password1 == "":
-            messages.info(request, "password does not match ")
-            return render(request, 'confirmpassword.html')
+class NewPassword(GenericAPIView):
+    serializer_class = ForgotSerializer
+
+    def new_password(request, userReset):
+        if request.method == 'POST':
+            password1 = request.POST['password1']
+            password2 = request.POST['password2']
+            if password1 != password2 or password2 == "" or password1 == "":
+                messages.info(request, "password does not match ")
+                return render(request, 'confirmpassword.html')
+            else:
+                try:
+                    user = User.objects.get(username=userReset)
+                except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+                    user = None
+                if user is not None:
+                    user.set_password(password1)
+                    user.save()
+                    messages.info(request, "password reset done")
+                    return render(request, 'resetdone.html')
         else:
-            try:
-                user = User.objects.get(username=userReset)
-            except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-                user = None
+            return render(request, 'confirmpassword.html')
+
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMessage
+from django.template import Context
+from django.template.loader import get_template
+
+
+class MailAttachment(GenericAPIView):
+    serializer_class = ForgotSerializer
+
+    def post(self, request):
+        """
+            - Attachment Email
+        """
+        # import pdb
+        # pdb.set_trace()
+        email = request.data["email"]
+        responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+        try:
+            user = User.objects.get(email=email)
             if user is not None:
-                user.set_password(password1)
-                user.save()
-                messages.info(request, "password reset done")
-                return render(request, 'resetdone.html')
-    else:
-        return render(request, 'confirmpassword.html')
+                payload = {'username': user.username, 'email': user.email}
+                key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
+                shortedKey = get_surl(key)
+                splittedData = shortedKey.split('/')
+                mail_subject = ' Reset Your Password By Clicking the Attachment given Below '
+                html_content = render_to_string('verify.html',{'user': user.username, 'domain': get_current_site(request).domain,
+                                                 'token': splittedData[2]})  # render with dynamic value
+                text_content = strip_tags(html_content)  # Strip the html tag. So people can see the pure text at least.
+                # create the email, and attach the HTML version as well.
+                msg = EmailMultiAlternatives(mail_subject, text_content, 'mdhussainsabhussain@gmail.com', [email])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
+                responsesmd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
+                               'data': [key]}
+            return HttpResponse(json.dumps(responsesmd), status=201)
+        except BadHeaderError:
+            return HttpResponse(json.dumps(responsesmd), status=400)
+        except Exception:
+            return HttpResponse(json.dumps(responsesmd), status=400)
+
+
+class Sendmail1(GenericAPIView):
+    serializer_class = ForgotSerializer
+
+    def post(self, request):
+        email = request.data["email"]
+        # import pdb
+        # pdb.set_trace()
+        responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+        try:
+
+            user = User.objects.get(email=email)
+            if user is not None:
+                payload = {'username': user.username, 'email': user.email}
+                key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
+                keyUrl = str(key)
+                shortedKey = get_surl(keyUrl)
+                splittedData = shortedKey.split('/')
+                mail_subject = ' Reset Your Password By Clicking the Link given Below '
+                mail_message = render_to_string('verify.html',
+                                                {'user': user.username, 'domain': get_current_site(request).domain,
+                                                 'token': splittedData[2]})
+                send_mail(mail_subject, mail_message, 'mdhussainsabhussain@gmail.com', [email])
+                responsesmd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
+                               'data': [key]}
+                return HttpResponse(json.dumps(responsesmd), status=201)
+        except Exception as e:
+            responsesmd['status'] = False
+            responsesmd['message'] = ' Invalid Mail '
+            return HttpResponse(json.dumps(responsesmd), status=400)
