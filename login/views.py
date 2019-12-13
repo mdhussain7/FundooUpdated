@@ -149,8 +149,6 @@ class Sendmail(GenericAPIView):
             return HttpResponse(json.dumps(responsesmd), status=400)
 
 
-
-
 class Logout(GenericAPIView):
     serializer_class = LogoutSerailizer
 
@@ -176,18 +174,20 @@ class ResetPassword(GenericAPIView):
         """
         # import pdb
         # pdb.set_trace()
-        responsesmd = {"status": False, "message": "Password Not Set", "data": []}
+        # responsesmd = {"status": False, "message": "Password Not Set", "data": []}
         if request.method == 'POST':
             password = request.data['password']
-            print(username)
+            print(username, 'jhvjkvhfkjuvgfigfig')
+            # print(str(username.values()))
             if User.objects.filter(username=username).exists():
+                # print(str(username.values()))
                 user = User.objects.get(username=username)
                 user.set_password(password)
                 user.save()
                 # messages.info(request, " Reset Password Successfully ")
-                responsesmd = {"status": True, "message": "Reset Password Successfully", "data": [user]}
-                return HttpResponse(json.dumps(responsesmd), status=200)
-        return HttpResponse(json.dumps(responsesmd), status=400)
+                # responsesmd = {"status": True, "message": "Reset Password Successfully", "data": [user]}
+                return redirect('login')
+        return render(request, 'register')
 
 
 def activate(request, token):
@@ -226,10 +226,10 @@ def verify(request, token):
         except ObjectDoesNotExist as errorkanole:
             print(errorkanole)
         if user is not None:
-            userName = {'userReset': user.username}
-            print(userName)
+            # userName = {'userreset': user.username}
+            # print(userName)
             messages.info(request, "reset")
-            return redirect('/api/reset-password/' + str(userName) + '/')
+            return redirect('/api/reset-password/' + str(username) + '/')
         else:
             messages.info(" Invalid User ")
             return redirect('register')
