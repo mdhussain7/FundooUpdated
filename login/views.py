@@ -149,10 +149,15 @@ class Sendmail(GenericAPIView):
             return HttpResponse(json.dumps(responsesmd), status=400)
 
 
+
+
 class Logout(GenericAPIView):
     serializer_class = LogoutSerailizer
 
     def get(self, request):
+        """
+            -
+        """
         responsesmd = {"status": False, "message": "Invalid User", "data": []}
         try:
             user = request.user
@@ -166,29 +171,33 @@ class ResetPassword(GenericAPIView):
     serializer_class = ResetSerializer
 
     def post(self, request, username):
-        import pdb
-        pdb.set_trace()
-        print(request.method)
+        """
+            - In this API Reset Password by using email verification is happening
+        """
+        # import pdb
+        # pdb.set_trace()
+        responsesmd = {"status": False, "message": "Password Not Set", "data": []}
         if request.method == 'POST':
             password = request.data['password']
             print(username)
-
             if User.objects.filter(username=username).exists():
                 user = User.objects.get(username=username)
                 user.set_password(password)
                 user.save()
-                messages.info(request, " Reset Password Successfully ")
-                return redirect("login")
-        return render(request, 'login')
+                # messages.info(request, " Reset Password Successfully ")
+                responsesmd = {"status": True, "message": "Reset Password Successfully", "data": [user]}
+                return HttpResponse(json.dumps(responsesmd), status=200)
+        return HttpResponse(json.dumps(responsesmd), status=400)
 
 
 def activate(request, token):
     try:
-        tokenobj = ShortURL.objects.get(surl=token)
-        token = tokenobj.lurl
+        url = ShortURL.objects.get(surl=token)
+        token = url.lurl
         print(token)
         user_details = jwt.decode(token, 'private_secret', algorithms='HS256')
         user_name = user_details['username']
+        user = User.objects.get(username=user_name)
         try:
             user = User.objects.get(username=user_name)
         except ObjectDoesNotExist as e:
@@ -207,18 +216,16 @@ def activate(request, token):
 
 def verify(request, token):
     try:
-        tokenobj = ShortURL.objects.get(surl=token)
-        token = tokenobj.lurl
-        print(token)
+        url = ShortURL.objects.get(surl=token)
+        token = url.lurl
         user_details = jwt.decode(token, 'private_secret', algorithms='HS256')
         username = user_details['username']
+        user = User.objects.get(username=username)
         try:
             user = User.objects.get(username=username)
         except ObjectDoesNotExist as errorkanole:
             print(errorkanole)
         if user is not None:
-            # currentsite = get_current_site(request)
-            # string = str(currentsite) + '/resetpassword/' + username + '/'
             userName = {'userReset': user.username}
             print(userName)
             messages.info(request, "reset")
@@ -269,30 +276,6 @@ def reset_password(request, token):
         return render(request, template_name='index.html')
 
 
-class NewPassword(GenericAPIView):
-    serializer_class = ForgotSerializer
-
-    def new_password(request, userReset):
-        if request.method == 'POST':
-            password1 = request.POST['password1']
-            password2 = request.POST['password2']
-            if password1 != password2 or password2 == "" or password1 == "":
-                messages.info(request, "password does not match ")
-                return render(request, 'confirmpassword.html')
-            else:
-                try:
-                    user = User.objects.get(username=userReset)
-                except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-                    user = None
-                if user is not None:
-                    user.set_password(password1)
-                    user.save()
-                    messages.info(request, "password reset done")
-                    return render(request, 'resetdone.html')
-        else:
-            return render(request, 'confirmpassword.html')
-
-
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -320,7 +303,8 @@ class MailAttachment(GenericAPIView):
                 shortedKey = get_surl(key)
                 splittedData = shortedKey.split('/')
                 mail_subject = ' Reset Your Password By Clicking the Attachment given Below '
-                html_content = render_to_string('verify.html',{'user': user.username, 'domain': get_current_site(request).domain,
+                html_content = render_to_string('verify.html',
+                                                {'user': user.username, 'domain': get_current_site(request).domain,
                                                  'token': splittedData[2]})  # render with dynamic value
                 text_content = strip_tags(html_content)  # Strip the html tag. So people can see the pure text at least.
                 # create the email, and attach the HTML version as well.

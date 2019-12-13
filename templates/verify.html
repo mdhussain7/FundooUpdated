@@ -1,57 +1,62 @@
-{% extends 'base.html' %}
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<title>{% block title %} Chat Application {% endblock %}</title>
-<style type="text/css">
-    .asteriskField {
-      display: none;
-    }
-
-    form .alert ul li {
-      list-style: none;
-    }
-
-    form .alert ul {
-      padding: 0;
-      margin: 0;
-    }
-    body {
-      font-family: Lato, sans-serif;
-    }
-
-    /* Navbar Styles */
-
-    nav {
-      background-color: green;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <title>Fundoo</title>
+  <style>
+  footer
+  {
+        background-color: green;
+        color: white;
+        font-size: 18px;
+   }
+  .container
+  {
       font-weight: light;
       display: flex;
       justify-content: space-around;
-
-      align-items: center;
-      padding-top: 12px;
-      padding-bottom: 12px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0.4, 0, 0.2);
+      background-color: white;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     }
-     #user {
-	font-weight: 500;
-	font-size: 11px;
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
-	text-align: right;
-  }
- </style>
-{% block content %}
-<div class="container">
-            {% autoescape off %}
-            <br /><br /><br /><br />
-            Hi <strong>{{ user }}</strong>,<br />
-                Please click the <strong> button </strong> to resetpassword<br /><br />
-                <button align="center">
-                    <a href="{{ domain }}{%  url 'verify' token=token %}">Reset</a>
-                </button>
-
-            {% endautoescape %}
-</div>
-
-{% endblock %}
+  </style>
+</head>
+<body>
+  {% autoescape off %}
+      <div class="text-center p-1 m-0" style="text-align:center;" >
+                <br /><br />
+                <hr>
+                    <h1>Notification from Fundoo</h1>
+                <hr>
+                <p>
+                    Hi <strong>{{ user }}</strong>,<br /><br/>
+                    Are you sure, really want to <b>reset your password ?</b> <br/>
+                    If <b>not</b> please <b>ignore</b> this Email.<br />
+                </p>
+                <p>
+                    Please click on the <strong> button </strong> to <strong> Reset Password </strong><br /><br />
+                    <button style="text-align:center;" >
+                        <a href="{{ domain }}{%  url 'verify' token=token %}" style="text-decoration: none;"> <i>Reset</i> </a>
+                    </button><br/>
+                </p>
+<hr>
+<pre>
+    With Best Regards:
+  Team <strong>Fundoo</strong>
+   Contact: +91-9902092790
+</pre>
+<hr>
+      </div>
+  {% endautoescape %}
+  <br />
+  <footer class="mt-4 p-2">
+      <p class="text-center p-1 m-0" style="text-align:center;"> &copy; My Fundoo Application 2019 </p>
+  </footer>
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

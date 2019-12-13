@@ -1,0 +1,22 @@
+<svg width="153" height="110" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <defs>
+  <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_1_blur">
+   <feGaussianBlur stdDeviation="0.4" in="SourceGraphic"/>
+  </filter>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="#007f3f" id="canvas_background" height="112" width="155" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text filter="url(#svg_1_blur)" font-style="italic" font-weight="bold" transform="translate(-52,-59) matrix(0.9949988728493512,0,0,0.8484848737716675,136.05894384047343,10.066286198794842) " xml:space="preserve" text-anchor="start" font-family="'Times New Roman', Times, serif" font-size="24" id="svg_1" y="91" x="-45.123583" stroke-width="0" fill="#fff">Fundoo</text>
+  <text font-style="italic" font-weight="bold" stroke="null" transform="matrix(1.5838950788522284,0,0,1,-168.38035817822615,0) " xml:space="preserve" text-anchor="start" font-family="'Times New Roman', Times, serif" font-size="24" id="svg_2" y="102.703125" x="112.246992" stroke-width="0" fill="#000000">FunDoo</text>
+  <path id="svg_3" d="m112.50001,32.20763l-30.93947,0l-9.56054,-33.99508l-9.56054,33.99508l-30.93946,0l25.03051,21.00987l-9.56103,33.99507l25.03052,-21.01044l25.03052,21.01044l-9.56103,-33.99507l25.03052,-21.00987z" stroke-width="75" fill="#00007f"/>
+  <path stroke="null" d="m126.5,278.4375c2,0 15,0 44,0c26,0 46,0 63,0c15,0 34,0 43,0c5,0 7.963287,-5.213509 12,-32.5c5.955322,-40.255547 13,-32.5 19,-32.5c5,0 8,0 13,0c3,0 8,0 12,0c4,0 9.077332,36.062126 17,0c7.209747,-32.817383 16,-65 21,-65c9,0 14,0 20,0c6,0 11,0 16,0c6,0 10,0 12,0c4,0 8,0 12,0c4,0 8,0 12,0c2,0 4,0 7,0c2,0 4,0 6,0c1,0 2,0 5,0c2,0 4,0 6,0l1,0" id="svg_4" stroke-width="75" fill="none"/>
+ </g>
+</svg>

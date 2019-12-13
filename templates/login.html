@@ -2,40 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>login</title>
+    <title>Login</title>
 </head>
 <body>
-  <div class="form">
-<form class="login" action="login" method="post">
-    {% csrf_token %}
-    <h3>Login</h3> <br>
-    Username: <input type="text" name="username" placeholder="username"><br><br>
-    Password: <input type="password" name="password" placeholder="confirm password"><br><br><br><br>
-    <button onclick="">Submit</button><br><br>
-    <a href="resetmail">Forgot Password</a>
-</form>
-<br>
-<style>
-.form {
-  position: relative;
-  margin-top: 300px;
-  background: skyblue;
-  max-hight:450px;
-  max-width: 450px;
-  margin: 210px auto 50px;
-  padding:20px;
-  text-align: center;
-}
-.alert{
-  padding:5px;
-    text-align: center;
-}
-</style>
-  </div>
-<div class="alert">
-    {% for message in messages %}
-    <h3>{{message}}</h3>
-    {% endfor %}
-</div>
+      <div class="form">
+        <form class="login" action="login" method="post">
+            {% csrf_token %}
+            <h3>Login</h3> <br>
+            Username: <input type="text" name="username" placeholder="username"><br><br>
+            Password: <input type="password" name="password" placeholder="confirm password"><br><br><br><br>
+            <button onclick="">Submit</button><br><br>
+            <a href="resetmail">Forgot Password</a>
+        </form>
+        <br>
+      </div>
+      <div class="alert">
+        {% for message in messages %}
+            <h3>{{message}}</h3>
+        {% endfor %}
+      </div>
 
 </body>
