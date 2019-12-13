@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import CreateSocialSerializer, ShareSerializer
-from .models import CreateSocial, LoggedInUser
+from .models import CreateSocial,SocialLogin
 # from django.http import HttpResponse
 # import pdb
 from django.contrib import auth
@@ -21,7 +21,6 @@ from django.shortcuts import render, redirect
 from authlib.integrations.requests_client import OAuth2Session
 from rest_framework.generics import GenericAPIView
 from .token import token_validation
-from .models import SocialLogin
 import logging
 from fundoo.settings import fh,SOCIAL_AUTH_GITHUB_KEY,SOCIAL_AUTH_GITHUB_SECRET,AUTH_GITHUB_URL,AUTH_GITHUB_TOKEN_URL, \
     BASE_URL,AUTH_GITHUB_USER_EMAIL_URL,AUTH_GITHUB_USER_URL, SOCIAL_FACEBOOK_TOKEN_URL

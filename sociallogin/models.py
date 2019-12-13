@@ -11,12 +11,6 @@ class CreateSocial(models.Model):
     content = models.CharField(max_length=200)
     filename = models.CharField(max_length=30)
 
-
-class LoggedInUser(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, related_name='logged_in_user', on_delete=models.CASCADE)
-
-
 class SocialLogin(models.Model):
     unique_id = models.CharField("Use Id", max_length=500)
     provider = models.CharField("Service Provider", max_length=500)

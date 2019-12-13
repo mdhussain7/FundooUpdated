@@ -58,6 +58,7 @@ django-elasticsearch-dsl-drf==0.20.3
 django-excel-response2==2.0.8
 django-extensions==1.9.9
 django-filter==1.1.0
+django-mail-factory==0.21
 django-models-ext==1.1.9
 django-nine==0.2.2
 django-oauth-toolkit==1.2.0
@@ -67,6 +68,7 @@ django-redis-pubsub==1.0
 django-redis-sessions==0.6.1
 django-rest-auth==0.9.3
 django-rest-swagger==2.2.0
+django-ses==0.8.13
 django-short-url==1.1.4
 django-six==1.0.4
 django-social-share==1.3.2
@@ -84,11 +86,13 @@ entrypoints==0.3
 eventlet==0.25.1
 falcon==2.0.0
 furl==2.1.0
+future==0.18.2
 futures==2.2.0
 greenlet==0.4.15
 gunicorn==20.0.4
 happyjwt==0.2.0
 hiredis==0.2.0
+html2text==2019.9.26
 httplib2==0.11.3
 hyperlink==19.0.0
 idna==2.6
