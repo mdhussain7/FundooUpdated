@@ -2,35 +2,41 @@ from django.contrib.auth.models import User
 from .models import Notes
 from celery.task import task
 import datetime
-from celery import Celery
+from celery import Celery, shared_task
 from django.core.mail import send_mail
+import logging
+from fundoo.settings import fh
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(fh)
 app = Celery()
-# app.conf.timezone = 'UTC'
 
 @task
 def get_remainders():
-    now = datetime.datetime.now()
-    print("current date and time --->", now)
-    notes = Notes.objects.exclude(remainder=None)
-    print("length ===>>", len(notes))
-    for i in range(len(notes)):
-        five_min_before_reminder_time = notes[i].remainder.replace(tzinfo=None) - datetime.timedelta(minutes=1)
-        if five_min_before_reminder_time >= now and now <= notes[i].remainder.replace(tzinfo=None):
+    current = datetime.datetime.now()
+    logger.info("Current Time", current)
+    data = Notes.objects.exclude(reminder=None)
+    logger.info(" Note Length ", len(data))
+    for i in range(len(data)):
+        data_before_reminder_time = data[i].reminder.replace(tzinfo=None) - datetime.timedelta(minutes=1)
+        if data_before_reminder_time >= current and current <= data[i].reminder.replace(tzinfo=None):
             """
-            pass the remainders on queue
+                - Reminders One by One
             """
-            send_email.delay(notes[i].id)
+            send_email.delay(data[i].id)
+
 
 @task
 def send_email(note):
     note = Notes.objects.get(pk=note)
     user = User.objects.get(pk=note.user.id)
     email = user.email
-    message = " Hi, " + user.username + " you have one event today --> " + note.title
-    mail_subject = 'Your Note Remainder'
+    message = " Hi, " + user.username + ", \n Here we are informing you about the reminder that you have set regarding " \
+                                        "this Note " + note.title
+    mail_subject = " Note Reminder for You "
     to_email = email
     send_mail(mail_subject, message, "mdhussainsabhussain@gmail.com", [to_email], fail_silently=False)
-    print("mail sent")
+    logger.info(" Email Successfully sent for the user %s with mail id %s ", user, to_email)
     note.remainder = None
     note.save()

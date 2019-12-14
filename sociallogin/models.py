@@ -11,6 +11,7 @@ class CreateSocial(models.Model):
     content = models.CharField(max_length=200)
     filename = models.CharField(max_length=30)
 
+
 class SocialLogin(models.Model):
     unique_id = models.CharField("Use Id", max_length=500)
     provider = models.CharField("Service Provider", max_length=500)
@@ -24,7 +25,7 @@ class SocialLogin(models.Model):
     def __eq__(self, other):
         if isinstance(other, SocialLogin):
             return self.username == other.username
-        return "Cannot Equali"
+        return "Cannot Equalize"
 
     def __repr__(self):
         return "SocialLogin({!r},{!r},{!r})".format(self.provider, self.username, self.unique_id)

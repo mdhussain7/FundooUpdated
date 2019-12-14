@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
+
 import datetime
 import logging
 import os
@@ -17,8 +18,6 @@ from pathlib import Path
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
-
-
 
 # from
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -33,7 +32,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -53,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'rest_framework.authtoken',
     'rest_framework',
+    'django_celery_beat',
     'rest_auth',
     'login',
     'note',
@@ -67,7 +67,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',    # This must be first on the list
+    'django.middleware.cache.UpdateCacheMiddleware',  # This must be first on the list
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -161,7 +161,6 @@ STATIC_ROOT = "fundoo/static"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'api_key': {
@@ -172,14 +171,12 @@ SWAGGER_SETTINGS = {
     },
 }
 
-
 # SWAGGER_SETTINGS = {
 #     'USE_SESSION_AUTH': True,
 #     'LOGIN_URL': 'rest_framework:login',
 #     'LOGOUT_URL': 'rest_framework:logout',
 #     'VALIDATOR_URL': None,
 # }
-
 
 
 REST_FRAMEWORK = {
@@ -204,7 +201,6 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 BASE_URL = os.getenv('BASE_URL')
 # EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 EMAIL_USE_TLS = True
-
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
@@ -236,17 +232,6 @@ CACHES = {
         "KEY_PREFIX": "example"
     }
 }
-
-
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': 'redis://127.0.0.1:6379/',
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#         }
-#     }
-# }
 
 CACHE_TTL = 60 * 15
 
@@ -299,7 +284,12 @@ JWT_AUTH = {
     'JWT_AUTH_COOKIE': None,
 }
 
-CELERY_BROKER_URL = 'amqp://guest@localhost//'
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = os.getenv('CELERY_ACCEPT_CONTENT')
+CELERY_RESULT_SERIALIZER = os.getenv('CELERY_RESULT_SERIALIZER')
+CELERY_TASK_SERIALIZER = os.getenv('CELERY_TASK_SERIALIZER')
+CELERY_TIMEZONE = os.getenv('CELERY_TIMEZONE')
 
 ELASTICSEARCH_DSL = {
     'default': {
@@ -324,7 +314,6 @@ SESSION_ENGINE = os.getenv('SESSION_ENGINE')
 
 logger = logging.getLogger(__name__)
 formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d :%(threadName)s :%('
-'process)d :%(message)s')
-fh= logging.FileHandler('fundoo.log')
+                              'process)d :%(message)s')
+fh = logging.FileHandler('fundoo.log')
 fh.setFormatter(formatter)
-
