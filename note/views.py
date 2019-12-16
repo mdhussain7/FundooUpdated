@@ -211,16 +211,17 @@ def get_user(token):
 
 
 class NoteList(generics.GenericAPIView):
-    """
-        - Getting  the notes that we have already created
-    """
+
     serializer_class = CreateNoteSerializer
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, format=None):
+        """
+            - Getting  the notes that we have already created
+        """
         data = Notes.objects.all()
         logger.info("Getting the Note Data on %s ", timezone.now())
-        # serializer = CreateNoteSerializer(data, many=True)
+        serializer = CreateNoteSerializer(data, many=True)
         page = request.GET.get('page')
         paginator = Paginator(data, 1)
         user = request.user

@@ -29,18 +29,15 @@
                 <hr>
                     <h1>Notification from Fundoo</h1>
                 <hr>
-          <br/><br/>
-                <p>
                     Hi <strong>{{ user }}</strong>,<br /><br/>
                     Are you sure, really want to <b>reset your password ?</b> <br/>
-                    If <b>not</b> please <b>ignore</b> this Email.<br />
-                </p>
-                <p>
-                    Please click on the <strong> button </strong> to <strong> Reset Password </strong><br /><br />
-                    <button style="text-align:center;" >
-                        <a href="{{ domain }}{%  url 'verify' token=token %}" style="text-decoration: none;"> <i>Reset</i> </a>
-                    </button><br/>
-                </p>
+                    If <b>not</b> please <b>ignore</b> this Email.
+                    <br />
+                    OR
+                    <br/>
+                    Please click on the <strong> button </strong> to <strong> Reset Password </strong><br/>
+                    <button style="text-align:center;" ><a href="{{ domain }}{%  url 'verify' token=token %}" style="text-decoration: none;"> <i>Reset</i>
+                    </a></button><br/>
 <hr>
 <pre>
     With Best Regards:

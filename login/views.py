@@ -44,7 +44,8 @@ class Login(GenericAPIView):
             try:
                 user = auth.authenticate(username=username, password=password)
             except ValueError as ve:
-                print(ve)
+                responsesmd = {'status': False, 'message': " Failed to Sign In ", 'data': []}
+                return HttpResponse(json.dumps(responsesmd), status=400)
             if user is not None:
                 # auth.login(request, user)
                 jwt_token = {"token": jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')}
@@ -52,10 +53,11 @@ class Login(GenericAPIView):
                 responsesmd = {'status': True, 'message': " Sign In Successfully ", 'data': [token], }
                 return HttpResponse(json.dumps(responsesmd), status=201)
             else:
-                responsesmd['message'] = ' Something Went Wrong!! Please Check Username and Password again '
+                responsesmd['message'] = ' Please Check Username and Password again '
                 return HttpResponse(json.dumps(responsesmd), status=400)
         except Exception as e:
-            print(e)
+            responsesmd = {'status': False, 'message': " Failed to Sign In ", 'data': [e]}
+            return HttpResponse(json.dumps(responsesmd), status=400)
 
 
 class Register(GenericAPIView):
@@ -65,33 +67,37 @@ class Register(GenericAPIView):
         """
             - Registering the user to Create an Account
         """
-        username = request.data['username']
-        password = request.data['password']
-        email = request.data['email']
-        responsesmd = {'status': False, 'message': " Registration Failed ", 'data': []}
-        if User.objects.filter(email=email).exists():
-            responsesmd['message'] = 'Email is already exists '
-            return HttpResponse(json.dumps(responsesmd), status=400)
         try:
-            user = User.objects.create_user(username=username, password=password, email=email, is_active=False)
-            payload = {'username': user.username, 'email': user.email}
-            token = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
-            print(token)
-            # currentsite = get_current_site(request)
-            url = str(token)
-            surl = get_surl(url)
-            urlsplit = surl.split("/")
-            mail_subject = ' Activation Link '
-            mail_message = render_to_string('activate.html',
-                                            {'user': user.username, 'domain': get_current_site(request).domain,
-                                             'token': urlsplit[2], })
-            recipient_email = [email]
-            email = EmailMessage(mail_subject, mail_message, to=[recipient_email])
-            email.send()
-            responsesmd = {'status': True, 'message': " Check your Email for Account Activation ", 'data': [token]}
-            return HttpResponse(json.dumps(responsesmd), status=201)
-        except Exception:
-            responsesmd["message"] = " Username is Already Exist "
+            username = request.data['username']
+            password = request.data['password']
+            email = request.data['email']
+            responsesmd = {'status': False, 'message': " Registration Failed ", 'data': []}
+            if User.objects.filter(email=email).exists():
+                responsesmd['message'] = 'Email is already exists '
+                return HttpResponse(json.dumps(responsesmd), status=400)
+            try:
+                user = User.objects.create_user(username=username, password=password, email=email, is_active=False)
+                payload = {'username': user.username, 'email': user.email}
+                token = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
+                print(token)
+                # currentsite = get_current_site(request)
+                url = str(token)
+                surl = get_surl(url)
+                urlsplit = surl.split("/")
+                mail_subject = ' Activation Link '
+                mail_message = render_to_string('activate.html',
+                                                {'user': user.username, 'domain': get_current_site(request).domain,
+                                                 'token': urlsplit[2], })
+                recipient_email = [email]
+                email = EmailMessage(mail_subject, mail_message, to=[recipient_email])
+                email.send()
+                responsesmd = {'status': True, 'message': " Check your Email for Account Activation ", 'data': [token]}
+                return HttpResponse(json.dumps(responsesmd), status=201)
+            except Exception:
+                responsesmd["message"] = " Username is Already Exist "
+                return HttpResponse(json.dumps(responsesmd), status=400)
+        except Exception as e:
+            responsesmd = {'status': False, 'message': " Registration Failed ", 'data': [e]}
             return HttpResponse(json.dumps(responsesmd), status=400)
 
 
@@ -121,30 +127,33 @@ class Sendmail(GenericAPIView):
     serializer_class = ForgotSerializer
 
     def post(self, request):
-        email = request.data["email"]
-        # import pdb
-        # pdb.set_trace()
-        responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
         try:
-
-            user = User.objects.get(email=email)
-            if user is not None:
-                payload = {'username': user.username, 'email': user.email}
-                key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
-                keyUrl = str(key)
-                shortedKey = get_surl(keyUrl)
-                splittedData = shortedKey.split('/')
-                mail_subject = ' Reset Your Password By Clicking the Link given Below '
-                mail_message = render_to_string('verify.html',
-                                                {'user': user.username, 'domain': get_current_site(request).domain,
-                                                 'token': splittedData[2]})
-                send_mail(mail_subject, mail_message, 'mdhussainsabhussain@gmail.com', [email])
-                responsesmd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
-                               'data': [key]}
-                return HttpResponse(json.dumps(responsesmd), status=201)
+            email = request.data["email"]
+            # import pdb
+            # pdb.set_trace()
+            responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+            try:
+                user = User.objects.get(email=email)
+                if user is not None:
+                    payload = {'username': user.username, 'email': user.email}
+                    key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
+                    keyUrl = str(key)
+                    shortedKey = get_surl(keyUrl)
+                    splittedData = shortedKey.split('/')
+                    mail_subject = ' Reset Your Password By Clicking the Link given Below '
+                    mail_message = render_to_string('verify.html',
+                                                    {'user': user.username, 'domain': get_current_site(request).domain,
+                                                     'token': splittedData[2]})
+                    send_mail(mail_subject, mail_message, 'mdhussainsabhussain@gmail.com', [email])
+                    responsesmd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
+                                   'data': [key]}
+                    return HttpResponse(json.dumps(responsesmd), status=201)
+            except Exception as e:
+                responsesmd['status'] = False
+                responsesmd['message'] = ' Invalid Mail '
+                return HttpResponse(json.dumps(responsesmd), status=400)
         except Exception as e:
-            responsesmd['status'] = False
-            responsesmd['message'] = ' Invalid Mail '
+            responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
             return HttpResponse(json.dumps(responsesmd), status=400)
 
 
@@ -155,7 +164,7 @@ class Logout(GenericAPIView):
         """
             - Logging out for the User
         """
-        responsesmd = {"status": False, "message": "Invalid User", "data": []}
+        responsesmd = {"status": False, "message": "User Not Signed Out", "data": []}
         try:
             user = request.user
             responsesmd = {"status": True, "message": "Sign out", "data": [user]}
@@ -169,31 +178,40 @@ class ResetPassword(GenericAPIView):
 
     def post(self, request, username):
         """
-            - In this API Reset Password by using email verification is happening
+            - description: In this API Reset Password by using email verification is happening
+            - parameters:
+              - username: author
+                type: string
+                required: true
+              - name: request
+                type: string
+                required: true
         """
         # import pdb
         # pdb.set_trace()
-        # responsesmd = {"status": False, "message": "Password Not Set", "data": []}
-        if request.method == 'POST':
-            password = request.data['password']
-            # print(username, 'jhvjkvhfkjuvgfigfig')
-            # print(str(username.values()))
-            if User.objects.filter(username=username).exists():
+        response_smd = {"status": False, "message": "Password Not Set", "data": []}
+        try:
+            if request.method == 'POST':
+                password = request.data['password']
+                # print(username, 'jhvjkvhfkjuvgfigfig')
                 # print(str(username.values()))
-                user = User.objects.get(username=username)
-                user.set_password(password)
-                user.save()
-                # messages.info(request, " Reset Password Successfully ")
-                # responsesmd = {"status": True, "message": "Reset Password Successfully", "data": [user]}
-                return redirect('login')
-        return render(request, 'register')
+                if User.objects.filter(username=username).exists():
+                    # print(str(username.values()))
+                    user = User.objects.get(username=username)
+                    user.set_password(password)
+                    user.save()
+                    # messages.info(request, " Reset Password Successfully ")
+                    # responsesmd = {"status": True, "message": "Reset Password Successfully", "data": [user]}
+                    return redirect('login')
+            return render(request, 'register')
+        except Exception:
+            return HttpResponse(json.dumps(response_smd), status=400)
 
 
 def activate(request, token):
     try:
         url = ShortURL.objects.get(surl=token)
         token = url.lurl
-        print(token)
         user_details = jwt.decode(token, 'private_secret', algorithms='HS256')
         user_name = user_details['username']
         user = User.objects.get(username=user_name)
@@ -275,9 +293,6 @@ def reset_password(request, token):
         return render(request, template_name='index.html')
 
 
-
-
-
 class MailAttachment(GenericAPIView):
     serializer_class = ForgotSerializer
 
@@ -287,32 +302,35 @@ class MailAttachment(GenericAPIView):
         """
         # import pdb
         # pdb.set_trace()
-        email = request.data["email"]
-        responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+        response_smd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
         try:
-            user = User.objects.get(email=email)
-            if user is not None:
-                payload = {'username': user.username, 'email': user.email}
-                key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
-                shortedKey = get_surl(key)
-                splittedData = shortedKey.split('/')
-                mail_subject = ' Reset Your Password By Clicking the Attachment given Below '
-                html_content = render_to_string('verify.html',
-                                                {'user': user.username, 'domain': get_current_site(request).domain,
-                                                 'token': splittedData[2]})  # render with dynamic value
-                text_content = strip_tags(html_content)  # Strip the html tag. So people can see the pure text at least.
-                # create the email, and attach the HTML version as well.
-                msg = EmailMultiAlternatives(mail_subject, text_content, 'mdhussainsabhussain@gmail.com', [email])
-                msg.attach_alternative(html_content, "text/html")
-                msg.send()
-                responsesmd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
-                               'data': [key]}
-            return HttpResponse(json.dumps(responsesmd), status=201)
-        except BadHeaderError:
-            return HttpResponse(json.dumps(responsesmd), status=400)
+            email = request.data["email"]
+            response_smd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+            try:
+                user = User.objects.get(email=email)
+                if user is not None:
+                    payload = {'username': user.username, 'email': user.email}
+                    key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
+                    shortedKey = get_surl(key)
+                    splittedData = shortedKey.split('/')
+                    mail_subject = ' Reset Your Password By Clicking the Attachment given Below '
+                    html_content = render_to_string('verify.html',
+                                                    {'user': user.username, 'domain': get_current_site(request).domain,
+                                                     'token': splittedData[2]})  # render with dynamic value
+                    text_content = strip_tags(html_content)  # Strip the html tag. So people can see the pure text at least.
+                    # create the email, and attach the HTML version as well.
+                    msg = EmailMultiAlternatives(mail_subject, text_content, 'mdhussainsabhussain@gmail.com', [email])
+                    msg.attach_alternative(html_content, "text/html")
+                    msg.send()
+                    response_smd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
+                                    'data': [key]}
+                return HttpResponse(json.dumps(response_smd), status=201)
+            except BadHeaderError:
+                return HttpResponse(json.dumps(response_smd), status=400)
+            except Exception:
+                return HttpResponse(json.dumps(response_smd), status=400)
         except Exception:
-            return HttpResponse(json.dumps(responsesmd), status=400)
-
+            return HttpResponse(json.dumps(response_smd), status=400)
 
 # class Sendmail1(GenericAPIView):
 #     serializer_class = ForgotSerializer
