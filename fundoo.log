@@ -601,3 +601,12 @@ INFO :2019-12-12 10:37:15,958 :/home/admin1/Documents/FunDoo/fundoo/note/views.p
 INFO :2019-12-12 11:37:05,107 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :99 :140376232945408 :Thread-8 :28852 :Redirected user to Github Login page for the user Hussain 
 INFO :2019-12-12 11:38:34,264 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :140118556575488 :Thread-2 :1011 :Redirected Hussain to Github 
 INFO :2019-12-12 11:52:23,304 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :139997529233152 :Thread-15 :2513 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 10:47:14,988 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :140610639193856 :Thread-2 :29614 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 10:48:31,215 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :140610622408448 :Thread-4 :29614 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 10:49:16,829 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :140610622408448 :Thread-4 :29614 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 13:21:34,998 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :139790582281984 :Thread-2 :25742 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 13:21:45,411 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :139790582281984 :Thread-2 :25742 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 13:23:23,003 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :139790582281984 :Thread-2 :25742 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 13:23:57,187 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :140337989285632 :Thread-2 :28766 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 13:26:15,095 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :97 :140337980368640 :Thread-4 :28766 :Redirected AnonymousUser to Github 
+INFO :2019-12-16 15:17:34,055 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :106 :140346482140928 :Thread-2 :21935 :Redirected AnonymousUser to Github 

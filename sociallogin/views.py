@@ -35,6 +35,9 @@ logger.addHandler(fh)
 # Create your views here.
 class SocialUser(APIView):
     def get(self, request):
+        """
+                - Social Login Check
+        """
         content = {'message': 'Social User'}
         return Response(content)
 
@@ -51,8 +54,11 @@ class ViewData(GenericAPIView):
     #     return Response(serializer.data, status=200)
 
     def post(self, request):
-        # # import pdb
-        # # pdb.set_trace()
+        """
+                - Sharing the Note Using Social Login
+        """
+        # import pdb
+        # pdb.set_trace()
         # responsesmd = {'success': False, 'message': 'Invalid Note ', 'data': []}
         # try:
         #     unique_id = request.data['unique_id']
@@ -86,6 +92,9 @@ class ViewData(GenericAPIView):
 class Github(GenericAPIView):
 
     def get(self, request):
+        """
+                            - Github Using Social Login
+        """
         # pdb.set_trace()
         user = request.user
         resp = {'success': False, 'message': "Something Went Wrong and an Un-expected Error Occured", 'data': []}
@@ -104,7 +113,9 @@ class Github(GenericAPIView):
 class GitHubAuthenticator(GenericAPIView):
 
     def get(self, request):
-
+        """
+                    - Github Authenticator Using Social Login
+        """
         smdresp = {'status': False, 'message': "Error Occured at the beginning", 'data': []}
         try:
             # pdb.set_trace()
@@ -166,18 +177,21 @@ class NoteShare(GenericAPIView):
     serializer_class = ShareSerializer
 
     def post(self, request):
-        responsesmd = {'status': False, 'message': 'Invalid Note ', 'data': []}
+        """
+            - Sharing the Notes in Social Login
+        """
+        response_smd = {'status': False, 'message': 'Invalid Note ', 'data': []}
         try:
             title = request.data['title']
             content = request.data['content']
             user = request.user
 
             if content == "":
-                return HttpResponse(json.dumps(responsesmd))
+                return HttpResponse(json.dumps(response_smd))
             else:
                 user = User.objects.get(pk=user.id)
                 note_create = CreateSocial(user_id=user.id, title=title, content=content)
                 note_create.save()
                 return redirect(AUTH_GITHUB_TOKEN_URL + str(title) + "\n" + str(content))
         except (IntegrityError, Exception):
-            return HttpResponse(json.dumps(responsesmd, indent=2), status=400)
+            return HttpResponse(json.dumps(response_smd, indent=2), status=400)

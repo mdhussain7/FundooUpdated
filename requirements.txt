@@ -86,6 +86,7 @@ elasticsearch==7.1.0
 elasticsearch-dsl==7.1.0
 entrypoints==0.3
 eventlet==0.25.1
+export==0.1.2
 ez-setup==0.9
 falcon==2.0.0
 furl==2.1.0
@@ -204,6 +205,7 @@ social-auth-app-django==3.1.0
 social-auth-core==3.2.0
 spyder-kernels==1.8.0
 sqlparse==0.3.0
+supervisor==4.1.0
 system-service==0.3
 systemd-python==234
 testresources==2.0.0

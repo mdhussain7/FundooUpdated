@@ -20,23 +20,19 @@
       justify-content: space-around;
       background-color: white;
       align-items: center;
-      padding-top: 100px;
-      padding-bottom: 100px;
+      padding-top: 0px;
+      padding-bottom: 0px;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
 <body>
-  <nav>
-    <div class="container">My Swagger</div>
-    </nav>
-  <div class="container">
+    <div class="container">
       {% block content %}
           {% block script %}
           {% endblock script %}
       {% endblock content %}
-  </div>
-
+    </div>
   <br>
   <footer class="mt-4 p-2">
       <p class="text-center p-1 m-0" style="text-align:center;"> &copy; My Fundoo Application 2019 </p>

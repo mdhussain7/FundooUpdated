@@ -46,6 +46,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .lib.redisSevice import Cache
+
 redis = Cache()
 redis.__connect__()
 
@@ -63,16 +64,15 @@ class UploadFile(GenericAPIView):
 
     def post(self, request):
         """
-                        - Posting / Uploading the data in AWS File
-            """
+                - Posting / Uploading the data in AWS File
+        """
         user = request.user
         try:
-
             logger.info(" Uploading file to AWS")
             file = request.FILES.get('upload')
             print(file, 'file')
             up = ImageUpload()
-            smdresponse = up.upload(file)
+            response_smd = up.upload(file)
             upl = "upload"
             url = 'https://{bucket}.s3-{region}.amazonaws.com/{location}/{file}'.format(
                 bucket=AWS_UPLOAD_BUCKET,
@@ -83,11 +83,11 @@ class UploadFile(GenericAPIView):
             Time = datetime.datetime.now()
             image = ImageTable(path=url, date=Time, filename=file, directory=upl)
             image.save()
-            return HttpResponse(json.dumps(smdresponse))
+            return HttpResponse(json.dumps(response_smd))
         except Exception as e:
             logger.info(" Data Upload Un-successfull for the user %s ", user)
-            smdresponse = self.responsesmd(False, "Data Upload Unsuccessfull", "")
-            return HttpResponse(json.dumps(smdresponse))
+            response_smd = self.responsesmd(False, "Data Upload Unsuccessfull", "")
+            return HttpResponse(json.dumps(response_smd))
 
 
 class LabelsCreate(GenericAPIView):
@@ -97,7 +97,7 @@ class LabelsCreate(GenericAPIView):
         """
             - Getting  / Printing the data of Label and the actual url for getting the data is api/note/lable
         """
-        response = {"success": False, "message": "Error Occured While Getting the Labels", "data": []}
+        response_smd = {"success": False, "message": "Error Occured While Getting the Labels", "data": []}
         try:
             # pdb.set_trace()
             user = request.user
@@ -112,7 +112,7 @@ class LabelsCreate(GenericAPIView):
             return Response(redis_data, status=200)
         except Exception:
             logger.error("labels where not fetched for user :%s", request.user)
-            return Response(response, status=400)
+            return Response(response_smd, status=400)
 
 
 class PostLabel(GenericAPIView):
@@ -120,32 +120,31 @@ class PostLabel(GenericAPIView):
 
     def post(self, request):
         """
-                        - Creating the Label
+                - Creating the Label
         """
-
         # pdb.set_trace()
         user = request.user
-        response = {"success": False, "message": "Error Occured at the Beginningg", "data": []}
+        response_smd = {"success": False, "message": "Error Occured at the Beginningg", "data": []}
         try:
             label = request.data["label"]
             if label == "":
                 logger.info("Label Name was not given for %s", user)
-                response['message'] = "Enter Label Name"
-                return Response(response, status=400)
+                response_smd['message'] = "Enter Label Name"
+                return Response(response_smd, status=400)
             if Label.objects.filter(user_id=user.id, label=label).exists():
                 logger.info("Label Name already exists for %s", user)
-                response['message'] = "Label Name already exists"
-                return Response(response, status=400)
+                response_smd['message'] = "Label Name already exists"
+                return Response(response_smd, status=400)
             else:
                 newLabel = Label.objects.create(user_id=user.id, label=label)
                 redis.hmset(str(user.id) + "label", {newLabel.id: label})
-                print(redis.hmset(str(user.id) + "label", {newLabel.id: label}))
+                # print(redis.hmset(str(user.id) + "label", {newLabel.id: label}))
                 logger.info("label is created for %s", user)
-                response = {"success": True, "message": "Label is Created Successfully", "data": label}
-                return HttpResponse(json.dumps(response), status=201)
+                response_smd = {"success": True, "message": "Label is Created Successfully", "data": label}
+                return HttpResponse(json.dumps(response_smd), status=201)
         except Exception as e:
             logger.error("%s while creating label for %s", str(e), user)
-            return Response(response, status=404)
+            return Response(response_smd, status=404)
 
 
 class LabelsUpdate(GenericAPIView):
@@ -162,7 +161,7 @@ class LabelsUpdate(GenericAPIView):
     def put(self, request, pk):
         """
                 - Updating the label
-            """
+        """
         label = self.get_object(pk)
         serializer = LabelSerializer(label, data=request.data)
         user = request.user
@@ -172,9 +171,9 @@ class LabelsUpdate(GenericAPIView):
             serializer.save()
             label = Label.objects.get(pk=pk)
             logger.info('Label is ', label)
-            responsesmd = {'success': True, 'message': 'Label Updated successfully.'}
+            response_smd = {'success': True, 'message': 'Label Updated successfully.'}
             logger.info('Label Updated for the id %s in user %s', label, user)
-            return Response(responsesmd, status=status.HTTP_200_OK)
+            return Response(response_smd, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -245,7 +244,6 @@ class NoteCreate(generics.GenericAPIView):
     def post(self, request, format=None):
         """
             - Creating the note
-
         """
         user = request.user
         response = {"status": False, "message": "Invalid Response", "data": []}
@@ -259,7 +257,6 @@ class NoteCreate(generics.GenericAPIView):
         else:
             noteCreated = Notes.objects.create(user_id=user.id, title=title, description=description)
             result = Notes.objects.values()
-
             list_result = [i for i in result]
             redis.hmset(str(user.id) + "Note", {noteCreated.id: list_result})
             logger.info("Note is created for %s Time is %s", user, tz)
@@ -273,20 +270,19 @@ class ArchieveNote(GenericAPIView):
         """
             - Getting the Archieved notes from the notes that have been created.
         """
-
+        response_smd = {"status": False, "message": "Error Occured while Getting the Archieved Data", "data": []}
         try:
-            response = {"status": False, "message": "Error Occured while Getting the Archieved Data", "data": []}
             user = request.user
             redis_data = redis.hvals(str(user.id) + "is_archived")
             tz = timezone.now()
             # print(redis_data, 'adsfadsgfadfgdfgdfagfghafgafgadfaga')
             if len(redis_data) == 0:
-                response = {"status": True, "message": "Your archived notes will appear here", "data": []}
+                response_smd = {"status": True, "message": "Your archived notes will appear here", "data": []}
                 data = Notes.objects.filter(user_id=user.id, is_archived=True)
-                tz = timezone.now()
+                # tz = timezone.now()
                 if len(data) == 0:
                     logger.info(" Getting Inside the Archived Data ")
-                    return HttpResponse(json.dumps(response), status=200)
+                    return HttpResponse(json.dumps(response_smd), status=200)
                 else:
                     logger.info(" Archieve data is loaded ")
                     return HttpResponse(data.values(), status=200)
@@ -294,7 +290,7 @@ class ArchieveNote(GenericAPIView):
             return HttpResponse(redis_data, status=200)
         except Exception as e:
             logger.exception("Exception Occured Archieve at %s ", e)
-            return HttpResponse(json.dumps(response), status=404)
+            return HttpResponse(json.dumps(response_smd), status=404)
 
 
 class NoteReminders(GenericAPIView):
@@ -302,8 +298,7 @@ class NoteReminders(GenericAPIView):
     def get(self, request):
         """
                 - Getting the Reminder Data with remind and state which must require these two
-
-            """
+        """
         # pdb.set_trace()
         user = request.user
         try:
@@ -322,18 +317,17 @@ class NoteReminders(GenericAPIView):
                 else:
                     state.append(reminder_list.values()[i])
                     logger.info(" Getting Reminder State  %s", state)
-
             reminder = {'remind': remind, 'state': state}
             logger.info(" Reminders data is loaded for %s on %s ", user, timezone.now())
             return HttpResponse(reminder.values(), status=200)
         except TypeError as e:
             logger.error("Error: %s for %s while fetching Reminder", str(e), user)
-            responessmd = {"status": False, "message": "Reminder Not Set", 'data': []}
-            return HttpResponse(json.dumps(responessmd), status=200)
+            response_smd = {"status": False, "message": "Reminder Not Set", 'data': []}
+            return HttpResponse(json.dumps(response_smd), status=200)
         except Exception as e:
             logger.error("Error: %s for %s while fetching Reminder", str(e), user)
-            responessmd = {"status": False, "message": "Reminder Not Set", 'data': []}
-            return HttpResponse(json.dumps(responessmd), status=404)
+            response_smd = {"status": False, "message": "Reminder Not Set", 'data': []}
+            return HttpResponse(json.dumps(response_smd), status=404)
 
 
 class TrashNote(GenericAPIView):
@@ -342,8 +336,7 @@ class TrashNote(GenericAPIView):
         """
                 - Getting the Trashed notes from the notes that have been created.
         """
-
-        response = {"status": False, "message": "Error Occured while Getting the Trash Data ", "data": []}
+        response_smd = {"status": False, "message": "Error Occured while Getting the Trash Data ", "data": []}
         user = request.user
         try:
             redis_data = redis.hvals(str(user.id) + "is_trash")
@@ -352,11 +345,11 @@ class TrashNote(GenericAPIView):
                 data = Notes.objects.filter(user_id=user.id, is_trash=True)
                 if len(data) == 0:
                     response = {"status": True, "message": "Trash is Empty !! "}
-                    return HttpResponse(json.dumps(response), status=200)
+                    return HttpResponse(json.dumps(response_smd), status=200)
                 return HttpResponse(data.values())
             return HttpResponse(redis_data)
         except Exception as e:
-            return HttpResponse(json.dumps(response), status=404)
+            return HttpResponse(json.dumps(response_smd), status=404)
 
 
 class PinnedNote(GenericAPIView):
@@ -365,8 +358,7 @@ class PinnedNote(GenericAPIView):
         """
                 - Getting the Pinned notes from the notes that have been created.
         """
-
-        response = {"status": False, "message": "Error Occured while Getting the Pinned Data ", "data": []}
+        response_smd = {"status": False, "message": "Error Occured while Getting the Pinned Data ", "data": []}
         user = request.user
         try:
             redis_data = redis.hvals(str(user.id) + "is_pinned")
@@ -375,11 +367,11 @@ class PinnedNote(GenericAPIView):
                 data = Notes.objects.filter(user_id=user.id, is_pinned=True)
                 if len(data) == 0:
                     response = {"status": True, "message": " No data is Pinned !! "}
-                    return HttpResponse(json.dumps(response), status=200)
+                    return HttpResponse(json.dumps(response_smd), status=200)
                 return HttpResponse(data.values())
             return HttpResponse(redis_data)
         except Exception as e:
-            return HttpResponse(json.dumps(response), status=404)
+            return HttpResponse(json.dumps(response_smd), status=404)
 
 
 class NoteDetails(GenericAPIView):
@@ -397,7 +389,6 @@ class NoteDetails(GenericAPIView):
         """
                         - Getting the notes based on their id the Label
         """
-
         note = self.get_object(pk)
         serializer = CreateNoteSerializer(note)
         return Response(serializer.data, status.HTTP_200_OK)
@@ -418,7 +409,6 @@ class NoteUpdate(GenericAPIView):
         """
                         - Updating the note based on it ID
         """
-
         note = self.get_object(pk)
         serializer = UpdateNoteSerializer(note, data=request.data)
         if serializer.is_valid():
@@ -446,9 +436,8 @@ class NoteDelete(GenericAPIView):
 
     def delete(self, request, pk):
         """
-                        - Deleting the note based on its ID
+                - Deleting the note based on its ID
         """
-
         note = self.get_object(pk)
         note.delete()
         notes = Notes.objects.all()
@@ -463,15 +452,14 @@ class NoteShare(GenericAPIView):
         """
                 - Sharing the note that have been created.
         """
-
-        responsesmd = {'status': False, 'message': 'Invalid Note ', 'data': []}
+        response_smd = {'status': False, 'message': 'Invalid Note ', 'data': []}
         try:
             title = request.data['title']
             label = request.data['filename']
             user = request.user
 
             if label == "":
-                return HttpResponse(json.dumps(responsesmd))
+                return HttpResponse(json.dumps(response_smd))
             else:
                 user = User.objects.get(pk=user.id)
                 note_create = Notes(user_id=user.id, note=label, title=title)
@@ -479,7 +467,7 @@ class NoteShare(GenericAPIView):
                 note_create.save()
                 return redirect(SOCIAL_FACEBOOK_TOKEN_URL + str(title) + "\n" + str(label))
         except (IntegrityError, Exception):
-            return HttpResponse(json.dumps(responsesmd, indent=2), status=400)
+            return HttpResponse(json.dumps(response_smd, indent=2), status=400)
 
 # class SearchNote(APIView):
 #
