@@ -1,7 +1,11 @@
 from __future__ import absolute_import, unicode_literals
+
+import sys
+
 from celery import Celery
 import os
-
+# from note import tasks
+sys.path.append(os.path.abspath('fundoo'))
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fundoo.settings')
 

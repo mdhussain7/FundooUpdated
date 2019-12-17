@@ -176,22 +176,22 @@ class Logout(GenericAPIView):
 class ResetPassword(GenericAPIView):
     serializer_class = ResetSerializer
 
-    def post(self, request, username):
+    def post(self, request, username,token):
         """
             - description: In this API Reset Password by using email verification is happening
             - parameters:
-              - username: author
+                - username: author
                 type: string
                 required: true
-              - name: request
+                - name: request
                 type: string
                 required: true
         """
-        # import pdb
-        # pdb.set_trace()
+        import pdb
+        pdb.set_trace()
         response_smd = {"status": False, "message": "Password Not Set", "data": []}
         try:
-            if request.method == 'POST':
+            if request.method == 'POST' and token != "":
                 password = request.data['password']
                 # print(username, 'jhvjkvhfkjuvgfigfig')
                 # print(str(username.values()))
@@ -241,12 +241,13 @@ def verify(request, token):
         try:
             user = User.objects.get(username=username)
         except ObjectDoesNotExist as errorkanole:
-            print(errorkanole)
+            response_smd = {'status': False, 'message': " Error Occured at Verification ", 'data': [errorkanole]}
+            return HttpResponse(json.dumps(response_smd), status=400)
         if user is not None:
             # userName = {'userreset': user.username}
             # print(userName)
             messages.info(request, "reset")
-            return redirect('/api/reset-password/' + str(username) + '/')
+            return redirect('/api/reset-password/' + str(token) + '/'+ str(username)+'/')
         else:
             messages.info(" Invalid User ")
             return redirect('register')
@@ -257,40 +258,6 @@ def verify(request, token):
 
 # def interface(request):
 #     return render(request, 'interface.html')
-
-
-def reset_link(request):
-    if request.method == 'POST':
-        to_email = request.POST['email']
-        current_site = get_current_site(request)
-
-        mail_subject = 'Reset your password.'
-        jwt_token = jwt.encode({'Email': to_email}, 'private_key', algorithm='HS256').decode("utf-8")
-        email = EmailMessage(
-            mail_subject,
-            'http://' + str(current_site.domain) + '/resetpassword/' + jwt_token + '/',
-            to=[to_email]
-        )
-        email.send()
-        return render(request, 'checkmail.html')
-    else:
-        form = PasswordResetForm()
-    return render(request, "resetpassword.html",
-                  {"form": form})
-
-
-def reset_password(request, token):
-    decoded_token = jwt.decode(token, 'private_key', algorithms='HS256')
-    try:
-        user = User.objects.get(email=list(decoded_token.values())[0])
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None:
-        context = {'userReset': user.username}
-        print(context)
-        return redirect('/resetpassword/' + str(user))
-    else:
-        return render(request, template_name='index.html')
 
 
 class MailAttachment(GenericAPIView):
@@ -323,7 +290,7 @@ class MailAttachment(GenericAPIView):
                     msg.attach_alternative(html_content, "text/html")
                     msg.send()
                     response_smd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
-                                    'data': [key]}
+                                    'data': []}
                 return HttpResponse(json.dumps(response_smd), status=201)
             except BadHeaderError:
                 return HttpResponse(json.dumps(response_smd), status=400)
