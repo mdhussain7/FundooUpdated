@@ -1,20 +1,10 @@
 # from rest_framework.views import APIView
 import datetime
-import pdb
 
+from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
-# from rest_framework import permissions, status, authentication
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-# from .config_aws import (
-#     AWS_UPLOAD_BUCKET,
-#     AWS_UPLOAD_REGION,
-#     AWS_UPLOAD_ACCESS_KEY_ID,
-#     AWS_UPLOAD_SECRET_KEY
-# )
-# from .models import FileItem
 from dotenv import load_dotenv
 from pathlib import Path
 from .models import ImageTable, Notes, Label
@@ -46,7 +36,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .lib.redisSevice import Cache
-
+from celery.task import task
 redis = Cache()
 redis.__connect__()
 
@@ -211,7 +201,6 @@ def get_user(token):
 
 
 class NoteList(generics.GenericAPIView):
-
     serializer_class = CreateNoteSerializer
     permission_classes = [IsAuthenticated, ]
 
@@ -469,6 +458,20 @@ class NoteShare(GenericAPIView):
                 return redirect(SOCIAL_FACEBOOK_TOKEN_URL + str(title) + "\n" + str(label))
         except (IntegrityError, Exception):
             return HttpResponse(json.dumps(response_smd, indent=2), status=400)
+
+
+@task
+def send_email(note):
+    note = Notes.objects.get(pk=note)
+    user = User.objects.get(pk=note.user.id)
+    email = user.email
+    message = " Hi, " + user.username + " you have one event today --> " + note.title
+    mail_subject = 'Your Note Remainder'
+    to_email = email
+    send_mail(mail_subject, message, "mdhussainsabhussain@gmailcom", [to_email], fail_silently=False)
+    print("mail sent")
+    note.remainder = None
+    note.save()
 
 # class SearchNote(APIView):
 #

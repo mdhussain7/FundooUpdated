@@ -9,17 +9,15 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-from decouple import config
+# from decouple import config
 import datetime
 import logging
 import os
-# from .celery import Path
-
-import dotenv
-# from pathlib import Path
+from dotenv import load_dotenv
+from pathlib import Path
 import pathlib
 env_path = pathlib.Path('.') / '.env'
-dotenv.load_dotenv(dotenv_path=env_path)
+load_dotenv(dotenv_path=env_path)
 
 # from
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -29,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://dconfigocs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -111,17 +109,17 @@ WSGI_APPLICATION = 'fundoo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-USER = config('DB_USER')
-PASSWORD = config('DB_PASS')
+USER = os.getenv('DB_USER')
+PASSWORD = os.getenv('DB_PASS')
 
 DATABASES = {
     'default': {
-        'ENGINE': config('DB_ENGINE'),  # 'mysql.connector.django',#'django.db.backends.mysql',
-        'NAME': config('DB_NAME'),
+        'ENGINE': os.getenv('DB_ENGINE'),  # 'mysql.connector.django',#'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME'),
         'USER': USER,
         'PASSWORD': PASSWORD,
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'autocommit': True,
             'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
@@ -200,15 +198,15 @@ REST_FRAMEWORK = {
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-BASE_URL = config('BASE_URL')
+BASE_URL = os.getenv('BASE_URL')
 # EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 EMAIL_USE_TLS = True
 
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
 
 # LOGIN_REDIRECT_URL = 'rest_framework:login'
 # LOGOUT_URL = 'rest_framework:logout'
@@ -286,12 +284,12 @@ JWT_AUTH = {
     'JWT_AUTH_COOKIE': None,
 }
 
-CELERY_BROKER_URL = config('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
-CELERY_ACCEPT_CONTENT = config('CELERY_ACCEPT_CONTENT')
-CELERY_RESULT_SERIALIZER = config('CELERY_RESULT_SERIALIZER')
-CELERY_TASK_SERIALIZER = config('CELERY_TASK_SERIALIZER')
-CELERY_TIMEZONE = config('CELERY_TIMEZONE')
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = os.getenv('CELERY_ACCEPT_CONTENT')
+CELERY_RESULT_SERIALIZER = os.getenv('CELERY_RESULT_SERIALIZER')
+CELERY_TASK_SERIALIZER = os.getenv('CELERY_TASK_SERIALIZER')
+CELERY_TIMEZONE = os.getenv('CELERY_TIMEZONE')
 
 ELASTICSEARCH_DSL = {
     'default': {
@@ -303,16 +301,16 @@ AWS_DEFAULT_ACL = None
 
 SOCIAL_AUTH__EMAIL_REQUIRED = True
 
-AUTH_GITHUB_TOKEN_URL = config('AUTH_GITHUB_TOKEN_URL')
-SOCIAL_FACEBOOK_TOKEN_URL = config('SOCIAL_FACEBOOK_TOKEN_URL')
-AWS_UPLOAD_BUCKET = config('AWS_UPLOAD_BUCKET')
-AWS_UPLOAD_REGION = config('AWS_UPLOAD_REGION')
-SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')
-SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
-AUTH_GITHUB_URL = config('AUTH_GITHUB_URL')
-AUTH_GITHUB_USER_EMAIL_URL = config('AUTH_GITHUB_USER_EMAIL_URL')
-AUTH_GITHUB_USER_URL = config('AUTH_GITHUB_USER_URL')
-SESSION_ENGINE = config('SESSION_ENGINE')
+AUTH_GITHUB_TOKEN_URL = os.getenv('AUTH_GITHUB_TOKEN_URL')
+SOCIAL_FACEBOOK_TOKEN_URL = os.getenv('SOCIAL_FACEBOOK_TOKEN_URL')
+AWS_UPLOAD_BUCKET = os.getenv('AWS_UPLOAD_BUCKET')
+AWS_UPLOAD_REGION = os.getenv('AWS_UPLOAD_REGION')
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('SOCIAL_AUTH_GITHUB_SECRET')
+AUTH_GITHUB_URL = os.getenv('AUTH_GITHUB_URL')
+AUTH_GITHUB_USER_EMAIL_URL = os.getenv('AUTH_GITHUB_USER_EMAIL_URL')
+AUTH_GITHUB_USER_URL = os.getenv('AUTH_GITHUB_USER_URL')
+SESSION_ENGINE = os.getenv('SESSION_ENGINE')
 
 logger = logging.getLogger(__name__)
 formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d :%(threadName)s :%('

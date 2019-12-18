@@ -13,22 +13,22 @@ logger.addHandler(fh)
 app = Celery()
 
 @task
-def get_remainders():
+def get_reminders():
     current = datetime.datetime.now()
-    logger.info("Current Time", current)
-    data = Notes.objects.exclude(reminder=None)
-    logger.info(" Note Length ", len(data))
-    for i in range(len(data)):
-        data_before_reminder_time = data[i].reminder.replace(tzinfo=None) - datetime.timedelta(minutes=1)
-        if data_before_reminder_time >= current and current <= data[i].reminder.replace(tzinfo=None):
+    # logger.info("Current Time", current)
+    reminderData = Notes.objects.exclude(reminder=None)
+    # logger.info(" Note Length ", len(reminderData))
+    for i in range(len(reminderData)):
+        data_before_reminder_time = reminderData[i].reminder.replace(tzinfo=None) - datetime.timedelta(minutes=1)
+        if data_before_reminder_time >= current and current <= reminderData[i].reminder.replace(tzinfo=None):
             """
                 - Reminders One by One
             """
-            send_email.delay(data[i].id)
+            sendEmail.delay(reminderData[i].id)
 
 
 @task
-def send_email(note):
+def sendEmail(note):
     note = Notes.objects.get(pk=note)
     user = User.objects.get(pk=note.user.id)
     email = user.email
