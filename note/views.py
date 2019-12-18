@@ -1,20 +1,20 @@
 # from rest_framework.views import APIView
 import datetime
 
+from django.core import mail
 from django.core.mail import send_mail
 from django.db import IntegrityError
+from django.template.loader import render_to_string
 from django.utils import timezone
+from django.utils.html import strip_tags
 from rest_framework.permissions import IsAuthenticated
 from dotenv import load_dotenv
 from pathlib import Path
 from .models import ImageTable, Notes, Label
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from .serializer import ImageUploadSerializer, CreateNoteSerializer, UpdateNoteSerializer, ShareSerializer, \
-    LabelSerializer, \
-    NotesSerializer  # , ArchieveNoteSerializer,
-# TrashNoteSerializer, \
-# PinnedNoteSerializer  # , SearchNoteSerializer  # NoteSerializer
-# from rest_framework.views import APIView
+    LabelSerializer, ReminderNoteSerializer  # , ArchieveNoteSerializer,
+
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status, generics
@@ -31,12 +31,13 @@ import logging
 # from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 # pdb.set_trace()
-from fundoo.settings import fh, AUTH_GITHUB_TOKEN_URL, SOCIAL_FACEBOOK_TOKEN_URL, AWS_UPLOAD_BUCKET, AWS_UPLOAD_REGION
+from fundoo.settings import fh, AUTH_GITHUB_TOKEN_URL, SOCIAL_FACEBOOK_TOKEN_URL, AWS_UPLOAD_BUCKET, AWS_UPLOAD_REGION,EMAIL_HOST_USER
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .lib.redisSevice import Cache
-from celery.task import task
+
+
 redis = Cache()
 redis.__connect__()
 
@@ -216,11 +217,11 @@ class NoteList(generics.GenericAPIView):
         user = request.user
         try:
             notes = paginator.page(page)
-        except PageNotAnInteger:
-            logger.warning("Got %s Error for Getting Note for User %s", str(PageNotAnInteger), user.username)
+        except PageNotAnInteger as pni:
+            logger.warning("Got %s Error for Getting Note for User %s", str(pni), user.username)
             notes = paginator.page(1)
-        except EmptyPage:
-            logger.warning("Got %s Error for Getting Note for User %s", EmptyPage, user)
+        except EmptyPage as ep:
+            logger.warning("Got %s Error for Getting Note for User %s", ep, user)
             notes = paginator.page(paginator.num_pages)
         logger.info("All the Notes are Rendered to HTML Page for User %s", user)
         return render(request, 'pagination.html', {'notes': notes}, status=200)
@@ -301,7 +302,7 @@ class NoteReminders(GenericAPIView):
                 if reminder_list.values()[i]['reminder'] is None:
                     # logger.info(" Getting Reminder Data %s", reminder_list.values()[i]['reminder'])
                     continue
-                elif timezone.now() > reminder_list.values()[i]['reminder']:
+                elif timezone.localtime() > reminder_list.values()[i]['reminder']:
                     remind.append(reminder_list.values()[i])
                     logger.info(" Getting Reminder Timezone %s", timezone.now())
                 else:
@@ -460,18 +461,39 @@ class NoteShare(GenericAPIView):
             return HttpResponse(json.dumps(response_smd, indent=2), status=400)
 
 
-@task
-def send_email(note):
-    note = Notes.objects.get(pk=note)
-    user = User.objects.get(pk=note.user.id)
-    email = user.email
-    message = " Hi, " + user.username + " you have one event today --> " + note.title
-    mail_subject = 'Your Note Remainder'
-    to_email = email
-    send_mail(mail_subject, message, "mdhussainsabhussain@gmailcom", [to_email], fail_silently=False)
-    print("mail sent")
-    note.remainder = None
-    note.save()
+class Celery(GenericAPIView):
+    serializer_class = ReminderNoteSerializer
+
+    def get(self, request):
+        """
+            Summary:
+            Celery class works on clery beat and every 30 sec this end point is hit.
+            Methods:
+            get: this method where logic is written for triggering reminders notification service where
+            email is sent if reminder time matched with current time.
+        """
+        try:
+            response = {"success": False, "message": "bad response", "data": []}
+            reminder = Notes.objects.filter(reminder__isnull=False)
+            start = timezone.localtime()
+            end = timezone.localtime() + datetime.timedelta(minutes=1)
+            try:
+                for i in range(len(reminder)):
+                    if start < reminder.values()[i]["reminder"] < end:
+                        user_id = reminder.values()[i]['user_id']
+                        user = User.objects.get(id=user_id)
+                        subject = 'Reminder Note'
+                        html_message = render_to_string('email_reminder.html', {'context': 'values'})
+                        plain_message = strip_tags(html_message)
+                        mail.send_mail(subject, plain_message, EMAIL_HOST_USER, 'srmsa786@gmail.com', html_message=html_message)
+                        response = {"success": True, "message": "Email Sent", "data": []}
+                        logger.info("Email Successfully Sent %s ", request.user)
+                    return HttpResponse(json.dumps(response))
+            except Exception as e:
+                logger.info("exception %s" ,str(e))
+                return HttpResponse(json.dumps(response))
+        except  Exception as e:
+            logger.info(str(e))
 
 # class SearchNote(APIView):
 #

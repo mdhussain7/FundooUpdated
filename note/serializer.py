@@ -3,6 +3,7 @@ from .models import ImageTable, File
 from .models import Notes, Label
 from django.contrib.auth.models import User
 
+
 #
 class ImageUploadSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,3 +82,9 @@ class SearchNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
         fields = ['title', 'description']
+
+
+class ReminderNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notes
+        fields = ['reminder']

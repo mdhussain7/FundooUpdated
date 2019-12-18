@@ -718,3 +718,17 @@ INFO :2019-12-16 18:27:58,352 :/home/admin1/Documents/FunDoo/fundoo/note/views.p
 INFO :2019-12-16 18:27:58,354 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :236 :140018170218240 :Thread-14 :23229 :All the Notes are Rendered to HTML Page for User Hussain
 INFO :2019-12-16 20:02:49,176 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :142 :139885808711424 :Thread-2 :12593 :label is created for Hussain
 INFO :2019-12-16 20:03:01,371 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :111 :139885808711424 :Thread-2 :12593 :labels where fetched from redis for user :Hussain
+INFO :2019-12-18 18:41:51,777 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :212 :140015195649792 :Thread-4 :23133 :Getting the Note Data on 2019-12-18 13:11:51.776959+00:00 
+WARNING :2019-12-18 18:41:51,782 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :220 :140015195649792 :Thread-4 :23133 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-18 18:41:51,791 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :225 :140015195649792 :Thread-4 :23133 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-18 18:42:25,505 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :212 :140015195649792 :Thread-4 :23133 :Getting the Note Data on 2019-12-18 13:12:25.505263+00:00 
+WARNING :2019-12-18 18:42:25,505 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :220 :140015195649792 :Thread-4 :23133 :Got <class 'django.core.paginator.PageNotAnInteger'> Error for Getting Note for User Hussain
+INFO :2019-12-18 18:42:25,511 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :225 :140015195649792 :Thread-4 :23133 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-18 19:16:21,619 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :212 :140026037905152 :Thread-2 :27046 :Getting the Note Data on 2019-12-18 13:46:21.619612+00:00 
+WARNING :2019-12-18 19:16:21,623 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :220 :140026037905152 :Thread-2 :27046 :Got That page number is not an integer Error for Getting Note for User Hussain
+INFO :2019-12-18 19:16:21,625 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :225 :140026037905152 :Thread-2 :27046 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-18 19:16:47,894 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :212 :140026037905152 :Thread-2 :27046 :Getting the Note Data on 2019-12-18 13:46:47.894705+00:00 
+WARNING :2019-12-18 19:16:47,906 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :220 :140026037905152 :Thread-2 :27046 :Got That page number is not an integer Error for Getting Note for User Hussain
+INFO :2019-12-18 19:16:47,909 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :225 :140026037905152 :Thread-2 :27046 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-18 19:16:53,363 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :212 :140026037905152 :Thread-2 :27046 :Getting the Note Data on 2019-12-18 13:46:53.363673+00:00 
+INFO :2019-12-18 19:16:53,370 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :225 :140026037905152 :Thread-2 :27046 :All the Notes are Rendered to HTML Page for User Hussain

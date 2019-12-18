@@ -14,14 +14,15 @@ urlpatterns = [
     path('note-update/<int:pk>/', views.NoteUpdate.as_view(), name='label-update'),
     path('note-delete/<int:pk>/', views.NoteDelete.as_view(), name='label-update'),
     path('note-create/',views.NoteCreate.as_view(), name='note-create'),
-    path('note-get/<int:pk>/', views.NoteDetails.as_view(), name='details'),
+    path('note-get-with-id/<int:pk>/', views.NoteDetails.as_view(), name='details'),
     path('pinned-notes/', views.PinnedNote.as_view(), name='pinned'),
     path('trashed-notes/', views.TrashNote.as_view(), name='trash'),
     path('archieved-notes/', views.ArchieveNote.as_view(), name='archieve'),
     path('reminder-notes/', views.NoteReminders.as_view(), name='reminder'),
     path("github-note-share/", views.NoteShare.as_view(), name='note-share'),
     # path('search-note/', views.SearchNote.as_view(),name = "search_note"),
+    path('Celery/', views.Celery.as_view(), name='celery'),
 ]
 # urlpatterns = format_suffix_patterns(urlpatterns)
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, )
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, )

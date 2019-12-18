@@ -14,7 +14,7 @@ app = Celery('fundoo')
 app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'add-every-30-seconds': {
-        'task': 'note.tasks.get_reminders',
+        'task': 'note.tasks.sent_mail',
         'schedule': 30.0,
     },
 }
