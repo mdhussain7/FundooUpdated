@@ -12,4 +12,6 @@ urlpatterns =[
                 # path('sendmail/', views.Sendmail.as_view(), name='resetmail'),
                 path('api/reset-password/<token>/<username>/', views.ResetPassword.as_view(), name='resetmail'),
                 path("mail-attachment/", views.MailAttachment.as_view(), name='mail'),
+                path('user_profile/', views.FileUploadView.as_view(),name = 'user_profile'),
+                path('user_profile/<int:pk>/', views.ProfileUpdateView.as_view(),name = 'update_profile'),
 ]

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class File(models.Model):
-    file = models.URLField(max_length=250)
+    file = models.FileField(max_length=250)
 
 
 # create Image model

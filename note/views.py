@@ -1,8 +1,10 @@
 # from rest_framework.views import APIView
 import datetime
 
+import jwt
+from django.contrib.sites.shortcuts import get_current_site
 from django.core import mail
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.db import IntegrityError
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -18,7 +20,7 @@ from .serializer import ImageUploadSerializer, CreateNoteSerializer, UpdateNoteS
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status, generics
-from django.http import Http404, HttpResponse, request
+from django.http import Http404, HttpResponse, request, BadHeaderError
 # from django.utils.decorators import method_decorator
 # from .decorators import user_login_required
 # from .documents import NoteDocument
@@ -26,20 +28,19 @@ from rest_framework_jwt.settings import api_settings
 from .lib.S3file import ImageUpload
 import json
 import os
-from .lib.redisSevice import Cache
 import logging
 # from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 # pdb.set_trace()
-from fundoo.settings import fh, AUTH_GITHUB_TOKEN_URL, SOCIAL_FACEBOOK_TOKEN_URL, AWS_UPLOAD_BUCKET, AWS_UPLOAD_REGION,EMAIL_HOST_USER
+from fundoo.settings import fh, AUTH_GITHUB_TOKEN_URL, SOCIAL_FACEBOOK_TOKEN_URL, AWS_UPLOAD_BUCKET, AWS_UPLOAD_REGION, \
+    EMAIL_HOST_USER
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .lib.redisSevice import Cache
 
-
 redis = Cache()
-redis.__connect__()
+connection = redis.__connect__()
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -156,8 +157,6 @@ class LabelsUpdate(GenericAPIView):
         label = self.get_object(pk)
         serializer = LabelSerializer(label, data=request.data)
         user = request.user
-        # label_id = Label.objects.create(id=user.id)
-
         if serializer.is_valid():
             serializer.save()
             label = Label.objects.get(pk=pk)
@@ -335,7 +334,7 @@ class TrashNote(GenericAPIView):
                 user = request.user
                 data = Notes.objects.filter(user_id=user.id, is_trash=True)
                 if len(data) == 0:
-                    response = {"status": True, "message": "Trash is Empty !! "}
+                    response_smd = {"status": True, "message": "Trash is Empty !! "}
                     return HttpResponse(json.dumps(response_smd), status=200)
                 return HttpResponse(data.values())
             return HttpResponse(redis_data)
@@ -352,15 +351,16 @@ class PinnedNote(GenericAPIView):
         response_smd = {"status": False, "message": "Error Occured while Getting the Pinned Data ", "data": []}
         user = request.user
         try:
-            redis_data = redis.hvals(str(user.id) + "is_pinned")
-            if len(redis_data) == 0:
-                user = request.user
-                data = Notes.objects.filter(user_id=user.id, is_pinned=True)
-                if len(data) == 0:
-                    response = {"status": True, "message": " No data is Pinned !! "}
-                    return HttpResponse(json.dumps(response_smd), status=200)
-                return HttpResponse(data.values())
-            return HttpResponse(redis_data)
+            if connection:
+                redis_data = redis.hvals(str(user.id) + "is_pinned")
+                if len(redis_data) == 0:
+                    user = request.user
+                    data = Notes.objects.filter(user_id=user.id, is_pinned=True)
+                    if len(data) == 0:
+                        response_smd = {"status": True, "message": " No data is Pinned !! "}
+                        return HttpResponse(json.dumps(response_smd), status=200)
+                    return HttpResponse(data.values())
+                return HttpResponse(redis_data)
         except Exception as e:
             return HttpResponse(json.dumps(response_smd), status=404)
 
@@ -461,39 +461,96 @@ class NoteShare(GenericAPIView):
             return HttpResponse(json.dumps(response_smd, indent=2), status=400)
 
 
+from datetime import timedelta
+
+
 class Celery(GenericAPIView):
     serializer_class = ReminderNoteSerializer
 
     def get(self, request):
         """
-            Summary:
-            Celery class works on clery beat and every 30 sec this end point is hit.
-            Methods:
-            get: this method where logic is written for triggering reminders notification service where
-            email is sent if reminder time matched with current time.
+            - Summary:
+            - Celery class works on clery beat and every 30 sec this end point is hit.
+            - Methods:
+            - Get: this method where logic is written for triggering reminders notification service where
+            - Email is sent if reminder time matched with current time.
         """
         try:
-            response = {"success": False, "message": "bad response", "data": []}
+            # import pdb
+            # pdb.set_trace()
+            response = {"success": False, "message": "Error Occured While Getting the Reminder Note", "data": []}
             reminder = Notes.objects.filter(reminder__isnull=False)
-            start = timezone.localtime()
-            end = timezone.localtime() + datetime.timedelta(minutes=1)
+            print('Note Data', reminder)
+            startTime = timezone.localtime() - timedelta(minutes=5)
+            print('Start Time', startTime)
+            endTime = timezone.localtime() + timedelta(minutes=5)
+            print('End Time', endTime)
             try:
                 for i in range(len(reminder)):
-                    if start < reminder.values()[i]["reminder"] < end:
+                    print('Total Reminder Note Length : ', len(reminder))
+                    print("Loop Start Time : ", startTime)
+                    print("Loop Reminder Time of Note : ", reminder.values()[i]['reminder'])
+                    print("Loop End Time : ", endTime)
+                    print("True Or False : ", startTime < reminder.values()[i]['reminder'] < endTime)
+                    # import pdb
+                    # pdb.set_trace()
+                    if startTime <= reminder.values()[i]['reminder'] <= endTime:
+                        print("Inside Message ")
                         user_id = reminder.values()[i]['user_id']
                         user = User.objects.get(id=user_id)
-                        subject = 'Reminder Note'
-                        html_message = render_to_string('email_reminder.html', {'context': 'values'})
+                        subject = 'Reminder Notification From Fundoo'
+                        html_message = render_to_string('reminder.html', {'context': 'values'})
                         plain_message = strip_tags(html_message)
-                        mail.send_mail(subject, plain_message, EMAIL_HOST_USER, 'srmsa786@gmail.com', html_message=html_message)
+                        mail.send_mail(subject, plain_message, EMAIL_HOST_USER, ['srmsa786@gmail.com'],
+                                       html_message=html_message)
                         response = {"success": True, "message": "Email Sent", "data": []}
-                        logger.info("Email Successfully Sent %s ", request.user)
+                        logger.info("Email Successfully Sent %s ", user)
                     return HttpResponse(json.dumps(response))
             except Exception as e:
-                logger.info("exception %s" ,str(e))
+                logger.info("exception %s", str(e))
                 return HttpResponse(json.dumps(response))
         except  Exception as e:
             logger.info(str(e))
+
+# class MailAttachment(GenericAPIView):
+#     serializer_class = ForgotSerializer
+#
+#     def post(self, request):
+#         """
+#             - Attachment Email
+#         """
+#         # import pdb
+#         # pdb.set_trace()
+#         response_smd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+#         try:
+#             email = request.data["email"]
+#             response_smd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+#             try:
+#                 user = User.objects.get(email=email)
+#                 if user is not None:
+#                     payload = {'username': user.username, 'email': user.email}
+#                     key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
+#                     shortedKey = get_surl(key)
+#                     splittedData = shortedKey.split('/')
+#                     mail_subject = ' Reset Your Password By Clicking the Attachment given Below '
+#                     html_content = render_to_string('verify.html',
+#                                                     {'user': user.username, 'domain': get_current_site(request).domain,
+#                                                      'token': splittedData[2]})  # render with dynamic value
+#                     text_content = strip_tags(html_content)  # Strip the html tag. So people can see the pure text at least.
+#                     # create the email, and attach the HTML version as well.
+#                     msg = EmailMultiAlternatives(mail_subject, text_content, 'mdhussainsabhussain@gmail.com', [email])
+#                     msg.attach_alternative(html_content, "text/html")
+#                     msg.send()
+#                     response_smd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
+#                                     'data': []}
+#                 return HttpResponse(json.dumps(response_smd), status=201)
+#             except BadHeaderError:
+#                 return HttpResponse(json.dumps(response_smd), status=400)
+#             except Exception:
+#                 return HttpResponse(json.dumps(response_smd), status=400)
+#         except Exception:
+#             return HttpResponse(json.dumps(response_smd), status=400)
+
 
 # class SearchNote(APIView):
 #

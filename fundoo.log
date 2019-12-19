@@ -732,3 +732,14 @@ WARNING :2019-12-18 19:16:47,906 :/home/admin1/Documents/FunDoo/fundoo/note/view
 INFO :2019-12-18 19:16:47,909 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :225 :140026037905152 :Thread-2 :27046 :All the Notes are Rendered to HTML Page for User Hussain
 INFO :2019-12-18 19:16:53,363 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :212 :140026037905152 :Thread-2 :27046 :Getting the Note Data on 2019-12-18 13:46:53.363673+00:00 
 INFO :2019-12-18 19:16:53,370 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :225 :140026037905152 :Thread-2 :27046 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-19 11:01:49,922 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :500 :140583019517696 :Thread-6 :27526 :
+INFO :2019-12-19 11:01:55,131 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :500 :140582936639232 :Thread-7 :27526 :
+INFO :2019-12-19 11:01:57,052 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :500 :140583019517696 :Thread-14 :27526 :
+INFO :2019-12-19 11:01:59,053 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :500 :140582936639232 :Thread-15 :27526 :
+INFO :2019-12-19 12:20:46,408 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :280 :140112503502592 :Thread-8 :19834 : Archieve data is loaded 
+INFO :2019-12-19 15:33:27,883 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :510 :140122199463680 :Thread-2 :431 :exception Reverse for 'verify' with keyword arguments '{'token': ''}' not found. 1 pattern(s) tried: ['api/api/verify/(?P<token>[^/]+)/$']
+INFO :2019-12-19 15:45:13,376 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :510 :140254866310912 :Thread-2 :11380 :exception Reverse for 'note_view' not found. 'note_view' is not a valid view function or pattern name.
+INFO :2019-12-19 15:55:28,789 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :511 :140330349868800 :Thread-29 :14662 :exception Reverse for 'note_view' not found. 'note_view' is not a valid view function or pattern name.
+INFO :2019-12-19 17:02:21,381 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :510 :139770499385088 :Thread-2 :26925 :exception 
+INFO :2019-12-19 17:15:45,284 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :507 :139804285937408 :Thread-3 :7921 :Email Successfully Sent AnonymousUser 
+INFO :2019-12-19 17:15:52,077 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :507 :139804295464704 :Thread-2 :7921 :Email Successfully Sent AnonymousUser 

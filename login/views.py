@@ -1,6 +1,9 @@
 import json
 import logging
+import os
+import boto3
 import jwt
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User, auth
@@ -8,16 +11,19 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage, send_mail, BadHeaderError
 from django.core.mail import EmailMultiAlternatives
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django_short_url.models import ShortURL
 from django_short_url.views import get_surl
-from fundoo.settings import fh
+from fundoo.settings import fh,AWS_UPLOAD_BUCKET, AWS_UPLOAD_REGION, AWS_UPLOAD_ACCESS_KEY_ID,AWS_UPLOAD_SECRET_KEY
 from rest_framework.generics import GenericAPIView
-
-from .serializer import LoginSerializer, ResetSerializer, RegisterSerializer, ForgotSerializer, LogoutSerailizer
+from rest_framework.response import Response
+from .models import UserProfile
+from .serializer import LoginSerializer, ResetSerializer, RegisterSerializer, ForgotSerializer, LogoutSerailizer, \
+    UserProfileUpdateSerializer, FileSerializer, UserProfileSerializer
+from rest_framework import status
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -38,26 +44,26 @@ class Login(GenericAPIView):
         try:
             username = request.data['username']
             password = request.data['password']
-            responsesmd = {'status': False, 'message': " Failed to Sign In ", 'data': []}
+            response_smd = {'status': False, 'message': " Failed to Sign In ", 'data': []}
             payload = {'username': username, }
             user = auth.authenticate(username=username, password=password)
             try:
                 user = auth.authenticate(username=username, password=password)
             except ValueError as ve:
-                responsesmd = {'status': False, 'message': " Failed to Sign In ", 'data': []}
-                return HttpResponse(json.dumps(responsesmd), status=400)
+                response_smd = {'status': False, 'message': " Failed to Sign In ", 'data': []}
+                return HttpResponse(json.dumps(response_smd), status=400)
             if user is not None:
                 # auth.login(request, user)
-                jwt_token = {"token": jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')}
-                token = jwt_token['token']
-                responsesmd = {'status': True, 'message': " Sign In Successfully ", 'data': [token], }
-                return HttpResponse(json.dumps(responsesmd), status=201)
+                # jwt_token = {"token": jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')}
+                # token = jwt_token['token']
+                response_smd = {'status': True, 'message': " Sign In Successfully ", 'data': [], }
+                return HttpResponse(json.dumps(response_smd), status=201)
             else:
-                responsesmd['message'] = ' Please Check Username and Password again '
-                return HttpResponse(json.dumps(responsesmd), status=400)
+                response_smd['message'] = ' Please Check Username and Password again '
+                return HttpResponse(json.dumps(response_smd), status=400)
         except Exception as e:
-            responsesmd = {'status': False, 'message': " Failed to Sign In ", 'data': [e]}
-            return HttpResponse(json.dumps(responsesmd), status=400)
+            response_smd = {'status': False, 'message': " Failed to Sign In ", 'data': [e]}
+            return HttpResponse(json.dumps(response_smd), status=400)
 
 
 class Register(GenericAPIView):
@@ -71,10 +77,10 @@ class Register(GenericAPIView):
             username = request.data['username']
             password = request.data['password']
             email = request.data['email']
-            responsesmd = {'status': False, 'message': " Registration Failed ", 'data': []}
+            response_smd = {'status': False, 'message': " Registration Failed ", 'data': []}
             if User.objects.filter(email=email).exists():
-                responsesmd['message'] = 'Email is already exists '
-                return HttpResponse(json.dumps(responsesmd), status=400)
+                response_smd['message'] = 'Email is already exists '
+                return HttpResponse(json.dumps(response_smd), status=400)
             try:
                 user = User.objects.create_user(username=username, password=password, email=email, is_active=False)
                 payload = {'username': user.username, 'email': user.email}
@@ -91,14 +97,14 @@ class Register(GenericAPIView):
                 recipient_email = [email]
                 email = EmailMessage(mail_subject, mail_message, to=[recipient_email])
                 email.send()
-                responsesmd = {'status': True, 'message': " Check your Email for Account Activation ", 'data': [token]}
-                return HttpResponse(json.dumps(responsesmd), status=201)
+                response_smd = {'status': True, 'message': " Check your Email for Account Activation ", 'data': [token]}
+                return HttpResponse(json.dumps(response_smd), status=201)
             except Exception:
-                responsesmd["message"] = " Username is Already Exist "
-                return HttpResponse(json.dumps(responsesmd), status=400)
+                response_smd["message"] = " Username is Already Exist "
+                return HttpResponse(json.dumps(response_smd), status=400)
         except Exception as e:
-            responsesmd = {'status': False, 'message': " Registration Failed ", 'data': [e]}
-            return HttpResponse(json.dumps(responsesmd), status=400)
+            response_smd = {'status': False, 'message': " Registration Failed ", 'data': [e]}
+            return HttpResponse(json.dumps(response_smd), status=400)
 
 
 def Activate(request, token):
@@ -131,7 +137,7 @@ class Sendmail(GenericAPIView):
             email = request.data["email"]
             # import pdb
             # pdb.set_trace()
-            responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+            response_smd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
             try:
                 user = User.objects.get(email=email)
                 if user is not None:
@@ -145,16 +151,16 @@ class Sendmail(GenericAPIView):
                                                     {'user': user.username, 'domain': get_current_site(request).domain,
                                                      'token': splittedData[2]})
                     send_mail(mail_subject, mail_message, 'mdhussainsabhussain@gmail.com', [email])
-                    responsesmd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
-                                   'data': [key]}
-                    return HttpResponse(json.dumps(responsesmd), status=201)
+                    response_smd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
+                                    'data': [key]}
+                    return HttpResponse(json.dumps(response_smd), status=201)
             except Exception as e:
-                responsesmd['status'] = False
-                responsesmd['message'] = ' Invalid Mail '
-                return HttpResponse(json.dumps(responsesmd), status=400)
+                response_smd['status'] = False
+                response_smd['message'] = ' Invalid Mail '
+                return HttpResponse(json.dumps(response_smd), status=400)
         except Exception as e:
-            responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
-            return HttpResponse(json.dumps(responsesmd), status=400)
+            response_smd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
+            return HttpResponse(json.dumps(response_smd), status=400)
 
 
 class Logout(GenericAPIView):
@@ -164,19 +170,19 @@ class Logout(GenericAPIView):
         """
             - Logging out for the User
         """
-        responsesmd = {"status": False, "message": "User Not Signed Out", "data": []}
+        response_smd = {"status": False, "message": "User Not Signed Out", "data": []}
         try:
             user = request.user
-            responsesmd = {"status": True, "message": "Sign out", "data": [user]}
-            return HttpResponse(json.dumps(responsesmd), status=200)
+            response_smd = {"status": True, "message": "Sign out", "data": [user]}
+            return HttpResponse(json.dumps(response_smd), status=200)
         except Exception:
-            return HttpResponse(json.dumps(responsesmd), status=400)
+            return HttpResponse(json.dumps(response_smd), status=400)
 
 
 class ResetPassword(GenericAPIView):
     serializer_class = ResetSerializer
 
-    def post(self, request, username,token):
+    def post(self, request, username, token):
         """
             - description: In this API Reset Password by using email verification is happening
             - parameters:
@@ -187,8 +193,8 @@ class ResetPassword(GenericAPIView):
                 type: string
                 required: true
         """
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         response_smd = {"status": False, "message": "Password Not Set", "data": []}
         try:
             if request.method == 'POST' and token != "":
@@ -237,17 +243,14 @@ def verify(request, token):
         token = url.lurl
         user_details = jwt.decode(token, 'private_secret', algorithms='HS256')
         username = user_details['username']
-        user = User.objects.get(username=username)
         try:
             user = User.objects.get(username=username)
         except ObjectDoesNotExist as errorkanole:
             response_smd = {'status': False, 'message': " Error Occured at Verification ", 'data': [errorkanole]}
             return HttpResponse(json.dumps(response_smd), status=400)
         if user is not None:
-            # userName = {'userreset': user.username}
-            # print(userName)
             messages.info(request, "reset")
-            return redirect('/api/reset-password/' + str(token) + '/'+ str(username)+'/')
+            return redirect('/api/reset-password/' + str(token) + '/' + str(username) + '/')
         else:
             messages.info(" Invalid User ")
             return redirect('register')
@@ -284,7 +287,8 @@ class MailAttachment(GenericAPIView):
                     html_content = render_to_string('verify.html',
                                                     {'user': user.username, 'domain': get_current_site(request).domain,
                                                      'token': splittedData[2]})  # render with dynamic value
-                    text_content = strip_tags(html_content)  # Strip the html tag. So people can see the pure text at least.
+                    text_content = strip_tags(
+                        html_content)  # Strip the html tag. So people can see the pure text at least.
                     # create the email, and attach the HTML version as well.
                     msg = EmailMultiAlternatives(mail_subject, text_content, 'mdhussainsabhussain@gmail.com', [email])
                     msg.attach_alternative(html_content, "text/html")
@@ -299,35 +303,86 @@ class MailAttachment(GenericAPIView):
         except Exception:
             return HttpResponse(json.dumps(response_smd), status=400)
 
-# class Sendmail1(GenericAPIView):
-#     serializer_class = ForgotSerializer
-#
-#     def post(self, request):
-#         """
-#                     - Reset Password Without Using Attachment Email
-#                 """
-#         email = request.data["email"]
-#         # import pdb
-#         # pdb.set_trace()
-#         responsesmd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
-#         try:
-#
-#             user = User.objects.get(email=email)
-#             if user is not None:
-#                 payload = {'username': user.username, 'email': user.email}
-#                 key = jwt.encode(payload, "private_secret", algorithm="HS256").decode('utf-8')
-#                 keyUrl = str(key)
-#                 shortedKey = get_surl(keyUrl)
-#                 splittedData = shortedKey.split('/')
-#                 mail_subject = ' Reset Your Password By Clicking the Link given Below '
-#                 mail_message = render_to_string('verify.html',
-#                                                 {'user': user.username, 'domain': get_current_site(request).domain,
-#                                                  'token': splittedData[2]})
-#                 send_mail(mail_subject, mail_message, 'mdhussainsabhussain@gmail.com', [email])
-#                 responsesmd = {'status': True, 'message': " Link has been sent to You. Please Check Your Mail ",
-#                                'data': [key]}
-#                 return HttpResponse(json.dumps(responsesmd), status=201)
-#         except Exception as e:
-#             responsesmd['status'] = False
-#             responsesmd['message'] = ' Invalid Mail '
-#             return HttpResponse(json.dumps(responsesmd), status=400)
+
+class FileUploadView(GenericAPIView):
+    """
+    This API is for read and create user profile ,upload image on aws s3 bucket
+    """
+    serializer_class = UserProfileSerializer
+
+    def upload_file_s3(self, file):
+        s3 = boto3.client('s3', aws_access_key_id=AWS_UPLOAD_ACCESS_KEY_ID,
+                          aws_secret_access_key=AWS_UPLOAD_SECRET_KEY, region_name=AWS_UPLOAD_REGION)
+        MEDIA_ROOT = os.path.join(settings.BASE_DIR, 'media/profile_pics')
+        print("MEDIA_ROOT", MEDIA_ROOT)
+        with open(os.path.join(MEDIA_ROOT, str(file)), 'rb') as f:
+            b = bytearray(f.read())
+            filename = str(file)
+            new_filepath = filename.split('\\')[-1]
+            url = 'https://{bucket}.s3-{region}.amazonaws.com/{new_filepath}'.format(
+                bucket=AWS_UPLOAD_BUCKET,
+                region=AWS_UPLOAD_REGION,
+                new_filepath=new_filepath,
+            )
+            return url
+
+    def get(self, request):
+        user_profile = UserProfile.objects.all()
+        serializer = FileSerializer(user_profile, many=True)
+        return Response(serializer.data, status=200)
+
+    def post(self, request):
+        # pdb.set_trace()
+        file_serializer = FileSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
+            file = request.data['image']
+            user = request.data['user']
+            user_obj = User.objects.get(id=int(user))
+            s3_image_link = self.upload_file_s3(file)
+            print("s3_image_link ------>>>", s3_image_link)
+            profile_object = UserProfile.objects.get(user=user_obj)
+            profile_object.s3_image_link = s3_image_link
+            profile_object.save()
+            smd = {'success': True, 'message': 'User Profile is created successfully.'}
+            return Response(smd, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfileUpdateView(GenericAPIView):
+    """
+       This API is for update and delete user profile ,upload image on aws s3 bucket
+       """
+    serializer_class = UserProfileUpdateSerializer
+
+    def get_profile_object(self, pk):
+        try:
+            return UserProfile.objects.get(pk=pk)
+        except UserProfile.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        user_profile = self.get_profile_object(pk)
+        serializer = FileSerializer(user_profile)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        user_profile = self.get_profile_object(pk)
+        serializer = UserProfileUpdateSerializer(user_profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            file = request.data['image']
+            f = FileUploadView()
+            s3_image_link = f.upload_file_s3(file)
+            logger.info(" Image Link ", s3_image_link)
+            user_profile.s3_image_link = s3_image_link
+            user_profile.save()
+            smd = {'success': True, 'message': 'User Profile is updated successfully.'}
+            return Response(smd, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        user_profile = self.get_profile_object(pk)
+        user_profile.delete()
+        return Response(status=status.HTTP_200_OK)

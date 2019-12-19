@@ -11,7 +11,7 @@ AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 
 class ImageUpload:
 
-    def responseSmd(self, success, information, data):
+    def response_smd(self, success, information, data):
         response = {"status": "", "message": "", "data": "", 'status': success, 'message': information, 'data': data}
         return response
 
@@ -19,14 +19,10 @@ class ImageUpload:
         upload = boto3.resource('s3')
         try:
             # raise Exception("tests")
-            print("Upload")
-            print("Entering to the AWS")
             upload.meta.client.upload_fileobj(file, AWS_STORAGE_BUCKET_NAME, 'upload')
-            print(" After ")
-            response = self.responseSmd(True, 'Upload Successfull', '')
+            response = self.response_smd(True, 'Upload Successfull', '')
             print(response)
             return response
         except Exception:
-            print("Image Upload Fail")
-            response = self.responseSmd(False, 'Failed  to upload file', '')
+            response = self.response_smd(False, 'Failed  to upload file', '')
             return response
