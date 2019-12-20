@@ -116,7 +116,7 @@ class GitHubAuthenticator(GenericAPIView):
         """
                     - Github Authenticator Using Social Login
         """
-        smdresp = {'status': False, 'message': "Error Occured at the beginning", 'data': []}
+        response_smd = {'status': False, 'message': "Error Occured at the beginning", 'data': []}
         try:
             # pdb.set_trace()
             urlToken = AUTH_GITHUB_TOKEN_URL  # github token url.
@@ -144,8 +144,8 @@ class GitHubAuthenticator(GenericAPIView):
                 token = token_validation(user.username, response.json()["id"])
                 auth.login(request, user)
                 red.set(user.username, token)
-                print("%s Logged in using Social auth ", user.username)
-                return redirect("/notes/")
+                logger.info("%s Logged in using Social auth ", user.username)
+                return redirect("/github/")
             else:
                 SocialLogin.objects.create(unique_id=response.json()["id"], provider="github",
                                            full_name=user_details["name"],
@@ -158,7 +158,7 @@ class GitHubAuthenticator(GenericAPIView):
                     user.save()
                     token = token_validation(username, response.json()["id"])
                     red.set(user.username, token)
-                    print("%s Logged in as well as user got registered but username already exist so his id is as his "
+                    logger.info("%s Logged in as well as user got registered but username already exist so his id is as his "
                           "username ", user.username)
                 else:
                     user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name,
@@ -166,11 +166,11 @@ class GitHubAuthenticator(GenericAPIView):
                     user.save()
                     token = token_validation(username, response.json()["id"])
                     red.set(user.username, token)
-                    print("%s Logged in as well as user got Registered ", user.username)
-            return redirect("/notes/")
+                    logger.info("%s Logged in as well as user got Registered ", user.username)
+            return redirect("/github/")
         except Exception as e:
-            print("Exception Occured ", e)
-            return HttpResponse(smdresp, status=404)
+            logger.error("Exception Occured ", str(e))
+            return HttpResponse(response_smd, status=404)
 
 
 class NoteShare(GenericAPIView):
@@ -194,4 +194,5 @@ class NoteShare(GenericAPIView):
                 note_create.save()
                 return redirect(AUTH_GITHUB_TOKEN_URL + str(title) + "\n" + str(content))
         except (IntegrityError, Exception):
+            logger.error(" %s Error wirh an Exception %s ",IntegrityError, Exception)
             return HttpResponse(json.dumps(response_smd, indent=2), status=400)

@@ -15,7 +15,7 @@ from pathlib import Path
 from .models import ImageTable, Notes, Label
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from .serializer import ImageUploadSerializer, CreateNoteSerializer, UpdateNoteSerializer, ShareSerializer, \
-    LabelSerializer, ReminderNoteSerializer  # , ArchieveNoteSerializer,
+    LabelSerializer, ReminderNoteSerializer, SearchNoteSerializer  # , ArchieveNoteSerializer,
 
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -23,7 +23,7 @@ from rest_framework import status, generics
 from django.http import Http404, HttpResponse, request, BadHeaderError
 # from django.utils.decorators import method_decorator
 # from .decorators import user_login_required
-# from .documents import NoteDocument
+from .documents import NoteDocument
 from rest_framework_jwt.settings import api_settings
 from .lib.S3file import ImageUpload
 import json
@@ -62,7 +62,7 @@ class UploadFile(GenericAPIView):
         try:
             logger.info(" Uploading file to AWS")
             file = request.FILES.get('upload')
-            print(file, 'file')
+            # print(file, 'file')
             up = ImageUpload()
             response_smd = up.upload(file)
             upl = "upload"
@@ -82,8 +82,43 @@ class UploadFile(GenericAPIView):
             return HttpResponse(json.dumps(response_smd))
 
 
-class LabelsCreate(GenericAPIView):
+# class LabelsCreate(GenericAPIView):
+#     serializer_class = LabelSerializer
+#     parser_classes = FormParser, JSONParser, MultiPartParser
+#     data = Label.objects.all()
+#
+#     def get(self, request):
+#         """
+#             - Getting  / Printing the data of Label and the actual url for getting the data is api/note/lable
+#         """
+#         response_smd = {"success": False, "message": "Error Occured While Getting the Labels", "data": []}
+#         try:
+#             # pdb.set_trace()
+#             user = request.user
+#             redis_data = redis.hvals(str(user.id) + "label")
+#             print(redis_data)
+#             if len(redis_data) == 0:
+#                 labels = Label.objects.filter(user_id=user.id)
+#                 label_name = [i.label for i in labels]
+#                 logger.info("labels where fetched from database for user :%s", request.user)
+#                 return Response(label_name, status=200)
+#             logger.info("labels where fetched from redis for user :%s", request.user)
+#             return Response(redis_data, status=200)
+#         except Exception:
+#             logger.error("labels where not fetched for user :%s", request.user)
+#             return Response(response_smd, status=400)
+
+
+class PostLabel(GenericAPIView):
     serializer_class = LabelSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+    data = Label.objects.all()
+
+    def get_object(self, pk):
+        try:
+            return Label.objects.get(pk=pk)
+        except Label.DoesNotExist:
+            raise Http404
 
     def get(self, request):
         """
@@ -105,10 +140,6 @@ class LabelsCreate(GenericAPIView):
         except Exception:
             logger.error("labels where not fetched for user :%s", request.user)
             return Response(response_smd, status=400)
-
-
-class PostLabel(GenericAPIView):
-    serializer_class = LabelSerializer
 
     def post(self, request):
         """
@@ -138,18 +169,6 @@ class PostLabel(GenericAPIView):
             logger.error("%s while creating label for %s", str(e), user)
             return Response(response_smd, status=404)
 
-
-class LabelsUpdate(GenericAPIView):
-    serializer_class = LabelSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    data = Label.objects.all()
-
-    def get_object(self, pk):
-        try:
-            return Label.objects.get(pk=pk)
-        except Label.DoesNotExist:
-            raise Http404
-
     def put(self, request, pk):
         """
                 - Updating the label
@@ -166,18 +185,6 @@ class LabelsUpdate(GenericAPIView):
             return Response(response_smd, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class LabelsDelete(GenericAPIView):
-    serializer_class = LabelSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    data = Label.objects.all()
-
-    def get_object(self, pk):
-        try:
-            return Label.objects.get(pk=pk)
-        except Label.DoesNotExist:
-            raise Http404
-
     def delete(self, request, pk):
         """
             - Deleting the label
@@ -190,6 +197,58 @@ class LabelsDelete(GenericAPIView):
         logger.info('Label Deleted for the id %s in user %s', label, user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+# class LabelsUpdate(GenericAPIView):
+#     serializer_class = LabelSerializer
+#     parser_classes = FormParser, JSONParser, MultiPartParser
+#     data = Label.objects.all()
+#
+#     def get_object(self, pk):
+#         try:
+#             return Label.objects.get(pk=pk)
+#         except Label.DoesNotExist:
+#             raise Http404
+#
+#     def put(self, request, pk):
+#         """
+#                 - Updating the label
+#         """
+#         label = self.get_object(pk)
+#         serializer = LabelSerializer(label, data=request.data)
+#         user = request.user
+#         if serializer.is_valid():
+#             serializer.save()
+#             label = Label.objects.get(pk=pk)
+#             logger.info('Label is ', label)
+#             response_smd = {'success': True, 'message': 'Label Updated successfully.'}
+#             logger.info('Label Updated for the id %s in user %s', label, user)
+#             return Response(response_smd, status=status.HTTP_200_OK)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#
+# class LabelsDelete(GenericAPIView):
+#     serializer_class = LabelSerializer
+#     parser_classes = FormParser, JSONParser, MultiPartParser
+#     data = Label.objects.all()
+#
+#     def get_object(self, pk):
+#         try:
+#             return Label.objects.get(pk=pk)
+#         except Label.DoesNotExist:
+#             raise Http404
+#
+#     def delete(self, request, pk):
+#         """
+#             - Deleting the label
+#         """
+#         user = request.user
+#         label = self.get_object(pk)
+#         label.delete()
+#         label = Label.objects.all()
+#         serializer = LabelSerializer(label, many=True)
+#         logger.info('Label Deleted for the id %s in user %s', label, user)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#
 
 def get_user(token):
     jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
@@ -226,6 +285,27 @@ class NoteList(generics.GenericAPIView):
         return render(request, 'pagination.html', {'notes': notes}, status=200)
         # return Response(serializer.data)
 
+    def post(self, request, format=None):
+        """
+            - Creating the note
+        """
+        user = request.user
+        response = {"status": False, "message": "Invalid Response", "data": []}
+        title = request.data["title"]
+        description = request.data["description"]
+        tz = timezone.now()
+        if Notes.objects.filter(user_id=user.id, title=title, description=description).exists():
+            logger.info('Note already exists for %s Time is %s', user, tz)
+            response['message'] = "Note already exists"
+            return Response(response, status=400)
+        else:
+            noteCreated = Notes.objects.create(user_id=user.id, title=title, description=description)
+            result = Notes.objects.values()
+            list_result = [i for i in result]
+            redis.hmset(str(user.id) + "Note", {noteCreated.id: list_result})
+            logger.info("Note is created for %s Time is %s", user, tz)
+            response = {"status": True, "message": "Note is Created", "data": title}
+            return HttpResponse(json.dumps(response), status=201)
 
 class NoteCreate(generics.GenericAPIView):
     serializer_class = CreateNoteSerializer
@@ -335,9 +415,10 @@ class TrashNote(GenericAPIView):
                 data = Notes.objects.filter(user_id=user.id, is_trash=True)
                 if len(data) == 0:
                     response_smd = {"status": True, "message": "Trash is Empty !! "}
-                    return HttpResponse(json.dumps(response_smd), status=200)
-                return HttpResponse(data.values())
-            return HttpResponse(redis_data)
+                    # return HttpResponse(json.dumps(response_smd), status=200)
+                # return HttpResponse(data.values())
+            # return HttpResponse(redis_data)
+            return HttpResponse(json.dumps(response_smd), status=200)
         except Exception as e:
             return HttpResponse(json.dumps(response_smd), status=404)
 
@@ -383,6 +464,33 @@ class NoteDetails(GenericAPIView):
         note = self.get_object(pk)
         serializer = CreateNoteSerializer(note)
         return Response(serializer.data, status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        """
+                        - Updating the note based on it ID
+        """
+        note = self.get_object(pk)
+        serializer = UpdateNoteSerializer(note, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            note = Notes.objects.get(pk=pk)
+            logger.info('Note is ', note)
+            if note.is_archived:
+                note.is_pinned = False
+                note.save()
+            responsesmd = {'success': True, 'message': 'Note Updated successfully.'}
+            return Response(responsesmd, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        """
+                - Deleting the note based on its ID
+        """
+        note = self.get_object(pk)
+        note.delete()
+        notes = Notes.objects.all()
+        serializer = CreateNoteSerializer(notes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class NoteUpdate(GenericAPIView):
@@ -499,7 +607,7 @@ class Celery(GenericAPIView):
                         user_id = reminder.values()[i]['user_id']
                         user = User.objects.get(id=user_id)
                         subject = 'Reminder Notification From Fundoo'
-                        html_message = render_to_string('reminder.html', {'context': 'values'})
+                        html_message = render_to_string('reminder.html', {'user': user})
                         plain_message = strip_tags(html_message)
                         mail.send_mail(subject, plain_message, EMAIL_HOST_USER, ['srmsa786@gmail.com'],
                                        html_message=html_message)
@@ -511,6 +619,7 @@ class Celery(GenericAPIView):
                 return HttpResponse(json.dumps(response))
         except  Exception as e:
             logger.info(str(e))
+
 
 # class MailAttachment(GenericAPIView):
 #     serializer_class = ForgotSerializer
@@ -552,17 +661,15 @@ class Celery(GenericAPIView):
 #             return HttpResponse(json.dumps(response_smd), status=400)
 
 
-# class SearchNote(APIView):
-#
-#     def get(self, request):
-#         search_data = request.GET.get('search_data')
-#         if search_data:
-#             notes = NoteDocument.search().query("multi_match", query=search_data, fields=["title", "description"])
-#
-#         if notes.count() == 0:
-#             responsesmd = {'success': False, 'message': "No Search results found ..!!"}
-#             return HttpResponse(json.dumps(responsesmd))
-#
-#         print("Total Search Results", notes.count())
-#         serializer = SearchNoteSerializer(notes, many=True)
-#         return Response(serializer.data, status=200)
+class SearchNote(GenericAPIView):
+
+    def get(self, request):
+        search_data = request.GET.get('search_data')
+        if search_data:
+            notes = NoteDocument.search().query("multi_match", query=search_data, fields=["title", "description"])
+            if notes.count() == 0:
+                response_smd = {'success': False, 'message': "No Search results found ..!!"}
+                return HttpResponse(json.dumps(response_smd))
+            print("Total Search Results", notes.count())
+            serializer = SearchNoteSerializer(notes, many=True)
+            return Response(serializer.data, status=200)

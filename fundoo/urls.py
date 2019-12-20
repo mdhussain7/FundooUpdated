@@ -17,7 +17,7 @@ urlpatterns = [
     path('', schema_view),
     path('api/', include('login.urls')),
     path('api/', include('note.urls')),
-    path('api/', include('sociallogin.urls')),
+    path('social-login/', include('sociallogin.urls')),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     # url(r'^swagger-schema/', SwaggerSchemaView.as_view()),

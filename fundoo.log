@@ -743,3 +743,15 @@ INFO :2019-12-19 15:55:28,789 :/home/admin1/Documents/FunDoo/fundoo/note/views.p
 INFO :2019-12-19 17:02:21,381 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :510 :139770499385088 :Thread-2 :26925 :exception 
 INFO :2019-12-19 17:15:45,284 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :507 :139804285937408 :Thread-3 :7921 :Email Successfully Sent AnonymousUser 
 INFO :2019-12-19 17:15:52,077 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :507 :139804295464704 :Thread-2 :7921 :Email Successfully Sent AnonymousUser 
+INFO :2019-12-20 11:40:11,631 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :507 :139682119108352 :Thread-16 :4727 :Email Successfully Sent Hussain 
+INFO :2019-12-20 12:35:43,522 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :507 :139976606742272 :Thread-15 :13396 :Email Successfully Sent Hussain 
+INFO :2019-12-20 15:13:53,685 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :106 :139986875709184 :Thread-5 :19020 :Redirected Hussain to Github 
+INFO :2019-12-20 15:42:30,641 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :299 :140469245269760 :Thread-2 :29852 : Getting Inside the Reminder Data 
+INFO :2019-12-20 15:42:30,683 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :306 :140469245269760 :Thread-2 :29852 : Getting Reminder Timezone 2019-12-20 10:12:30.683892+00:00
+INFO :2019-12-20 15:42:30,703 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :306 :140469245269760 :Thread-2 :29852 : Getting Reminder Timezone 2019-12-20 10:12:30.703149+00:00
+INFO :2019-12-20 15:42:30,738 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :306 :140469245269760 :Thread-2 :29852 : Getting Reminder Timezone 2019-12-20 10:12:30.738736+00:00
+INFO :2019-12-20 15:42:30,756 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :306 :140469245269760 :Thread-2 :29852 : Getting Reminder Timezone 2019-12-20 10:12:30.756483+00:00
+INFO :2019-12-20 15:42:30,756 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :311 :140469245269760 :Thread-2 :29852 : Reminders data is loaded for Hussain on 2019-12-20 10:12:30.756791+00:00 
+INFO :2019-12-20 18:35:46,924 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :106 :140626423183104 :Thread-2 :24907 :Redirected Hussain to Github 
+INFO :2019-12-20 18:37:08,492 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :106 :140626423183104 :Thread-2 :24907 :Redirected Hussain to Github 
+INFO :2019-12-20 18:47:25,046 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :106 :139993452377856 :Thread-5 :799 :Redirected Hussain to Github 

@@ -7,9 +7,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('image-upload/', views.UploadFile.as_view(), name='upload'),
     path('label-create/', views.PostLabel.as_view(), name='label-create'),
-    path('label-get/', views.LabelsCreate.as_view(), name='label-get'),
-    path('label-delete/<int:pk>/', views.LabelsDelete.as_view(), name='label=delete'),
-    path('label-update/<int:pk>/', views.LabelsUpdate.as_view(), name='label-update'),
+    # path('label-get/', views.LabelsCreate.as_view(), name='label-get'),
+    # path('label-delete/<int:pk>/', views.LabelsDelete.as_view(), name='label=delete'),
+    # path('label-update/<int:pk>/', views.LabelsUpdate.as_view(), name='label-update'),
     path('note-get/', views.NoteList.as_view(), name='note-get'),
     path('note-update/<int:pk>/', views.NoteUpdate.as_view(), name='label-update'),
     path('note-delete/<int:pk>/', views.NoteDelete.as_view(), name='label-update'),
@@ -20,7 +20,7 @@ urlpatterns = [
     path('archieved-notes/', views.ArchieveNote.as_view(), name='archieve'),
     path('reminder-notes/', views.NoteReminders.as_view(), name='reminder'),
     path("github-note-share/", views.NoteShare.as_view(), name='note-share'),
-    # path('search-note/', views.SearchNote.as_view(),name = "search_note"),
+    path('search-note/', views.SearchNote.as_view(),name = "search_note"),
     path('Celery/', views.Celery.as_view(), name='celery'),
 ]
 # urlpatterns = format_suffix_patterns(urlpatterns)

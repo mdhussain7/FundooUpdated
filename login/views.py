@@ -14,6 +14,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.html import strip_tags
 from django_short_url.models import ShortURL
 from django_short_url.views import get_surl
@@ -250,12 +251,12 @@ def verify(request, token):
             return HttpResponse(json.dumps(response_smd), status=400)
         if user is not None:
             messages.info(request, "reset")
-            return redirect('/api/reset-password/' + str(token) + '/' + str(username) + '/')
+            return redirect(reverse('resetmail',args=[token,username]))
         else:
             messages.info(" Invalid User ")
             return redirect('register')
     except Exception as e:
-        print(e)
+        logger.error(str(e))
         return redirect('resetmail')
 
 
@@ -310,20 +311,21 @@ class FileUploadView(GenericAPIView):
     """
     serializer_class = UserProfileSerializer
 
-    def upload_file_s3(self, file):
+    def uploadToS3(self, file):
         s3 = boto3.client('s3', aws_access_key_id=AWS_UPLOAD_ACCESS_KEY_ID,
                           aws_secret_access_key=AWS_UPLOAD_SECRET_KEY, region_name=AWS_UPLOAD_REGION)
         MEDIA_ROOT = os.path.join(settings.BASE_DIR, 'media/profile_pics')
-        print("MEDIA_ROOT", MEDIA_ROOT)
+        logger.info("MEDIA_ROOT", MEDIA_ROOT)
         with open(os.path.join(MEDIA_ROOT, str(file)), 'rb') as f:
-            b = bytearray(f.read())
-            filename = str(file)
-            new_filepath = filename.split('\\')[-1]
-            url = 'https://{bucket}.s3-{region}.amazonaws.com/{new_filepath}'.format(
+            byte_array = bytearray(f.read())
+            file_name = str(file)
+            file_path = file_name.split('\\')[-1]
+            url = 'https://{bucket}.s3-{region}.amazonaws.com/{file_path}'.format(
                 bucket=AWS_UPLOAD_BUCKET,
                 region=AWS_UPLOAD_REGION,
-                new_filepath=new_filepath,
+                file_path=file_path,
             )
+            s3.put_object(Key=file_path, Bucket=AWS_UPLOAD_BUCKET, Body=byte_array)
             return url
 
     def get(self, request):
@@ -336,24 +338,24 @@ class FileUploadView(GenericAPIView):
         file_serializer = FileSerializer(data=request.data)
         if file_serializer.is_valid():
             file_serializer.save()
-            file = request.data['image']
+            file_name = request.data['image']
             user = request.data['user']
             user_obj = User.objects.get(id=int(user))
-            s3_image_link = self.upload_file_s3(file)
-            print("s3_image_link ------>>>", s3_image_link)
+            image_link = self.uploadToS3(file_name)
+            logger.info("Image Link", image_link)
             profile_object = UserProfile.objects.get(user=user_obj)
-            profile_object.s3_image_link = s3_image_link
+            profile_object.image_link = image_link
             profile_object.save()
-            smd = {'success': True, 'message': 'User Profile is created successfully.'}
-            return Response(smd, status=status.HTTP_201_CREATED)
+            response_smd = {'success': True, 'message': 'User Profile is created successfully.'}
+            return Response(response_smd, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProfileUpdateView(GenericAPIView):
     """
-       This API is for update and delete user profile ,upload image on aws s3 bucket
-       """
+       - This API is for Update and Delete User Profile ,Upload Image on AWS S3 Bucket
+    """
     serializer_class = UserProfileUpdateSerializer
 
     def get_profile_object(self, pk):
@@ -373,13 +375,13 @@ class ProfileUpdateView(GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             file = request.data['image']
-            f = FileUploadView()
-            s3_image_link = f.upload_file_s3(file)
-            logger.info(" Image Link ", s3_image_link)
-            user_profile.s3_image_link = s3_image_link
+            class_object = FileUploadView()
+            image_link = class_object.uploadToS3(file)
+            logger.info(" Image Link While Updating", image_link)
+            user_profile.image_link = image_link
             user_profile.save()
-            smd = {'success': True, 'message': 'User Profile is updated successfully.'}
-            return Response(smd, status=status.HTTP_201_CREATED)
+            response_smd = {'success': True, 'message': 'User Profile is updated successfully.'}
+            return Response(response_smd, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
