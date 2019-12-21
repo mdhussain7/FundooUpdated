@@ -15,7 +15,8 @@ from pathlib import Path
 from .models import ImageTable, Notes, Label
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from .serializer import ImageUploadSerializer, CreateNoteSerializer, UpdateNoteSerializer, ShareSerializer, \
-    LabelSerializer, ReminderNoteSerializer, SearchNoteSerializer  # , ArchieveNoteSerializer,
+    LabelSerializer, ReminderNoteSerializer, SearchNoteSerializer, NotesSerializer, \
+    NotesDocumentSerializer  # , ArchieveNoteSerializer,
 
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -307,6 +308,7 @@ class NoteList(generics.GenericAPIView):
             response = {"status": True, "message": "Note is Created", "data": title}
             return HttpResponse(json.dumps(response), status=201)
 
+
 class NoteCreate(generics.GenericAPIView):
     serializer_class = CreateNoteSerializer
     permission_classes = [IsAuthenticated, ]
@@ -588,22 +590,22 @@ class Celery(GenericAPIView):
             # pdb.set_trace()
             response = {"success": False, "message": "Error Occured While Getting the Reminder Note", "data": []}
             reminder = Notes.objects.filter(reminder__isnull=False)
-            print('Note Data', reminder)
+            # print('Note Data', reminder)
             startTime = timezone.localtime() - timedelta(minutes=5)
-            print('Start Time', startTime)
+            # print('Start Time', startTime)
             endTime = timezone.localtime() + timedelta(minutes=5)
-            print('End Time', endTime)
+            # print('End Time', endTime)
             try:
                 for i in range(len(reminder)):
-                    print('Total Reminder Note Length : ', len(reminder))
-                    print("Loop Start Time : ", startTime)
-                    print("Loop Reminder Time of Note : ", reminder.values()[i]['reminder'])
-                    print("Loop End Time : ", endTime)
-                    print("True Or False : ", startTime < reminder.values()[i]['reminder'] < endTime)
+                    # print('Total Reminder Note Length : ', len(reminder))
+                    # print("Loop Start Time : ", startTime)
+                    # print("Loop Reminder Time of Note : ", reminder.values()[i]['reminder'])
+                    # print("Loop End Time : ", endTime)
+                    # print("True Or False : ", startTime < reminder.values()[i]['reminder'] < endTime)
                     # import pdb
                     # pdb.set_trace()
                     if startTime <= reminder.values()[i]['reminder'] <= endTime:
-                        print("Inside Message ")
+                        # print("Inside Message ")
                         user_id = reminder.values()[i]['user_id']
                         user = User.objects.get(id=user_id)
                         subject = 'Reminder Notification From Fundoo'
@@ -662,14 +664,32 @@ class Celery(GenericAPIView):
 
 
 class SearchNote(GenericAPIView):
-
-    def get(self, request):
-        search_data = request.GET.get('search_data')
-        if search_data:
-            notes = NoteDocument.search().query("multi_match", query=search_data, fields=["title", "description"])
+    serializer_class = SearchNoteSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+    data = Notes.objects.all()
+    def post(self, request):
+        # import pdb
+        # pdb.set_trace()
+        search_title = request.data['title']
+        search_description = request.data['description']
+        # search_data = request.GET.get('search_data')
+        response = {"success": False, "message": "Error Occured at the Beginning", "data": []}
+        if search_title and search_description:
+            notes = NoteDocument.search().query("multi_match", query=[search_title,search_description], fields=["title", "description"])
             if notes.count() == 0:
-                response_smd = {'success': False, 'message': "No Search results found ..!!"}
+                response_smd = {'status': False, 'message': "No Search Results Found ..!!"}
                 return HttpResponse(json.dumps(response_smd))
-            print("Total Search Results", notes.count())
+            logger.info("Total Search Results", notes.count())
             serializer = SearchNoteSerializer(notes, many=True)
             return Response(serializer.data, status=200)
+        else:
+            return HttpResponse(json.dumps(response, indent=2), status=400)
+        # response = {"success": False, "message": "Error Occured at the Beginning", "data": []}
+        # try:
+        #     data = request.data['title']
+        #     note = NotesSerializer(note.to_queryset(), many=True)
+        #     logger.info("Note Didn't get %s for the Search", request.user)
+        #     return HttpResponse(json.dumps(note.data, indent=2), status=200)
+        # except Exception as e:
+        #     logger.error("%s for %s while searching note Using search", str(e), request.user)
+        #     return HttpResponse(json.dumps(response, indent=2), status=400)

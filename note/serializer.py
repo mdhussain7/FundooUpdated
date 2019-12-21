@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import ImageTable, File
 from .models import Notes, Label
 from django.contrib.auth.models import User
-
+from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
+from .documents import NoteDocument
 
 #
 class ImageUploadSerializer(serializers.ModelSerializer):
@@ -88,3 +89,9 @@ class ReminderNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
         fields = ['reminder']
+
+
+class NotesDocumentSerializer(DocumentSerializer):
+    class Meta:
+        document = NoteDocument
+        fields = ['title']

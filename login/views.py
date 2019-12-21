@@ -200,15 +200,10 @@ class ResetPassword(GenericAPIView):
         try:
             if request.method == 'POST' and token != "":
                 password = request.data['password']
-                # print(username, 'jhvjkvhfkjuvgfigfig')
-                # print(str(username.values()))
                 if User.objects.filter(username=username).exists():
-                    # print(str(username.values()))
                     user = User.objects.get(username=username)
                     user.set_password(password)
                     user.save()
-                    # messages.info(request, " Reset Password Successfully ")
-                    # responsesmd = {"status": True, "message": "Reset Password Successfully", "data": [user]}
                     return redirect('login')
             return render(request, 'register')
         except Exception:
@@ -230,12 +225,13 @@ def activate(request, token):
             user.is_active = True
             user.save()
             messages.info(request, " Account is active now ")
-            return redirect('/login')
+            return redirect('login')
         else:
             return redirect('register')
     except KeyError:
         messages.info(request, ' Sending Email Failed ')
         return redirect('/register')
+
 
 
 def verify(request, token):
@@ -258,11 +254,6 @@ def verify(request, token):
     except Exception as e:
         logger.error(str(e))
         return redirect('resetmail')
-
-
-# def interface(request):
-#     return render(request, 'interface.html')
-
 
 class MailAttachment(GenericAPIView):
     serializer_class = ForgotSerializer
@@ -307,7 +298,7 @@ class MailAttachment(GenericAPIView):
 
 class FileUploadView(GenericAPIView):
     """
-    This API is for read and create user profile ,upload image on aws s3 bucket
+        - This API is for read and create user profile ,upload image on aws s3 bucket
     """
     serializer_class = UserProfileSerializer
 

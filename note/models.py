@@ -20,6 +20,18 @@ class Label(models.Model):
     label = models.CharField("Label", max_length=254)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='label_user')
 
+    def __str__(self):
+        return self.label
+
+    def __repr__(self):
+        return "Label({!r},{!r})".format(self.user, self.label)
+
+    class Meta:
+        """
+        name is given which will be displayed in admin page
+        """
+        verbose_name = 'label'
+        verbose_name_plural = 'labels'
 
 # create Note model
 class Notes(models.Model):
