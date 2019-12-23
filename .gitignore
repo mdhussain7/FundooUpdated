@@ -1,2 +1,8 @@
-.env/*
-venv/*
+fundoo/env/*
+fundoo/venv/*
+fundoo/.coverage/*
+fundoo/.coveragerc/*
+fundoo/docker-compose.yml/*
+fundoo/fundoo.log/*
+fundoo/sonar-project.properties/*
+fundoo/Hussain.jpeg
