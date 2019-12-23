@@ -82,7 +82,7 @@ class ShareSerializer(serializers.ModelSerializer):
 class SearchNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
-        fields = ['title', 'description']
+        fields = ['title'] #, 'description']
 
 
 class ReminderNoteSerializer(serializers.ModelSerializer):

@@ -18,7 +18,7 @@ from django.urls import reverse
 from django.utils.html import strip_tags
 from django_short_url.models import ShortURL
 from django_short_url.views import get_surl
-from fundoo.settings import fh,AWS_UPLOAD_BUCKET, AWS_UPLOAD_REGION, AWS_UPLOAD_ACCESS_KEY_ID,AWS_UPLOAD_SECRET_KEY
+from fundoo.settings import fh, AWS_UPLOAD_BUCKET, AWS_UPLOAD_REGION, AWS_UPLOAD_ACCESS_KEY_ID, AWS_UPLOAD_SECRET_KEY
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from .models import UserProfile
@@ -233,7 +233,6 @@ def activate(request, token):
         return redirect('/register')
 
 
-
 def verify(request, token):
     try:
         url = ShortURL.objects.get(surl=token)
@@ -247,13 +246,14 @@ def verify(request, token):
             return HttpResponse(json.dumps(response_smd), status=400)
         if user is not None:
             messages.info(request, "reset")
-            return redirect(reverse('resetmail',args=[token,username]))
+            return redirect(reverse('resetmail', args=[token, username]))
         else:
             messages.info(" Invalid User ")
             return redirect('register')
     except Exception as e:
         logger.error(str(e))
         return redirect('resetmail')
+
 
 class MailAttachment(GenericAPIView):
     serializer_class = ForgotSerializer

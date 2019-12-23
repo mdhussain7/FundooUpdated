@@ -13,14 +13,14 @@ class NoteDocument(Document):
         - The fields of the model you want to be indexed in Elasticsearch
     """
     title = fields.TextField(analyzer=Analyzer,fields={'raw': fields.KeywordField()})
-    description = fields.TextField(analyzer=Analyzer,fields={'raw': fields.KeywordField()})
+    # description = fields.TextField(analyzer=Analyzer,fields={'raw': fields.KeywordField()})
 
     class Index:
 
         """
             - Name of the Elasticsearch index
         """
-        name = 'notes'
+        name = 'note'
         settings = {'number_of_shards': 1,'number_of_replicas': 0}
 
     class Django:

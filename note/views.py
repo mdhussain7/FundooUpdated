@@ -260,7 +260,7 @@ def get_user(token):
     return user.id
 
 
-class NoteList(generics.GenericAPIView):
+class NoteCreate(generics.GenericAPIView):
     serializer_class = CreateNoteSerializer
     permission_classes = [IsAuthenticated, ]
 
@@ -309,32 +309,79 @@ class NoteList(generics.GenericAPIView):
             return HttpResponse(json.dumps(response), status=201)
 
 
-class NoteCreate(generics.GenericAPIView):
-    serializer_class = CreateNoteSerializer
-    permission_classes = [IsAuthenticated, ]
+class NoteDetails(GenericAPIView):
+    serializer_class = UpdateNoteSerializer
+    parser_classes = FormParser, JSONParser, MultiPartParser
+    data = Notes.objects.all()
 
-    def post(self, request, format=None):
-        """
-            - Creating the note
-        """
-        user = request.user
-        response = {"status": False, "message": "Invalid Response", "data": []}
-        title = request.data["title"]
-        description = request.data["description"]
-        tz = timezone.now()
-        if Notes.objects.filter(user_id=user.id, title=title, description=description).exists():
-            logger.info('Note already exists for %s Time is %s', user, tz)
-            response['message'] = "Note already exists"
-            return Response(response, status=400)
-        else:
-            noteCreated = Notes.objects.create(user_id=user.id, title=title, description=description)
-            result = Notes.objects.values()
-            list_result = [i for i in result]
-            redis.hmset(str(user.id) + "Note", {noteCreated.id: list_result})
-            logger.info("Note is created for %s Time is %s", user, tz)
-            response = {"status": True, "message": "Note is Created", "data": title}
-            return HttpResponse(json.dumps(response), status=201)
+    def get_object(self, pk):
+        try:
+            return Notes.objects.get(pk=pk)
+        except Notes.DoesNotExist:
+            raise Http404
 
+    def get(self, request, pk):
+        """
+                        - Getting the notes based on their id the Label
+        """
+        note = self.get_object(pk)
+        serializer = CreateNoteSerializer(note)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        """
+                        - Updating the note based on it ID
+        """
+        note = self.get_object(pk)
+        serializer = UpdateNoteSerializer(note, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            note = Notes.objects.get(pk=pk)
+            logger.info('Note is ', note)
+            if note.is_archived:
+                note.is_pinned = False
+                note.save()
+            responsesmd = {'success': True, 'message': 'Note Updated successfully.'}
+            return Response(responsesmd, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        """
+                - Deleting the note based on its ID
+        """
+        note = self.get_object(pk)
+        note.delete()
+        notes = Notes.objects.all()
+        serializer = CreateNoteSerializer(notes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# class NoteCreate(generics.GenericAPIView):
+#     serializer_class = CreateNoteSerializer
+#     permission_classes = [IsAuthenticated, ]
+#
+#     def post(self, request, format=None):
+#         """
+#             - Creating the note
+#         """
+#         user = request.user
+#         response = {"status": False, "message": "Invalid Response", "data": []}
+#         title = request.data["title"]
+#         description = request.data["description"]
+#         tz = timezone.now()
+#         if Notes.objects.filter(user_id=user.id, title=title, description=description).exists():
+#             logger.info('Note already exists for %s Time is %s', user, tz)
+#             response['message'] = "Note already exists"
+#             return Response(response, status=400)
+#         else:
+#             noteCreated = Notes.objects.create(user_id=user.id, title=title, description=description)
+#             result = Notes.objects.values()
+#             list_result = [i for i in result]
+#             redis.hmset(str(user.id) + "Note", {noteCreated.id: list_result})
+#             logger.info("Note is created for %s Time is %s", user, tz)
+#             response = {"status": True, "message": "Note is Created", "data": title}
+#             return HttpResponse(json.dumps(response), status=201)
+#
 
 class ArchieveNote(GenericAPIView):
 
@@ -448,102 +495,55 @@ class PinnedNote(GenericAPIView):
             return HttpResponse(json.dumps(response_smd), status=404)
 
 
-class NoteDetails(GenericAPIView):
-    serializer_class = UpdateNoteSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    data = Notes.objects.all()
-
-    def get_object(self, pk):
-        try:
-            return Notes.objects.get(pk=pk)
-        except Notes.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        """
-                        - Getting the notes based on their id the Label
-        """
-        note = self.get_object(pk)
-        serializer = CreateNoteSerializer(note)
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def put(self, request, pk):
-        """
-                        - Updating the note based on it ID
-        """
-        note = self.get_object(pk)
-        serializer = UpdateNoteSerializer(note, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            note = Notes.objects.get(pk=pk)
-            logger.info('Note is ', note)
-            if note.is_archived:
-                note.is_pinned = False
-                note.save()
-            responsesmd = {'success': True, 'message': 'Note Updated successfully.'}
-            return Response(responsesmd, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        """
-                - Deleting the note based on its ID
-        """
-        note = self.get_object(pk)
-        note.delete()
-        notes = Notes.objects.all()
-        serializer = CreateNoteSerializer(notes, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class NoteUpdate(GenericAPIView):
-    serializer_class = UpdateNoteSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    data = Notes.objects.all()
-
-    def get_object(self, pk):
-        try:
-            return Notes.objects.get(pk=pk)
-        except Notes.DoesNotExist:
-            raise Http404
-
-    def put(self, request, pk):
-        """
-                        - Updating the note based on it ID
-        """
-        note = self.get_object(pk)
-        serializer = UpdateNoteSerializer(note, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            note = Notes.objects.get(pk=pk)
-            logger.info('Note is ', note)
-            if note.is_archived:
-                note.is_pinned = False
-                note.save()
-            responsesmd = {'success': True, 'message': 'Note Updated successfully.'}
-            return Response(responsesmd, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class NoteDelete(GenericAPIView):
-    serializer_class = UpdateNoteSerializer
-    parser_classes = FormParser, JSONParser, MultiPartParser
-    data = Notes.objects.all()
-
-    def get_object(self, pk):
-        try:
-            return Notes.objects.get(pk=pk)
-        except Notes.DoesNotExist:
-            raise Http404
-
-    def delete(self, request, pk):
-        """
-                - Deleting the note based on its ID
-        """
-        note = self.get_object(pk)
-        note.delete()
-        notes = Notes.objects.all()
-        serializer = CreateNoteSerializer(notes, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+# class NoteUpdate(GenericAPIView):
+#     serializer_class = UpdateNoteSerializer
+#     parser_classes = FormParser, JSONParser, MultiPartParser
+#     data = Notes.objects.all()
+#
+#     def get_object(self, pk):
+#         try:
+#             return Notes.objects.get(pk=pk)
+#         except Notes.DoesNotExist:
+#             raise Http404
+#
+#     def put(self, request, pk):
+#         """
+#                         - Updating the note based on it ID
+#         """
+#         note = self.get_object(pk)
+#         serializer = UpdateNoteSerializer(note, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             note = Notes.objects.get(pk=pk)
+#             logger.info('Note is ', note)
+#             if note.is_archived:
+#                 note.is_pinned = False
+#                 note.save()
+#             responsesmd = {'success': True, 'message': 'Note Updated successfully.'}
+#             return Response(responsesmd, status=status.HTTP_200_OK)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#
+# class NoteDelete(GenericAPIView):
+#     serializer_class = UpdateNoteSerializer
+#     parser_classes = FormParser, JSONParser, MultiPartParser
+#     data = Notes.objects.all()
+#
+#     def get_object(self, pk):
+#         try:
+#             return Notes.objects.get(pk=pk)
+#         except Notes.DoesNotExist:
+#             raise Http404
+#
+#     def delete(self, request, pk):
+#         """
+#                 - Deleting the note based on its ID
+#         """
+#         note = self.get_object(pk)
+#         note.delete()
+#         notes = Notes.objects.all()
+#         serializer = CreateNoteSerializer(notes, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class NoteShare(GenericAPIView):
@@ -667,27 +667,33 @@ class SearchNote(GenericAPIView):
     serializer_class = SearchNoteSerializer
     parser_classes = FormParser, JSONParser, MultiPartParser
     data = Notes.objects.all()
+
     def post(self, request):
         # import pdb
         # pdb.set_trace()
-        search_title = request.data['title']
-        search_description = request.data['description']
-        # search_data = request.GET.get('search_data')
-        response = {"success": False, "message": "Error Occured at the Beginning", "data": []}
-        if search_title and search_description:
-            notes = NoteDocument.search().query("multi_match", query=[search_title,search_description], fields=["title", "description"])
-            if notes.count() == 0:
-                response_smd = {'status': False, 'message': "No Search Results Found ..!!"}
-                return HttpResponse(json.dumps(response_smd))
-            logger.info("Total Search Results", notes.count())
-            serializer = SearchNoteSerializer(notes, many=True)
-            return Response(serializer.data, status=200)
-        else:
-            return HttpResponse(json.dumps(response, indent=2), status=400)
+        response_smd = {"success": False, "message": "Error Occured at the Beginning", "data": []}
+        try:
+            search_title = request.data['title']
+            # search_description = request.data['description']
+            # search_data = request.GET.get('search_data')
+            if search_title:  # and search_description:
+                notes = NoteDocument.search().query("multi_match", query=search_title, fields=['title'])
+                if notes.count() == 0:
+                    response_smd = {'status': False, 'message': "No Search Results Found ..!!"}
+                    return HttpResponse(json.dumps(response_smd))
+                serializer = SearchNoteSerializer(notes, many=True)
+                logger.info("Total Number of Search Results are %s for the search %s ",notes.count(), search_title)
+                return Response(serializer.data, status=200)
+            else:
+                logger.error(" Error Occcured while Fetching the Note")
+                return HttpResponse(json.dumps(response_smd, indent=2), status=400)
+        except Exception as e:
+            logger.error(str(e))
+            return HttpResponse(json.dumps(response_smd), status=400)
         # response = {"success": False, "message": "Error Occured at the Beginning", "data": []}
         # try:
         #     data = request.data['title']
-        #     note = NotesSerializer(note.to_queryset(), many=True)
+        #     note = SearchNoteSerializer(note.to_queryset(), many=True)
         #     logger.info("Note Didn't get %s for the Search", request.user)
         #     return HttpResponse(json.dumps(note.data, indent=2), status=200)
         # except Exception as e:

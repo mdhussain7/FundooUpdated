@@ -758,3 +758,13 @@ INFO :2019-12-20 18:47:25,046 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/
 ERROR :2019-12-21 12:30:28,032 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :712 :139674585749248 :Thread-2 :8609 :error: NotFoundError(404, 'index_not_found_exception', 'no such index [notess]', notess, index_or_alias) for AnonymousUser while searching vis elasticsearch
 ERROR :2019-12-21 12:32:48,418 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :710 :139788351129344 :Thread-2 :9593 :error: NotFoundError(404, 'index_not_found_exception', 'no such index [notess]', notess, index_or_alias) for AnonymousUser while searching vis elasticsearch
 ERROR :2019-12-21 12:48:32,303 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :714 :139930690868992 :Thread-2 :19316 :error: NotFoundError(404, 'index_not_found_exception', 'no such index [note]', note, index_or_alias) for Hussain while searching vis elasticsearch
+ERROR :2019-12-23 12:50:53,839 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :692 :140575353337600 :Thread-3 :7954 :error: NotFoundError(404, 'index_not_found_exception', 'no such index [note]', note, index_or_alias) for Hussain while searching vis elasticsearch
+ERROR :2019-12-23 13:03:57,196 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :692 :140575353337600 :Thread-4 :7954 :error: NotFoundError(404, 'index_not_found_exception', 'no such index [note]', note, index_or_alias) for Hussain while searching vis elasticsearch
+ERROR :2019-12-23 13:05:23,751 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :693 :140667024045824 :Thread-6 :23354 :error: NotFoundError(404, 'index_not_found_exception', 'no such index [note]', note, index_or_alias) for Hussain while searching vis elasticsearch
+INFO :2019-12-23 13:31:56,171 :<stdin> :1 :140514096322304 :Thread-2 :15281 :hi
+INFO :2019-12-23 13:35:51,122 :<stdin> :1 :140514096322304 :Thread-2 :15281 :hi
+INFO :2019-12-23 13:36:47,708 :<stdin> :1 :140514096322304 :Thread-2 :15281 :hi 4
+INFO :2019-12-23 13:37:04,104 :<stdin> :1 :140514096322304 :Thread-2 :15281 :hi 4
+INFO :2019-12-23 13:40:38,684 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :685 :140472250033920 :Thread-2 :24087 :Total Number of Search Results are 4 
+INFO :2019-12-23 13:41:15,257 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :685 :140093739796224 :Thread-2 :25017 :Total Number of Search Results are 4 
+INFO :2019-12-23 13:42:30,113 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :685 :139875290412800 :Thread-2 :26017 :Total Number of Search Results are 4 for the search abcd 
