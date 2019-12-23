@@ -768,3 +768,11 @@ INFO :2019-12-23 13:37:04,104 :<stdin> :1 :140514096322304 :Thread-2 :15281 :hi 
 INFO :2019-12-23 13:40:38,684 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :685 :140472250033920 :Thread-2 :24087 :Total Number of Search Results are 4 
 INFO :2019-12-23 13:41:15,257 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :685 :140093739796224 :Thread-2 :25017 :Total Number of Search Results are 4 
 INFO :2019-12-23 13:42:30,113 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :685 :139875290412800 :Thread-2 :26017 :Total Number of Search Results are 4 for the search abcd 
+INFO :2019-12-23 19:31:48,526 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :193 :139807986829056 :Thread-3 :28664 :Getting the Note Data on 2019-12-23 14:01:48.525992+00:00 
+WARNING :2019-12-23 19:31:48,541 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :201 :139807986829056 :Thread-3 :28664 :Got That page number is not an integer Error for Getting Note for User Hussain
+INFO :2019-12-23 19:31:48,543 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :206 :139807986829056 :Thread-3 :28664 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-23 19:32:01,184 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :193 :139807986829056 :Thread-3 :28664 :Getting the Note Data on 2019-12-23 14:02:01.184258+00:00 
+WARNING :2019-12-23 19:32:01,191 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :201 :139807986829056 :Thread-3 :28664 :Got That page number is not an integer Error for Getting Note for User Hussain
+INFO :2019-12-23 19:32:01,200 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :206 :139807986829056 :Thread-3 :28664 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2019-12-23 19:32:10,178 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :193 :139807986829056 :Thread-3 :28664 :Getting the Note Data on 2019-12-23 14:02:10.178829+00:00 
+INFO :2019-12-23 19:32:10,181 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :206 :139807986829056 :Thread-3 :28664 :All the Notes are Rendered to HTML Page for User Hussain

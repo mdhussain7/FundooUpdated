@@ -45,7 +45,7 @@ class CreateNoteSerializer(serializers.ModelSerializer):
         model = Notes
         # fields = ['title', 'description', 'is_archived', 'is_pinned', 'image', 'color', 'is_trash',
         #           'reminder', 'user']
-        fields = ['title', 'description', 'is_archived', 'is_pinned', 'color', 'is_trash',
+        fields = ['title', 'description', 'is_archived', 'is_pinned', 'collaborate', 'color', 'is_trash',
                   'reminder', 'user']
 
 

@@ -14,7 +14,7 @@ class NoteTests(APITestCase):
 
     def test_create_note(self):
         """
-        Ensure we can create a new note object.
+            - Ensure we can create a new note object.
         """
         url = reverse('note')
         data = {'title': 'notes','description':'Created a New Note'}
