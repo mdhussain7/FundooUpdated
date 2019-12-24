@@ -15,7 +15,9 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.html import strip_tags
+from django.views.decorators.csrf import csrf_exempt
 from django_short_url.models import ShortURL
 from django_short_url.views import get_surl
 from fundoo.settings import fh, AWS_UPLOAD_BUCKET, AWS_UPLOAD_REGION, AWS_UPLOAD_ACCESS_KEY_ID, AWS_UPLOAD_SECRET_KEY
@@ -25,6 +27,7 @@ from .models import UserProfile
 from .serializer import LoginSerializer, ResetSerializer, RegisterSerializer, ForgotSerializer, LogoutSerailizer, \
     UserProfileUpdateSerializer, FileSerializer, UserProfileSerializer
 from rest_framework import status
+from .decorators import login_decorator
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -107,7 +110,8 @@ class Register(GenericAPIView):
             response_smd = {'status': False, 'message': " Registration Failed ", 'data': [e]}
             return HttpResponse(json.dumps(response_smd), status=400)
 
-
+@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(login_decorator, name='dispatch')
 def Activate(request, token):
     try:
         object = ShortURL.objects.get(surl=token)
@@ -163,7 +167,8 @@ class Sendmail(GenericAPIView):
             response_smd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
             return HttpResponse(json.dumps(response_smd), status=400)
 
-
+@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(login_decorator, name='dispatch')
 class Logout(GenericAPIView):
     serializer_class = LogoutSerailizer
 
@@ -179,7 +184,8 @@ class Logout(GenericAPIView):
         except Exception:
             return HttpResponse(json.dumps(response_smd), status=400)
 
-
+@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(login_decorator, name='dispatch')
 class ResetPassword(GenericAPIView):
     serializer_class = ResetSerializer
 
@@ -210,6 +216,8 @@ class ResetPassword(GenericAPIView):
             return HttpResponse(json.dumps(response_smd), status=400)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(login_decorator, name='dispatch')
 def activate(request, token):
     try:
         url = ShortURL.objects.get(surl=token)
@@ -233,6 +241,8 @@ def activate(request, token):
         return redirect('/register')
 
 
+@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(login_decorator, name='dispatch')
 def verify(request, token):
     try:
         url = ShortURL.objects.get(surl=token)
@@ -296,6 +306,8 @@ class MailAttachment(GenericAPIView):
             return HttpResponse(json.dumps(response_smd), status=400)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(login_decorator, name='dispatch')
 class FileUploadView(GenericAPIView):
     """
         - This API is for read and create user profile ,upload image on aws s3 bucket
@@ -342,7 +354,8 @@ class FileUploadView(GenericAPIView):
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(login_decorator, name='dispatch')
 class ProfileUpdateView(GenericAPIView):
     """
        - This API is for Update and Delete User Profile ,Upload Image on AWS S3 Bucket
