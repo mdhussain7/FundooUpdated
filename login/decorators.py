@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import HttpResponse
-from rest_framework.views import GenericAPIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 

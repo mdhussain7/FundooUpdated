@@ -21,7 +21,6 @@ class ImageUpload:
             # raise Exception("tests")
             upload.meta.client.upload_fileobj(file, AWS_STORAGE_BUCKET_NAME, 'upload')
             response = self.response_smd(True, 'Upload Successfull', '')
-            print(response)
             return response
         except Exception:
             response = self.response_smd(False, 'Failed  to upload file', '')
