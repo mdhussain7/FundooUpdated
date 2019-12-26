@@ -49,12 +49,13 @@ class Login(GenericAPIView):
             username = request.data['username']
             password = request.data['password']
             response_smd = {'status': False, 'message': " Failed to Sign In ", 'data': []}
-            payload = {'username': username, }
-            user = auth.authenticate(username=username, password=password)
+            # payload = {'username': username, }
+            # user = auth.authenticate(username=username, password=password)
             try:
                 user = auth.authenticate(username=username, password=password)
             except ValueError as ve:
                 response_smd = {'status': False, 'message': " Failed to Sign In ", 'data': []}
+                logger.error(str(ve))
                 return HttpResponse(json.dumps(response_smd), status=400)
             if user is not None:
                 # auth.login(request, user)

@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  nginx:
+    image: 231d40e811cd
+    restart: unless-stopped
+ 
+    ports:
+      - "80:80"
+
+  redis:
+    image: redis
+    restart: unless-stopped
+
+    ports:
+#    - "6379:6379"
+    - "6378:6378"
+
+  mysql:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+#      - MYSQL_RANDOM_ROOT_PASSWORD = yes
+#      - MYSQL_ALLOW_EMPTY_PASSWORD = yes
+      - MYSQL_ROOT_PASSWORD=dUj0RObOrylahAt@Hwubt3ztiNh
+#      - MYSQL_DATABASE = fundoonotes
+
+    ports:
+      - "33060:33060"
+      - "3305:3305"
+
+  rabbitmq:
+    image: rabbitmq
+    restart: unless-stopped
+
+    ports:
+#      - "5672:5672"
+      - "5671:5671"
+
+  myimage:
+    image: c10848ef3238
+    restart: unless-stopped
+
