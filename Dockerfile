@@ -6,6 +6,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 RUN apt-get update && apt-get install -y --no-install-recommends python3-dev libmcrypt-dev default-mysql-client
 RUN apt-get update && apt-get install -y apt-utils && apt-get install -y curl
+RUN apt-get install redis-server
 RUN pip install --upgrade pip setuptools wheel
 COPY requirements.txt /tmp
 WORKDIR /tmp

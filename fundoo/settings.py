@@ -118,7 +118,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': USER,
         'PASSWORD': PASSWORD,
-        'HOST': os.getenv('DB_HOST'),
+        'HOST':'db', #os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'autocommit': True,
@@ -221,6 +221,7 @@ SITE_ID = 1
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 LOGIN_REDIRECT_URL = 'post'
 LOGOUT_URL = '/'
+
 
 CACHES = {
     "default": {

@@ -1,43 +1,52 @@
-version: "3"
+version: "2"
 
 services:
   nginx:
-    image: 231d40e811cd
-    restart: unless-stopped
- 
+    image: nginx:latest
+    restart: always
     ports:
-      - "80:80"
+      - "80:8000"
 
   redis:
-    image: redis
-    restart: unless-stopped
-
+    container_name: redisCon
+    image: redis:latest
+    restart: always
     ports:
-#    - "6379:6379"
-    - "6378:6378"
+    - "6378:6379"
+#    - "6378:6378"
 
-  mysql:
+  db:
     image: mysql:5.7
-    restart: unless-stopped
+    restart: always
     environment:
-#      - MYSQL_RANDOM_ROOT_PASSWORD = yes
-#      - MYSQL_ALLOW_EMPTY_PASSWORD = yes
-      - MYSQL_ROOT_PASSWORD=dUj0RObOrylahAt@Hwubt3ztiNh
-#      - MYSQL_DATABASE = fundoonotes
-
+      MYSQL_ROOT_PASSWORD : "Ammi@786"
+      MYSQL_DATABASE : "fundoonotes"
     ports:
-      - "33060:33060"
-      - "3305:3305"
+      - "3306:3306"
+#      - "3305:3305"
 
   rabbitmq:
-    image: rabbitmq
-    restart: unless-stopped
-
+    image: rabbitmq:latest
+    restart: always
     ports:
 #      - "5672:5672"
       - "5671:5671"
 
-  myimage:
-    image: c10848ef3238
-    restart: unless-stopped
+  myprojectimage:
+    container_name: fundooCon
+    image: fundooimage
+    restart: always
+    depends_on:
+      - db
+      - redis
+#      - rabbitmq
+#      - nginx
+    ports:
+      - "8000:8000"
+#    restart: unless-stopped
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
 
