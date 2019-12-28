@@ -1,17 +1,22 @@
 import redis
+# import redis
+#
+#
+# class RedisOperation:
+#     redis = redis.StrictRedis(host='redis', port=6379, db=0)
 
 
 # User Defined Redis Cache
 class Cache:
 
-    def __init__(self, host='redis', port=6379, db=0):
+    def __init__(self, host='localhost', port=6379, db=0):
         self.host = host
         self.port = port
         self.db = db
         self.username = ''
         self.password = ''
 
-    def __connect__(self):
+    def connect(self):
         try:
             self.red = redis.StrictRedis(host=self.host, port=self.port, db=self.db)
             # ping = self.red.ping()

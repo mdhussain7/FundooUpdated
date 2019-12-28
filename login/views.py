@@ -111,6 +111,7 @@ class Register(GenericAPIView):
             response_smd = {'status': False, 'message': " Registration Failed ", 'data': [e]}
             return HttpResponse(json.dumps(response_smd), status=400)
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(login_decorator, name='dispatch')
 def Activate(request, token):
@@ -168,6 +169,7 @@ class Sendmail(GenericAPIView):
             response_smd = {'status': False, 'message': " Enter a Valid Email ", 'data': []}
             return HttpResponse(json.dumps(response_smd), status=400)
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(login_decorator, name='dispatch')
 class Logout(GenericAPIView):
@@ -184,6 +186,7 @@ class Logout(GenericAPIView):
             return HttpResponse(json.dumps(response_smd), status=200)
         except Exception:
             return HttpResponse(json.dumps(response_smd), status=400)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(login_decorator, name='dispatch')
@@ -354,6 +357,7 @@ class FileUploadView(GenericAPIView):
             return Response(response_smd, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(login_decorator, name='dispatch')

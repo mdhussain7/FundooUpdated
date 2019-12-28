@@ -45,7 +45,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .lib.redisSevice import Cache
 
 redis = Cache()
-connection = redis.__connect__()
+# redis = red.redis
+connection = redis.connect()
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

@@ -26,7 +26,9 @@ from fundoo.settings import fh,SOCIAL_AUTH_GITHUB_KEY,SOCIAL_AUTH_GITHUB_SECRET,
     BASE_URL,AUTH_GITHUB_USER_EMAIL_URL,AUTH_GITHUB_USER_URL, SOCIAL_FACEBOOK_TOKEN_URL
 from note.lib.redisSevice import Cache
 red = Cache()
-red.__connect__()
+red.connect()
+# redis = Cache()
+# red = redis.redis
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(fh)
