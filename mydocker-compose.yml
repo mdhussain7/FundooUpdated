@@ -37,7 +37,7 @@ services:
   myprojectimage:
     container_name: fundooCon
     image: imagefundoo:latest
-    command: bash -c " python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c " sleep 60 && python manage.py makemigrations && sleep 60 && python manage.py migrate && sleep 60 && python manage.py runserver 0.0.0.0:8000"
     restart: always
     depends_on:
       - db
