@@ -37,7 +37,7 @@ class NotesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notes
-        fields = ['title', 'note', 'label', 'url', 'is_archive', 'collaborators', 'image', 'reminder', 'color']
+        fields = ['title', 'description', 'label', 'url', 'is_archive', 'collaborators', 'image', 'reminder', 'color']
 
 
 class CreateNoteSerializer(serializers.ModelSerializer):

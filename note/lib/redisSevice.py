@@ -9,7 +9,7 @@ import redis
 # User Defined Redis Cache
 class Cache:
 
-    def __init__(self, host='localhost', port=6379, db=0):
+    def __init__(self, host='redis', port=6379, db=0):
         self.host = host
         self.port = port
         self.db = db
@@ -32,7 +32,7 @@ class Cache:
 
     def get(self, key):
         value = self.red.get(key)
-        return value
+        return key
 
     def delete(self, key):
         self.red.delete(key)

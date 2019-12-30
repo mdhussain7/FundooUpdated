@@ -48,7 +48,6 @@ redis = Cache()
 # redis = red.redis
 connection = redis.connect()
 
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(fh)
@@ -90,7 +89,7 @@ class UploadFile(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class PostLabel(GenericAPIView):
     serializer_class = LabelSerializer
     parser_classes = FormParser, JSONParser, MultiPartParser
@@ -111,7 +110,7 @@ class PostLabel(GenericAPIView):
             # pdb.set_trace()
             user = request.user
             redis_data = redis.hvals(str(user.id) + "label")
-            print(redis_data)
+            # print(redis_data)
             if len(redis_data) == 0:
                 labels = Label.objects.filter(user_id=user.id)
                 label_name = [i.label for i in labels]
@@ -190,10 +189,11 @@ def get_user(token):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class NoteCreate(generics.GenericAPIView):
     serializer_class = CreateNoteSerializer
-    permission_classes = [IsAuthenticated, ]
+
+    # permission_classes = [IsAuthenticated, ]
 
     def get(self, request, format=None):
         """
@@ -261,8 +261,7 @@ class NoteCreate(generics.GenericAPIView):
                                     {note_create.id: str(json.dumps({"email": user.email, "user": str(user),
                                                                      "note_id": note_create.id,
                                                                      "reminder": serializer.data["reminder"]}))})
-                    redis.hmset(str(user.id) + "note",
-                                {note_create.id: str(json.dumps(serializer.data))})
+                    redis.hmset(str(user.id) + "note",{note_create.id: str(json.dumps(serializer.data))})
 
                     logger.info("Note is created for %s with note data as %s", user, note_create.__repr__())
                     return HttpResponse(json.dumps(response, indent=2), status=201)
@@ -303,7 +302,7 @@ class NoteCreate(generics.GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class NoteDetails(GenericAPIView):
     serializer_class = UpdateNoteSerializer
     parser_classes = FormParser, JSONParser, MultiPartParser
@@ -352,7 +351,7 @@ class NoteDetails(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class ArchieveNote(GenericAPIView):
 
     def get(self, request):
@@ -383,7 +382,7 @@ class ArchieveNote(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class NoteReminders(GenericAPIView):
 
     def get(self, request):
@@ -422,7 +421,7 @@ class NoteReminders(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class TrashNote(GenericAPIView):
 
     def get(self, request):
@@ -447,7 +446,7 @@ class TrashNote(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class PinnedNote(GenericAPIView):
 
     def get(self, request):
@@ -472,7 +471,7 @@ class PinnedNote(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class NoteShare(GenericAPIView):
     serializer_class = ShareSerializer
 
@@ -499,7 +498,7 @@ class NoteShare(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class Celery(GenericAPIView):
     serializer_class = ReminderNoteSerializer
 
@@ -539,7 +538,7 @@ class Celery(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(user_login_required, name='dispatch')
+# @method_decorator(user_login_required, name='dispatch')
 class SearchNote(GenericAPIView):
     serializer_class = SearchNoteSerializer
     parser_classes = FormParser, JSONParser, MultiPartParser

@@ -9,8 +9,10 @@ services:
 
   redis:
     container_name: redisCon
-    image: redis:latest
+    image: redis
     restart: always
+    environment:
+      REDIS_HOST: redis
     ports:
     - "6378:6379"
 #    - "6378:6378"
@@ -19,8 +21,8 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD : "Ammi@786"
-      MYSQL_DATABASE : "fundoonotes"
+      MYSQL_ROOT_PASSWORD : Ammi@786
+      MYSQL_DATABASE : fundoonotes
     ports:
       - "3306:3306"
 #      - "3305:3305"
@@ -34,7 +36,8 @@ services:
 
   myprojectimage:
     container_name: fundooCon
-    image: fundooimage:latest
+    image: imagefundoo:latest
+    command: bash -c " python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     restart: always
     depends_on:
       - db
@@ -49,37 +52,3 @@ services:
     restart: always
     ports:
       - 8081:8080
-
-
-#version: '3'
-#
-#services:
-#  db:
-#    image: mysql:5.7
-#    ports:
-#      - '3306:3306'
-#    environment:
-#      MYSQL_DATABASE : "fundoonotes"
-##      MYSQL_USER : fundoo_user
-##      MYSQL_PASSWORD : noothan
-#      MYSQL_ROOT_PASSWORD : "Ammi@786"
-##    volumes:
-##      - /var/lib/mysql:/var/lib/mysql
-#  redis:
-#    restart: always
-#    image: redis:latest
-#    ports:
-#      - "6379:6379"
-#
-#  web:
-##    env_file:
-##      .env
-#    build:
-#      context: .
-#      dockerfile: /home/admin1/Documents/FunDoo/fundoo/Dockerfile
-#    command: bash -c "sleep 60 && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-#    ports:
-#      - '8000:8000'
-#    depends_on:
-#      - db
-#      - redis

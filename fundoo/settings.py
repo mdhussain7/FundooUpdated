@@ -16,6 +16,7 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 import pathlib
+
 env_path = pathlib.Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
@@ -76,7 +77,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
-    'note.middleware.login_required_middleware.LoginRequired',
+    # 'note.middleware.login_required_middleware.LoginRequired',
     'django.middleware.cache.FetchFromCacheMiddleware',  # This must be last
 ]
 
@@ -118,7 +119,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': USER,
         'PASSWORD': PASSWORD,
-        'HOST':'db', #os.getenv('DB_HOST'),
+        'HOST': 'db',  # os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'autocommit': True,
@@ -222,11 +223,10 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = 'post'
 LOGOUT_URL = '/'
 
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://redis:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },

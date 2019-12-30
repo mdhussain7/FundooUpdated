@@ -113,7 +113,7 @@ class Register(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(login_decorator, name='dispatch')
+# @method_decorator(login_decorator, name='dispatch')
 def Activate(request, token):
     try:
         object = ShortURL.objects.get(surl=token)
@@ -171,7 +171,7 @@ class Sendmail(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(login_decorator, name='dispatch')
+# @method_decorator(login_decorator, name='dispatch')
 class Logout(GenericAPIView):
     serializer_class = LogoutSerailizer
 
@@ -189,7 +189,7 @@ class Logout(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(login_decorator, name='dispatch')
+# @method_decorator(login_decorator, name='dispatch')
 class ResetPassword(GenericAPIView):
     serializer_class = ResetSerializer
 
@@ -221,7 +221,7 @@ class ResetPassword(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(login_decorator, name='dispatch')
+# @method_decorator(login_decorator, name='dispatch')
 def activate(request, token):
     try:
         url = ShortURL.objects.get(surl=token)
@@ -246,7 +246,7 @@ def activate(request, token):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(login_decorator, name='dispatch')
+# @method_decorator(login_decorator, name='dispatch')
 def verify(request, token):
     try:
         url = ShortURL.objects.get(surl=token)
@@ -311,7 +311,7 @@ class MailAttachment(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(login_decorator, name='dispatch')
+# @method_decorator(login_decorator, name='dispatch')
 class FileUploadView(GenericAPIView):
     """
         - This API is for read and create user profile ,upload image on aws s3 bucket
@@ -360,7 +360,7 @@ class FileUploadView(GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(login_decorator, name='dispatch')
+# @method_decorator(login_decorator, name='dispatch')
 class ProfileUpdateView(GenericAPIView):
     """
        - This API is for Update and Delete User Profile ,Upload Image on AWS S3 Bucket
