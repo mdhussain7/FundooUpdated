@@ -1,11 +1,7 @@
 version: "3"
 
 services:
-  nginx:
-    image: nginx:latest
-    restart: always
-    ports:
-      - "80:8000"
+
 
   redis:
     container_name: redisCon
@@ -47,6 +43,14 @@ services:
     ports:
       - "8000:8000"
 #    restart: unless-stopped
+  nginx:
+#    image: nginx:latest
+    dockerfile: DockerfileNginxx
+    depends_on:
+      - myprojectimage
+    ports:
+      - "80:8000"
+
   adminer:
     image: adminer
     restart: always
