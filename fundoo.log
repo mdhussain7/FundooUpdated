@@ -812,3 +812,15 @@ INFO :2020-01-02 13:13:34,501 :/home/admin1/Documents/FunDoo/fundoo/note/views.p
 DEBUG :2020-01-02 15:05:58,788 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :240 :139920974542592 :Thread-5 :18701 :collaborator was not added by the user Hussain
 ERROR :2020-01-02 15:05:58,795 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :240 :139920974542592 :Thread-5 :18701 :Got Field name `is_archive` is not valid for model `Notes`. error for creating note for user Hussain
 ERROR :2020-01-02 15:11:52,500 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :248 :139909519214336 :Thread-3 :21601 :Got list index out of range error for creating note for user Hussain
+INFO :2020-01-02 17:15:22,674 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :108 :140044936984320 :Thread-19 :8250 :Redirected Hussain to Github 
+INFO :2020-01-02 17:18:28,964 :/home/admin1/Documents/FunDoo/fundoo/sociallogin/views.py :108 :140170398353152 :Thread-4 :7694 :Redirected Hussain to Github 
+DEBUG :2020-01-02 17:21:45,221 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :237 :140418115434240 :Thread-2 :10876 :label was not added by the user Hussain
+ERROR :2020-01-02 17:21:45,232 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :278 :140418115434240 :Thread-2 :10876 :Got list index out of range error for creating note for user Hussain
+DEBUG :2020-01-02 17:21:54,688 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :237 :140418115434240 :Thread-2 :10876 :label was not added by the user Hussain
+ERROR :2020-01-02 17:21:54,712 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :278 :140418115434240 :Thread-2 :10876 :Got list index out of range error for creating note for user Hussain
+ERROR :2020-01-02 17:33:20,584 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :266 :140506206000896 :Thread-2 :18067 :Got 'label' error for creating note as no data was provided for user Hussain
+ERROR :2020-01-02 17:33:41,898 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :270 :140506206000896 :Thread-2 :18067 :Got list index out of range error for creating note for user Hussain
+ERROR :2020-01-02 17:38:30,306 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :266 :139827511211776 :Thread-2 :25013 :Got 'label' error for creating note as no data was provided for user Hussain
+ERROR :2020-01-02 18:34:34,374 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :270 :139827246769920 :Thread-16 :25013 :Got list index out of range error for creating note for user Hussain
+ERROR :2020-01-02 18:36:27,434 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :270 :140030129637120 :Thread-2 :21389 :Got list index out of range error for creating note for user Hussain
+ERROR :2020-01-02 18:36:38,506 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :270 :140030129637120 :Thread-2 :21389 :Got list index out of range error for creating note for user Hussain

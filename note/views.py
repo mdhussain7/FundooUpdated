@@ -230,24 +230,16 @@ class NoteCreate(generics.GenericAPIView):
                 raise KeyError
             user = request.user
             collaborator_list = []
-            # try:
-            #     data["label"] = [Label.objects.filter(user_id=user.id, label=label).values()[0]['id'] for label in
+            # data["label"] = [Label.objects.filter(user_id=user.id, label=label).values()[0]['id'] for label in
             #                      data["label"]]
-            # except KeyError:
-            #     logger.debug('label was not added by the user %s', user)
-            #     pass
-            try:
-                collaborator = data['collaborate']
-                for email in collaborator:
-                    email_id = User.objects.filter(email=email)
-                    print(email_id.values())
-                    user_id = email_id.values()[0]['id']
-                    collaborator_list.append(user_id)
-                data['collaborate'] = collaborator_list
-                print(data['collaborate'])
-            except KeyError:
-                logger.debug('collaborator was not added by the user %s', user)
-                pass
+            collaborator = data['collaborate']
+            for email in collaborator:
+                email_id = User.objects.filter(email=email)
+                print(email_id.values())
+                user_id = email_id.values()[0]['id']
+                collaborator_list.append(user_id)
+            data['collaborate'] = collaborator_list
+            print(data['collaborate'])
             serializer = NotesSerializer(data=data, partial=True)
             if serializer.is_valid():
                 note_create = serializer.save(user_id=user.id)
@@ -288,19 +280,18 @@ class NoteCreate(generics.GenericAPIView):
     #     title = request.data["title"]
     #     description = request.data["description"]
     #     tz = timezone.now()
-    #     # if Notes.objects.filter(user_id=user.id, title=title, description=description).exists():
-    #     #     logger.info('Note already exists for %s Time is %s', user, tz)
-    #     #     response['message'] = "Note already exists"
-    #     #     return Response(response, status=400)
-    #     # else:
-    #     noteCreated = Notes.objects.create(user_id=user.id, title=title, description=description)
-    #
-    #     result = Notes.objects.values()
-    #     list_result = [i for i in result]
-    #     redis.hmset(str(user.id) + "Note", {noteCreated.id: list_result})
-    #     logger.info("Note is created for %s Time is %s", user, tz)
-    #     response = {"status": True, "message": "Note is Created", "data": title}
-    #     return HttpResponse(json.dumps(response), status=201)
+    #     if Notes.objects.filter(user_id=user.id).exists():
+    #         logger.info('Note already exists for %s Time is %s', user, tz)
+    #         response['message'] = "Note already exists"
+    #         return Response(response, status=400)
+    #     else:
+    #         noteCreated = Notes.objects.create(user_id=user.id, title=title, description=description)
+    #         result = Notes.objects.values()
+    #         list_result = [i for i in result]
+    #         redis.hmset(str(user.id) + "Note", {noteCreated.id: list_result})
+    #         logger.info("Note is created for %s Time is %s", user, tz)
+    #         response = {"status": True, "message": "Note is Created", "data": title}
+    #         return HttpResponse(json.dumps(response), status=201)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
