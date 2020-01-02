@@ -183,7 +183,8 @@ class Logout(GenericAPIView):
         try:
             user = request.user
             response_smd = {"status": True, "message": "Sign out", "data": [user]}
-            return HttpResponse(json.dumps(response_smd), status=200)
+            return HttpResponse("Successfully Logged Out the user {}".format(user) , status=200)
+            # return HttpResponse(json.dumps(response_smd), status=200)
         except Exception:
             return HttpResponse(json.dumps(response_smd), status=400)
 

@@ -806,3 +806,9 @@ ERROR :2020-01-02 12:00:51,352 :/home/admin1/Documents/FunDoo/fundoo/note/views.
 ERROR :2020-01-02 12:02:15,580 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :243 :139995322246912 :Thread-3 :13872 :Got list index out of range error for creating note for user Hussain
 ERROR :2020-01-02 12:02:47,098 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :277 :139995322246912 :Thread-3 :13872 :Got  error for creating note for user Hussain
 ERROR :2020-01-02 12:11:23,384 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :244 :140183061124864 :Thread-2 :21670 :Got list index out of range error for creating note for user Hussain
+INFO :2020-01-02 13:13:34,457 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139992168916736 :Thread-9 :20682 :Getting the Note Data on 2020-01-02 07:43:34.457580+00:00 
+WARNING :2020-01-02 13:13:34,475 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :210 :139992168916736 :Thread-9 :20682 :Got That page number is not an integer Error for Getting Note for User Hussain
+INFO :2020-01-02 13:13:34,501 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139992168916736 :Thread-9 :20682 :All the Notes are Rendered to HTML Page for User Hussain
+DEBUG :2020-01-02 15:05:58,788 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :240 :139920974542592 :Thread-5 :18701 :collaborator was not added by the user Hussain
+ERROR :2020-01-02 15:05:58,795 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :240 :139920974542592 :Thread-5 :18701 :Got Field name `is_archive` is not valid for model `Notes`. error for creating note for user Hussain
+ERROR :2020-01-02 15:11:52,500 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :248 :139909519214336 :Thread-3 :21601 :Got list index out of range error for creating note for user Hussain

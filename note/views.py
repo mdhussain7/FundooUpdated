@@ -221,8 +221,8 @@ class NoteCreate(generics.GenericAPIView):
         """
                 - Creating the note
         """
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         user = request.user
         try:
             data = request.data
@@ -253,8 +253,8 @@ class NoteCreate(generics.GenericAPIView):
                 note_create = serializer.save(user_id=user.id)
                 response = {'success': True, 'message': "note created", 'data': []}
                 if serializer.data['is_archived']:
-                    redis.hmset(str(user.id) + "is_archived",
-                                {note_create.id: str(json.dumps(serializer.data))})  # created note is cached in redis
+                    redis.hmset(str(user.id) + "is_archived",{note_create.id: str(json.dumps(serializer.data))})
+                    # created note is cached in redis
                     logger.info("note is created for %s with note id as %s", user, note_create.id)
                     return HttpResponse(json.dumps(response, indent=2), status=201)
                 else:
@@ -276,7 +276,7 @@ class NoteCreate(generics.GenericAPIView):
             return Response(response, status=400)
         except Exception as e:
             logger.error("Got %s error for creating note for user %s", str(e), user)
-            response = {'success': False, 'message': "something went wrong", 'data': []}
+            response = {'success': False, 'message': "Exception Occured", 'data': [str(e)]}
             return Response(response, status=400)
 
     # def post(self, request, format=None):
@@ -358,7 +358,11 @@ class ArchieveNote(GenericAPIView):
 
     def get(self, request):
         """
-            - Getting the Archieved notes from the notes that have been created.
+                    - Summary:
+                    - Getting the Archieved-Note that have been created by the user
+                    - Methods:
+                    - GET: this method where actual login for Archieved note has been written
+                    - Getting the Archieved notes from the notes that have been created.
         """
         response_smd = {"status": False, "message": "Error Occured while Getting the Archieved Data", "data": []}
         try:
@@ -389,7 +393,11 @@ class NoteReminders(GenericAPIView):
 
     def get(self, request):
         """
-                - Getting the Reminder Data with remind and state which must require these two
+                    - Summary:
+                    - Getting the Reminder-Note that have been created by the user
+                    - Methods:
+                    - GET: this method where actual login for Reminder note has been written
+                    - Getting the Reminder Data with remind and state which must require these two
         """
         # pdb.set_trace()
         user = request.user
@@ -428,8 +436,13 @@ class TrashNote(GenericAPIView):
 
     def get(self, request):
         """
-                - Getting the Trashed notes from the notes that have been created.
+                    - Summary:
+                    - Getting the Trashed-Note that have been created by the user
+                    - Methods:
+                    - GET: this method where actual login for Trashed note has been written
+                    - Getting the Trashed notes from the notes that have been created.
         """
+
         response_smd = {"status": False, "message": "Error Occured while Getting the Trash Data ", "data": []}
         user = request.user
         try:
@@ -453,7 +466,11 @@ class PinnedNote(GenericAPIView):
 
     def get(self, request):
         """
-                - Getting the Pinned notes from the notes that have been created.
+            - Summary:
+            - Getting the Pinned-Note that have been created by the user
+            - Methods:
+            - GET: this method where actual login for pinned note has been written
+            - Getting the Pinned notes from the notes that have been created.
         """
         response_smd = {"status": False, "message": "Error Occured while Getting the Pinned Data ", "data": []}
         user = request.user
@@ -466,8 +483,8 @@ class PinnedNote(GenericAPIView):
                     if len(data) == 0:
                         response_smd = {"status": True, "message": " No data is Pinned !! "}
                         return HttpResponse(json.dumps(response_smd), status=200)
-                    return HttpResponse(data.values())
-                return HttpResponse(redis_data)
+                    # return HttpResponse(data.values())
+                # return HttpResponse(redis_data)
         except Exception as e:
             return HttpResponse(json.dumps(response_smd), status=404)
 
@@ -479,7 +496,11 @@ class NoteShare(GenericAPIView):
 
     def post(self, request):
         """
-                - Sharing the note that have been created.
+                    - Summary:
+                    - Sharing the Note that have been created by the user
+                    - Methods:
+                    - POST: this method where logic is written for SHaring the Note
+                    - Here the user has to login
         """
         response_smd = {'status': False, 'message': 'Invalid Note ', 'data': []}
         try:

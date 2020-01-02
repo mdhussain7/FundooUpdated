@@ -33,6 +33,7 @@ class Label(models.Model):
         verbose_name = 'label'
         verbose_name_plural = 'labels'
 
+
 # create Note model
 class Notes(models.Model):
     title = models.CharField(max_length=150)
@@ -52,4 +53,3 @@ class Notes(models.Model):
 
     def __str__(self):
         return self.title
-
