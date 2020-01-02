@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
 from .documents import NoteDocument
 
+
 #
 class ImageUploadSerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,7 +83,7 @@ class ShareSerializer(serializers.ModelSerializer):
 class SearchNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
-        fields = ['title'] #, 'description']
+        fields = ['title']  # , 'description']
 
 
 class ReminderNoteSerializer(serializers.ModelSerializer):

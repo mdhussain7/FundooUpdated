@@ -776,3 +776,33 @@ WARNING :2019-12-23 19:32:01,191 :/home/admin1/Documents/FunDoo/fundoo/note/view
 INFO :2019-12-23 19:32:01,200 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :206 :139807986829056 :Thread-3 :28664 :All the Notes are Rendered to HTML Page for User Hussain
 INFO :2019-12-23 19:32:10,178 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :193 :139807986829056 :Thread-3 :28664 :Getting the Note Data on 2019-12-23 14:02:10.178829+00:00 
 INFO :2019-12-23 19:32:10,181 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :206 :139807986829056 :Thread-3 :28664 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:45:50,561 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :559 :140452974999296 :Thread-5 :28935 :Total Number of Search Results are 6 for the search abcd 
+DEBUG :2020-01-02 11:47:35,875 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :236 :140452974999296 :Thread-5 :28935 :label was not added by the user AnonymousUser
+ERROR :2020-01-02 11:47:35,899 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :276 :140452974999296 :Thread-5 :28935 :Got list index out of range error for creating note for user AnonymousUser
+INFO :2020-01-02 11:52:41,787 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:22:41.787753+00:00 
+WARNING :2020-01-02 11:52:41,799 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :210 :139953142204160 :Thread-3 :6093 :Got That page number is not an integer Error for Getting Note for User Hussain
+INFO :2020-01-02 11:52:41,820 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:52:53,059 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:22:53.059645+00:00 
+WARNING :2020-01-02 11:52:53,060 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :210 :139953142204160 :Thread-3 :6093 :Got That page number is not an integer Error for Getting Note for User Hussain
+INFO :2020-01-02 11:52:53,062 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:53:00,162 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:23:00.162478+00:00 
+INFO :2020-01-02 11:53:00,173 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:53:05,692 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:23:05.692237+00:00 
+INFO :2020-01-02 11:53:05,697 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:53:07,416 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:23:07.416701+00:00 
+INFO :2020-01-02 11:53:07,421 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:53:08,895 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:23:08.895196+00:00 
+INFO :2020-01-02 11:53:08,903 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:53:09,961 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:23:09.961853+00:00 
+INFO :2020-01-02 11:53:09,968 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:53:17,469 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:23:17.469399+00:00 
+INFO :2020-01-02 11:53:17,474 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+INFO :2020-01-02 11:53:19,946 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :202 :139953142204160 :Thread-3 :6093 :Getting the Note Data on 2020-01-02 06:23:19.946341+00:00 
+WARNING :2020-01-02 11:53:19,947 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :210 :139953142204160 :Thread-3 :6093 :Got That page number is not an integer Error for Getting Note for User Hussain
+INFO :2020-01-02 11:53:19,950 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :215 :139953142204160 :Thread-3 :6093 :All the Notes are Rendered to HTML Page for User Hussain
+DEBUG :2020-01-02 11:54:36,692 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :235 :139952901838592 :Thread-9 :6093 :label was not added by the user Hussain
+ERROR :2020-01-02 11:54:36,697 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :275 :139952901838592 :Thread-9 :6093 :Got list index out of range error for creating note for user Hussain
+ERROR :2020-01-02 12:00:51,352 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :247 :139995331426048 :Thread-2 :13872 :Got list index out of range error for creating note for user Hussain
+ERROR :2020-01-02 12:02:15,580 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :243 :139995322246912 :Thread-3 :13872 :Got list index out of range error for creating note for user Hussain
+ERROR :2020-01-02 12:02:47,098 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :277 :139995322246912 :Thread-3 :13872 :Got  error for creating note for user Hussain
+ERROR :2020-01-02 12:11:23,384 :/home/admin1/Documents/FunDoo/fundoo/note/views.py :244 :140183061124864 :Thread-2 :21670 :Got list index out of range error for creating note for user Hussain

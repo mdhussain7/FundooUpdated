@@ -1,14 +1,10 @@
 import redis
-# import redis
-#
-#
-# class RedisOperation:
-#     redis = redis.StrictRedis(host='redis', port=6379, db=0)
 
 
 # User Defined Redis Cache
 class Cache:
 
+    # def __init__(self, host='redis', port=6379, db=0):
     def __init__(self, host='redis', port=6379, db=0):
         self.host = host
         self.port = port

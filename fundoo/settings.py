@@ -119,7 +119,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': USER,
         'PASSWORD': PASSWORD,
-        'HOST': 'db',  # os.getenv('DB_HOST'),
+        'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'autocommit': True,
@@ -127,6 +127,21 @@ DATABASES = {
         },
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('DB_ENGINE'),  # 'mysql.connector.django',#'django.db.backends.mysql',
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': USER,
+#         'PASSWORD': PASSWORD,
+#         'HOST': 'db',  # os.getenv('DB_HOST'),
+#         'PORT': os.getenv('DB_PORT'),
+#         'OPTIONS': {
+#             'autocommit': True,
+#             'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
+#         },
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -226,13 +241,24 @@ LOGOUT_URL = '/'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/1",
+        "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
         "KEY_PREFIX": "example"
     }
 }
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://redis:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient"
+#         },
+#         "KEY_PREFIX": "example"
+#     }
+# }
 
 CACHE_TTL = 60 * 15
 

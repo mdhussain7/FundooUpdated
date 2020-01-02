@@ -192,8 +192,7 @@ def get_user(token):
 # @method_decorator(user_login_required, name='dispatch')
 class NoteCreate(generics.GenericAPIView):
     serializer_class = CreateNoteSerializer
-
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request, format=None):
         """
@@ -222,6 +221,8 @@ class NoteCreate(generics.GenericAPIView):
         """
                 - Creating the note
         """
+        import pdb
+        pdb.set_trace()
         user = request.user
         try:
             data = request.data
@@ -229,16 +230,17 @@ class NoteCreate(generics.GenericAPIView):
                 raise KeyError
             user = request.user
             collaborator_list = []
-            try:
-                data["label"] = [Label.objects.filter(user_id=user.id, label=label).values()[0]['id'] for label in
-                                 data["label"]]
-            except KeyError:
-                logger.debug('label was not added by the user %s', user)
-                pass
+            # try:
+            #     data["label"] = [Label.objects.filter(user_id=user.id, label=label).values()[0]['id'] for label in
+            #                      data["label"]]
+            # except KeyError:
+            #     logger.debug('label was not added by the user %s', user)
+            #     pass
             try:
                 collaborator = data['collaborate']
                 for email in collaborator:
                     email_id = User.objects.filter(email=email)
+                    print(email_id.values())
                     user_id = email_id.values()[0]['id']
                     collaborator_list.append(user_id)
                 data['collaborate'] = collaborator_list
