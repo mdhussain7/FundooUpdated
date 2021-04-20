@@ -9,7 +9,7 @@ async-timeout==3.0.1
 attrs==19.3.0
 auth==0.5.3
 Authlib==0.13
-autobahn==19.11.1
+autobahn==20.12.3
 Automat==0.8.0
 awscli==1.16.290
 backcall==0.1.0
