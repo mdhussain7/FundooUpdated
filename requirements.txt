@@ -84,7 +84,7 @@ easy-django-logger==0.1.1
 elasticsearch==7.1.0
 elasticsearch-dsl==7.1.0
 entrypoints==0.3
-eventlet==0.25.1
+eventlet==0.31.0
 export==0.1.2
 ez-setup==0.9
 falcon==2.0.0
